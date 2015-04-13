@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar prefHeight="29.0" prefWidth="600.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ListView layoutY="29.0" prefHeight="371.0" prefWidth="113.0" />
+      <ProgressBar layoutX="233.0" layoutY="376.0" prefWidth="200.0" progress="0.0" />
+      <Button layoutX="304.0" layoutY="327.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="59.0" text="Play" />
+      <Label layoutX="8.0" layoutY="35.0" prefHeight="16.0" prefWidth="96.0" text="Albums" />
+      <Label layoutX="8.0" layoutY="59.0" prefHeight="16.0" prefWidth="96.0" text="Artists" />
+      <Label layoutX="8.0" layoutY="84.0" prefHeight="16.0" prefWidth="96.0" text="Genres" />
+      <Label layoutX="8.0" layoutY="114.0" prefHeight="16.0" prefWidth="96.0" text="Songs" />
+      <Label layoutX="8.0" layoutY="142.0" prefHeight="16.0" prefWidth="139.0" text="Random" />
+      <Slider layoutX="263.0" layoutY="378.0" />
+      <ScrollBar layoutX="433.0" layoutY="335.0" orientation="VERTICAL" prefHeight="61.0" prefWidth="17.0" />
+      <TableView layoutX="113.0" layoutY="30.0" prefHeight="296.0" prefWidth="487.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Song" />
+          <TableColumn prefWidth="61.0" text="Artist" />
+            <TableColumn prefWidth="75.0" text="Album" />
+            <TableColumn prefWidth="75.0" text="Genre" />
+            <TableColumn prefWidth="75.0" text="Rating" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>
