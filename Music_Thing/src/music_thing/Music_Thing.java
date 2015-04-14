@@ -19,7 +19,7 @@ public class Music_Thing extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("First Test.fxml"));
         
         Scene scene = new Scene(root);
         
