@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <bottom>
@@ -16,30 +16,7 @@
                <children>
                   <Separator layoutX="-12.0" layoutY="-12.0" prefHeight="0.0" prefWidth="600.0" />
                   <ProgressBar layoutX="31.0" layoutY="-8.0" prefHeight="8.0" prefWidth="241.0" progress="0.0" />
-                  <Group layoutX="14.0" layoutY="6.0">
-                     <children>
-                        <Circle layoutY="-4.0" radius="12.0" stroke="BLACK" strokeType="INSIDE">
-                           <fill>
-                              <RadialGradient centerX="0.5" centerY="0.5" focusDistance="-0.0714285714285714" radius="0.5">
-                                 <stops>
-                                    <Stop color="#fffefe" />
-                                    <Stop color="#e4e4e4" offset="1.0" />
-                                 </stops>
-                              </RadialGradient>
-                           </fill>
-                        </Circle>
-                        <Polygon layoutY="-4.0" rotate="90.0" scaleX="0.1" scaleY="0.1" scaleZ="0.1" stroke="BLACK" strokeType="INSIDE" translateX="1.0" translateY="10.0">
-                           <points>
-                              <Double fx:value="-50.0" />
-                              <Double fx:value="40.0" />
-                              <Double fx:value="50.0" />
-                              <Double fx:value="40.0" />
-                              <Double fx:value="0.0" />
-                              <Double fx:value="-60.0" />
-                           </points>
-                        </Polygon>
-                     </children>
-                  </Group>
+                  <Button fx:id="play" layoutX="-7.0" layoutY="-11.0" mnemonicParsing="false" onAction="#play" text="▶" />
                </children>
             </Group>
          </bottom>
@@ -81,7 +58,7 @@
             </SplitPane>
          </center>
          <top>
-            <MenuBar BorderPane.alignment="CENTER">
+            <MenuBar maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <menus>
                   <Menu mnemonicParsing="false" text="File">
                      <items>
