@@ -9,6 +9,6 @@ package music_thing;
  *
  * @author joshuakaplan
  */
-public enum SongTypes {
+public enum SongType {
     MP3,WAV,MIDI,MP4,AIFF,FLAC,OGG
 }
