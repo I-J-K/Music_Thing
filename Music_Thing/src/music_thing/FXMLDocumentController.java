@@ -28,7 +28,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private MenuItem close;
-            
+    
     @FXML
     private void handleButtonAction(ActionEvent event) {
     }
@@ -36,7 +36,11 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void play(ActionEvent event) {
-        
+        if(!MusicController.getPlaying()){
+            MusicController.play("file:///Volumes/JOSH/Music_Thing/Music_Thing/src/music_thing/amalgam.mp3");
+        }else{
+            MusicController.pause();
+        }
     }
     
     @Override
