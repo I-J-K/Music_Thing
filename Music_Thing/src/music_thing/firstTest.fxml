@@ -10,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="517.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
    <bottom>
       <AnchorPane prefHeight="33.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -18,7 +18,7 @@
                <children>
                   <StackPane minHeight="10.0" minWidth="10.0" prefHeight="32.0" prefWidth="64.0">
                      <children>
-                        <Button fx:id="play" mnemonicParsing="false" scaleX="0.2" scaleY="0.2" scaleZ="0.2">
+                        <Button fx:id="play" mnemonicParsing="false" onAction="#play" scaleX="0.2" scaleY="0.2" scaleZ="0.2">
                            <graphic>
                               <Polygon rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
                                  <points>
@@ -43,14 +43,17 @@
    <center>
       <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ListView layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children></AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <ScrollPane prefHeight="341.0" prefWidth="416.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="339.0" prefWidth="400.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="537.0">
                            <children>
-                              <TableView prefHeight="339.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="songList" prefHeight="339.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
                                     <TableColumn prefWidth="75.0" text="Song" />
                                     <TableColumn prefWidth="61.0" text="Artist" />
@@ -74,15 +77,25 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
          <menus>
+            <Menu mnemonicParsing="false" text="Music Library">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Preferences" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="close" mnemonicParsing="false" text="Close" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
                   <MenuItem mnemonicParsing="false" text="Delete" />
                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Share">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Share to Twitter" />
+              </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
