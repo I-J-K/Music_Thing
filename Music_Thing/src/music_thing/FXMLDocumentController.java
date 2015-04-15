@@ -11,7 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableView;
 
 /**
@@ -31,6 +33,12 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private MenuItem quit;
+    
+    @FXML
+    private Label songTime;
+    
+    @FXML
+    private Slider songTimeBar;
     
     @FXML
     private void handleButtonAction(ActionEvent event) {

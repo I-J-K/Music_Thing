@@ -24,10 +24,13 @@ public class MusicController {
     private static MediaPlayer mp3player;
     private static Media mp3;
     private static boolean playing = false;
-  
-    public static void play(String songPath){
+    
+    public static void setSong(String songPath){
         mp3 = new Media(songPath);
         mp3player = new MediaPlayer(mp3);
+    }
+    public static void play(String songPath){
+        if(mp3==null) setSong(songPath);
         mp3player.play();
         playing = true;
     }

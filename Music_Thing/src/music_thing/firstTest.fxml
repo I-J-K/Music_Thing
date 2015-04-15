@@ -34,7 +34,8 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <ProgressBar prefHeight="8.0" prefWidth="241.0" progress="0.0" />
+                  <Slider fx:id="songTimeBar" prefHeight="16.0" prefWidth="620.0" />
+                  <Label fx:id="songTime" text="Label" />
                </children>
             </HBox>
          </children>
