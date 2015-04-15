@@ -80,6 +80,7 @@
             <Menu mnemonicParsing="false" text="Music Library">
               <items>
                 <MenuItem mnemonicParsing="false" text="Preferences" />
+                  <MenuItem fx:id="quit" mnemonicParsing="false" text="Quit" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="File">

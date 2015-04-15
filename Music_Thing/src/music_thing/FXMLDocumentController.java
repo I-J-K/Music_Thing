@@ -30,6 +30,9 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem close;
     
     @FXML
+    private MenuItem quit;
+    
+    @FXML
     private void handleButtonAction(ActionEvent event) {
     }
     
