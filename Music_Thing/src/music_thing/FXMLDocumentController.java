@@ -29,7 +29,7 @@ public class FXMLDocumentController implements Initializable {
     private TableView songList;
     
     @FXML
-    private MenuItem close;
+    private MenuItem fileImport;
     
     @FXML
     private MenuItem quit;
@@ -40,15 +40,15 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Slider songTimeBar;
     
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-    }
+    Track amalgam;
     
     
     @FXML
     private void play(ActionEvent event) {
         if(!MusicController.getPlaying()){
-            MusicController.play("file:///Volumes/JOSH/Music_Thing/Music_Thing/src/music_thing/amalgam.mp3");
+            //MusicController.play("file:///Volumes/JOSH/Music_Thing/Music_Thing/src/music_thing/amalgam.mp3");
+            
+            MusicController.play(amalgam);
         }else{
             MusicController.pause();
         }
@@ -57,6 +57,8 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        amalgam = new Track("amalgam", SongType.MP3, "file:///Volumes/JOSH/Music_Thing/Music_Thing/src/music_thing/amalgam.mp3");
+
     }    
     
 }

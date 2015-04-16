@@ -25,6 +25,12 @@ public class Track {
         this.albumArt = albumArt;
         this.path = path;
     }
+    public Track(String name, SongType type, String path) {
+        this.name = name;
+        this.type = type;
+        this.playCount = 0;
+        this.path = path;
+    }
 
     
     

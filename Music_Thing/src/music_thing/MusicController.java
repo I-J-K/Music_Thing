@@ -29,8 +29,8 @@ public class MusicController {
         mp3 = new Media(songPath);
         mp3player = new MediaPlayer(mp3);
     }
-    public static void play(String songPath){
-        if(mp3==null) setSong(songPath);
+    public static void play(Track track){
+        if(mp3==null) setSong(track.getPath());
         mp3player.play();
         playing = true;
     }
