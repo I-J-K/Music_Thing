@@ -5,6 +5,13 @@
  */
 package music_thing;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,15 +19,13 @@ import javafx.collections.ObservableList;
  *
  * @author joshuakaplan
  */
-public class MusicLibrary {
+public class MusicLibrary implements java.io.Serializable{
     private int track=0;
     
-    private final ObservableList<Track> library = FXCollections.observableArrayList(
-            new Track("Strong in the real way",SongType.MP3,"strong.mp3"),
-            new Track("Amalgam", SongType.MP3, "aivi & surasshu", "Steven Universe", "Cartoon", 5.0, "amalgam.mp3"),
-            new Track("Opal", SongType.MP3, "aivi & surasshu", "Steven Universe", "Cartoon", 5.0, "opal.mp3")
-    );
-
+    private transient ObservableList<Track> library = FXCollections.observableArrayList();
+    
+    private ArrayList<Track> libraryList = new ArrayList(library.subList(0, library.size()));
+    
     public MusicLibrary() {
     }
 
@@ -34,5 +39,42 @@ public class MusicLibrary {
     
     public Track getSelectedTrack(){
         return library.get(track);
+    }
+    
+    public void addSong(Track track){
+        library.add(track);
+        save();
+    }
+    
+    public void removeTrack(Track track){
+        library.remove(track);
+        save();
+    }
+    
+    public void save(){
+        try{
+            libraryList = new ArrayList(library.subList(0, library.size()));
+            FileOutputStream fileOut = new FileOutputStream("library.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+        }catch(Exception e){}
+    }
+    
+    public static MusicLibrary load(){
+        MusicLibrary toReturn = null;
+        try{
+            FileInputStream fileIn = new FileInputStream("library.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            toReturn = (MusicLibrary) in.readObject();
+            in.close();
+            fileIn.close();
+        }catch(IOException | ClassNotFoundException e){
+            toReturn = new MusicLibrary();
+            System.out.println(e);
+        }
+        toReturn.library = FXCollections.observableList(toReturn.libraryList);
+        return toReturn;
     }
 }
