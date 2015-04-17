@@ -11,22 +11,41 @@ package music_thing;
  */
 public class Track {
     private String name;
+    private String artist;
+    private String album;
+    private String genre;
+    private Double rating;
+    
     private SongType type;
     private double length;
     private int playCount;
     private String albumArt;
     private String path;
 
-    public Track(String name, SongType type, double length, int playCount, String albumArt, String path) {
+    public Track(String name, SongType type, String artist, String album, String genre, Double rating, String albumArt, String path) {
         this.name = name;
+        this.artist = artist;
+        this.album = album;
+        this.genre = genre;
+        this.rating = rating;
         this.type = type;
-        this.length = length;
-        this.playCount = playCount;
+        this.playCount = 0;
         this.albumArt = albumArt;
         this.path = path;
     }
     public Track(String name, SongType type, String path) {
         this.name = name;
+        this.type = type;
+        this.playCount = 0;
+        this.path = path;
+    }
+    
+    public Track(String name, SongType type, String artist, String album, String genre, Double rating, String path) {
+        this.name = name;
+        this.artist = artist;
+        this.album = album;
+        this.genre = genre;
+        this.rating = rating;
         this.type = type;
         this.playCount = 0;
         this.path = path;
@@ -80,6 +99,38 @@ public class Track {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
     
 }

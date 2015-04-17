@@ -14,7 +14,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputEvent;
 
 /**
  *
@@ -26,7 +29,7 @@ public class FXMLDocumentController implements Initializable {
     private Button play;
     
     @FXML
-    private TableView songList;
+    private TableView<Track> songList;
     
     @FXML
     private MenuItem fileImport;
@@ -40,25 +43,54 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Slider songTimeBar;
     
-    Track amalgam;
+    @FXML
+    private TableColumn<Track,String> songCol;
     
+    @FXML
+    private TableColumn<Track,String> artistCol;
+    
+    @FXML
+    private TableColumn<Track,String> albumCol;
+    
+    @FXML
+    private TableColumn<Track,String> genreCol;
+    
+    @FXML
+    private TableColumn<Track,Double> ratingCol;
+    
+    private final MusicLibrary lib= new MusicLibrary();
     
     @FXML
     private void play(ActionEvent event) {
         if(!MusicController.getPlaying()){
-            //MusicController.play("file:///Volumes/JOSH/Music_Thing/Music_Thing/src/music_thing/amalgam.mp3");
-            
-            MusicController.play(amalgam);
+            MusicController.play(lib.getSelectedTrack());
+        }else if(MusicController.getPlaying() && lib.getSelectedTrack()!=MusicController.getCurrentTrack()){
+            MusicController.play(lib.getSelectedTrack());
         }else{
             MusicController.pause();
         }
     }
     
+    @FXML
+    private void getFocusedTrack(InputEvent event) {
+        lib.setTrack(songList.getFocusModel().getFocusedCell().getRow());
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        amalgam = new Track("amalgam", SongType.MP3, "file:///Volumes/JOSH/Music_Thing/Music_Thing/src/music_thing/amalgam.mp3");
-
+        songCol.setCellValueFactory(
+                new PropertyValueFactory("name"));
+        artistCol.setCellValueFactory(
+                new PropertyValueFactory("artist"));
+        albumCol.setCellValueFactory(
+                new PropertyValueFactory("album"));
+        genreCol.setCellValueFactory(
+                new PropertyValueFactory("genre"));
+        ratingCol.setCellValueFactory(
+                new PropertyValueFactory("rating"));
+        
+        songList.setItems(lib.getLibrary());
     }    
     
 }

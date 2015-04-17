@@ -16,15 +16,21 @@ import javafx.stage.Stage;
  * @author csstudent
  */
 public class Music_Thing extends Application {
+    private static Stage mainWindow;
     
     @Override
     public void start(Stage stage) throws Exception {
+        mainWindow = stage;
         Parent root = FXMLLoader.load(getClass().getResource("firstTest.fxml"));
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static Stage getMainWindow() {
+        return mainWindow;
     }
 
     /**
