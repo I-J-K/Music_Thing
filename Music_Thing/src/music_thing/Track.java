@@ -9,7 +9,7 @@ package music_thing;
  *
  * @author joshuakaplan
  */
-public class Track {
+public class Track implements java.io.Serializable{
     private String name;
     private String artist;
     private String album;
@@ -49,6 +49,13 @@ public class Track {
         this.type = type;
         this.playCount = 0;
         this.path = path;
+    }
+    
+    public Track(SongType type, String path){
+        this.path = path;
+        this.playCount = 0;
+        this.type = type;
+        this.name = path.substring(0,path.lastIndexOf('.'));
     }
 
     

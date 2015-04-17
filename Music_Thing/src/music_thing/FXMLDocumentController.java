@@ -5,7 +5,9 @@
  */
 package music_thing;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +20,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  *
@@ -58,7 +62,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Track,Double> ratingCol;
     
-    private final MusicLibrary lib= new MusicLibrary();
+    private final MusicLibrary lib = MusicLibrary.load();
     
     @FXML
     private void play(ActionEvent event) {
@@ -69,6 +73,26 @@ public class FXMLDocumentController implements Initializable {
         }else{
             MusicController.pause();
         }
+    }
+    
+    @FXML
+    private void importFromMenu(ActionEvent event){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open A Music File");
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("Supported Audio Files", "*.mp3"),
+                new ExtensionFilter("All Files", "*.*")
+        );
+        File file = fileChooser.showOpenDialog(Music_Thing.getMainWindow());
+        if(file!=null) importFile(file);
+    }
+    
+    private void importFile(File file){
+        File copyTo =  new File("music/"+file.getName());
+        try{
+            Files.copy(file.toPath(), copyTo.toPath());
+            lib.addSong(new Track(SongType.MP3, file.getName()));
+        }catch (Exception e){}
     }
     
     @FXML
