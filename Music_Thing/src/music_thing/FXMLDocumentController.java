@@ -8,6 +8,7 @@ package music_thing;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,18 +62,30 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private TableColumn<Track,Double> ratingCol;
-    
-    private final MusicLibrary lib = MusicLibrary.load();
+
     
     @FXML
     private void play(ActionEvent event) {
         if(!MusicController.getPlaying()){
-            MusicController.play(lib.getSelectedTrack());
-        }else if(MusicController.getPlaying() && lib.getSelectedTrack()!=MusicController.getCurrentTrack()){
-            MusicController.play(lib.getSelectedTrack());
+            MusicController.play(MusicLibrary.getSelectedTrack());
+        }else if(MusicController.getPlaying() && MusicLibrary.getSelectedTrack()!=MusicController.getCurrentTrack()){
+            MusicController.play(MusicLibrary.getSelectedTrack());
         }else{
             MusicController.pause();
         }
+    }
+    
+    @FXML
+    private void deleteFile(ActionEvent event){
+        try{
+            Track toDelete = MusicLibrary.getSelectedTrack();
+            if(MusicController.getCurrentTrack()==toDelete){
+                MusicController.stop(toDelete);
+            }
+            Files.delete(Paths.get("music/"+toDelete.getPath()));
+            MusicLibrary.removeTrack(toDelete);
+            MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
+        }catch(Exception e){}
     }
     
     @FXML
@@ -80,7 +93,7 @@ public class FXMLDocumentController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open A Music File");
         fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("Supported Audio Files", "*.mp3"),
+                new ExtensionFilter("Supported Audio Files", "*.mp3", "*.mid"),
                 new ExtensionFilter("All Files", "*.*")
         );
         File file = fileChooser.showOpenDialog(Music_Thing.getMainWindow());
@@ -89,20 +102,29 @@ public class FXMLDocumentController implements Initializable {
     
     private void importFile(File file){
         File copyTo =  new File("music/"+file.getName());
+        boolean copy = true;
         try{
-            Files.copy(file.toPath(), copyTo.toPath());
-            lib.addSong(new Track(SongType.MP3, file.getName()));
+            if(file.getName().toLowerCase().endsWith("mp3")){
+                MusicLibrary.addSong(new Track(SongType.MP3, file.getName()));
+            }else if(file.getName().toLowerCase().endsWith("mid")){
+                MusicLibrary.addSong(new Track(SongType.MIDI, file.getName()));
+            }else{
+                copy=false;
+            }
+            if(copy && !copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
         }catch (Exception e){}
     }
     
     @FXML
     private void getFocusedTrack(InputEvent event) {
-        lib.setTrack(songList.getFocusModel().getFocusedCell().getRow());
+        MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        MusicLibrary.load();
+        File music = new File("music");
+        if(!music.exists())music.mkdir();
         songCol.setCellValueFactory(
                 new PropertyValueFactory("name"));
         artistCol.setCellValueFactory(
@@ -114,7 +136,7 @@ public class FXMLDocumentController implements Initializable {
         ratingCol.setCellValueFactory(
                 new PropertyValueFactory("rating"));
         
-        songList.setItems(lib.getLibrary());
+        songList.setItems(MusicLibrary.getLibrary());
     }    
     
 }
