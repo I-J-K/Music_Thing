@@ -24,7 +24,7 @@ public class MusicController {
     private static Sequence midiSequence;
     
     public static void setSong(Track track){
-        stop(track);
+        stop();
         File file = new File("music/"+track.getPath());
         SongType type = track.getType();
         if(type==SongType.MP3){
@@ -77,7 +77,7 @@ public class MusicController {
         return currentTrack;
     }
     
-    public static void stop(Track track){
+    public static void stop(){
         if(midiSequencer!=null)midiSequencer.close();
         if(mp3player!=null)mp3player.stop();
     }

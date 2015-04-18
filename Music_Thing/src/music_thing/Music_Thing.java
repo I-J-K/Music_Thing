@@ -29,6 +29,12 @@ public class Music_Thing extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop(){
+        MusicController.stop();
+        MusicLibrary.save();
+    }
+    
     public static Stage getMainWindow() {
         return mainWindow;
     }

@@ -49,6 +49,10 @@ public class MusicLibrary implements java.io.Serializable{
         save();
     }
     
+    public static int size(){
+        return library.size();
+    }
+    
     public static void save(){
         try{
             libraryList = new ArrayList(library.subList(0, library.size()));

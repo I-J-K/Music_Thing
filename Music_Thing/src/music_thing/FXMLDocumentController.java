@@ -66,12 +66,14 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void play(ActionEvent event) {
-        if(!MusicController.getPlaying()){
-            MusicController.play(MusicLibrary.getSelectedTrack());
-        }else if(MusicController.getPlaying() && MusicLibrary.getSelectedTrack()!=MusicController.getCurrentTrack()){
-            MusicController.play(MusicLibrary.getSelectedTrack());
-        }else{
-            MusicController.pause();
+        if(MusicLibrary.size()>0){
+            if(!MusicController.getPlaying()){
+                MusicController.play(MusicLibrary.getSelectedTrack());
+            }else if(MusicController.getPlaying() && MusicLibrary.getSelectedTrack()!=MusicController.getCurrentTrack()){
+                MusicController.play(MusicLibrary.getSelectedTrack());
+            }else{
+                MusicController.pause();
+            }
         }
     }
     
@@ -80,7 +82,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             Track toDelete = MusicLibrary.getSelectedTrack();
             if(MusicController.getCurrentTrack()==toDelete){
-                MusicController.stop(toDelete);
+                MusicController.stop();
             }
             Files.delete(Paths.get("music/"+toDelete.getPath()));
             MusicLibrary.removeTrack(toDelete);
