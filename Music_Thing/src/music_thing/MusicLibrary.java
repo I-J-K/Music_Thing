@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 /**
  *
@@ -31,11 +32,16 @@ public class MusicLibrary implements java.io.Serializable{
         return library;
     }
     
+    public static int getTrackNumber(){
+        return track;
+    }
+    
     public static void setTrack(int index){
         track = index;
     }
     
-    public static Track getSelectedTrack(){
+    public static Track getSelectedTrack(TableView songList){
+        setTrack(songList.getFocusModel().getFocusedCell().getRow());
         return library.get(track);
     }
     

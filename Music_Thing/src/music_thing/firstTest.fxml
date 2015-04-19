@@ -50,7 +50,7 @@
                </children></AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="songList" onMousePressed="#getFocusedTrack" prefHeight="339.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" prefHeight="339.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   	<placeholder>
                   		<Label text="No Music In Library" />
                   	</placeholder>
@@ -76,7 +76,7 @@
             <Menu mnemonicParsing="false" text="Music Library">
               <items>
                 <MenuItem mnemonicParsing="false" text="Preferences" />
-                  <MenuItem fx:id="quit" mnemonicParsing="false" text="Quit" />
+                  <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="File">
