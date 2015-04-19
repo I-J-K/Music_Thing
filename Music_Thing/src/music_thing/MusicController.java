@@ -27,7 +27,7 @@ public class MusicController {
         stop();
         File file = new File("music/"+track.getPath());
         SongType type = track.getType();
-        if(type==SongType.MP3){
+        if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
             mp3 = new Media(file.toURI().toString());
             mp3player = new MediaPlayer(mp3);
         }else if(type==SongType.MIDI){
@@ -42,7 +42,7 @@ public class MusicController {
     
     public static void play(Track track){
         SongType type = track.getType();
-        if(type==SongType.MP3){
+        if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
             if(mp3==null || track!=currentTrack){
                 setSong(track);
             }
@@ -61,7 +61,7 @@ public class MusicController {
     
     public static void pause(){
         SongType type = currentTrack.getType();
-        if(type==SongType.MP3){
+        if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
             mp3player.pause();
         }else if(type==SongType.MIDI){
             midiSequencer.stop();

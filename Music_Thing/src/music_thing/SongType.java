@@ -10,5 +10,5 @@ package music_thing;
  * @author joshuakaplan
  */
 public enum SongType implements java.io.Serializable{
-    MP3,WAV,MIDI,MP4,AIFF,FLAC,OGG
+    MP3,WAV,MIDI,AIFF,FLAC,OGG,M4A,AAC
 }
