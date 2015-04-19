@@ -38,7 +38,19 @@ public class MusicController {
         }
     }
     
-    
+    public static double getCurrentTime(){
+        SongType type = currentTrack.getType();
+        if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
+            if(mp3player!=null && mp3!=null){
+                return mp3player.getCurrentTime().toSeconds();
+            }
+        }else if(type==SongType.MIDI){
+            if(midiSequence!=null && midiSequencer!=null){
+                return midiSequencer.getMicrosecondPosition()*1000000.0;
+            }
+        }
+        return 0.0;
+    }
     
     public static void play(Track track){
         SongType type = track.getType();
@@ -79,6 +91,9 @@ public class MusicController {
     
     public static void stop(){
         if(midiSequencer!=null)midiSequencer.close();
-        if(mp3player!=null)mp3player.stop();
+        if(mp3player!=null){
+            if(mp3player.getStatus()!=MediaPlayer.Status.STOPPED) mp3player.stop();
+            mp3player.dispose();
+        }
     }
 }
