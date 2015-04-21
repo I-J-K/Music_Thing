@@ -46,7 +46,7 @@ public class MusicController {
             }
         }else if(type==SongType.MIDI){
             if(midiSequence!=null && midiSequencer!=null){
-                return midiSequencer.getMicrosecondPosition()*1000000.0;
+                return midiSequencer.getMicrosecondPosition()/1000000.0;
             }
         }
         return 0.0;
