@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -132,8 +133,10 @@ public class FXMLDocumentController implements Initializable {
                 new ExtensionFilter("Supported Audio Files", "*.mp3", "*.mid", "*.m4a", "*.wav", "*.aiff"),
                 new ExtensionFilter("All Files", "*.*")
         );
-        File file = fileChooser.showOpenDialog(Music_Thing.getMainWindow());
-        if(file!=null) importFile(file);
+        List<File> files = fileChooser.showOpenMultipleDialog(Music_Thing.getMainWindow());
+        if(files!=null){
+            for(File file: files) importFile(file);
+        }
     }
     
     private void importFile(File file){
