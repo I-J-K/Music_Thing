@@ -7,8 +7,11 @@ package music_thing;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -140,25 +143,37 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private void importFile(File file){
-        File copyTo =  new File("music/"+file.getName());
-        boolean copy = true;
-        try{
-            if(file.getName().toLowerCase().endsWith("mp3")){
-                MusicLibrary.addSong(new Track(SongType.MP3, file.getName()));
-            }else if(file.getName().toLowerCase().endsWith("mid")){
-                MusicLibrary.addSong(new Track(SongType.MIDI, file.getName()));
-            }else if(file.getName().toLowerCase().endsWith("m4a")){
-                MusicLibrary.addSong(new Track(SongType.AAC, file.getName()));
-            }else if(file.getName().toLowerCase().endsWith("aiff")){
-                MusicLibrary.addSong(new Track(SongType.AIFF, file.getName()));
-            }else if(file.getName().toLowerCase().endsWith("wav")){
-                MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
-            }else{
-                copy=false;
-                //add alert file not supported
-            }
-            if(copy && !copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-        }catch (Exception e){}
+        if(file.isFile()){
+            File copyTo =  new File("music/"+file.getName());
+            boolean copy = true;
+            try{
+                if(file.getName().toLowerCase().endsWith("mp3")){
+                    MusicLibrary.addSong(new Track(SongType.MP3, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("mid")){
+                    MusicLibrary.addSong(new Track(SongType.MIDI, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("m4a")){
+                    MusicLibrary.addSong(new Track(SongType.AAC, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("aiff")){
+                    MusicLibrary.addSong(new Track(SongType.AIFF, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("wav")){
+                    MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
+                }else{
+                    copy=false;
+                    //add alert file not supported
+                }
+                if(copy && !copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
+            }catch (Exception e){}
+            
+        }else if(file.isDirectory()){
+            try{
+                DirectoryStream<Path> stream = Files.newDirectoryStream(file.toPath());
+                Iterator<Path> pIter = stream.iterator();
+                while(pIter.hasNext()){
+                    importFile(pIter.next().toFile());
+                }
+                stream.close();
+            }catch(Exception e){}
+        }
     }
     
     @Override
