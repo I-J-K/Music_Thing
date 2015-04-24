@@ -7,7 +7,6 @@ package music_thing;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
