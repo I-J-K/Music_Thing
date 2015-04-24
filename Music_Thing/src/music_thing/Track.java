@@ -21,35 +21,6 @@ public class Track implements java.io.Serializable{
     private int playCount;
     private String albumArt;
     private String path;
-
-    public Track(String name, SongType type, String artist, String album, String genre, Double rating, String albumArt, String path) {
-        this.name = name;
-        this.artist = artist;
-        this.album = album;
-        this.genre = genre;
-        this.rating = rating;
-        this.type = type;
-        this.playCount = 0;
-        this.albumArt = albumArt;
-        this.path = path;
-    }
-    public Track(String name, SongType type, String path) {
-        this.name = name;
-        this.type = type;
-        this.playCount = 0;
-        this.path = path;
-    }
-    
-    public Track(String name, SongType type, String artist, String album, String genre, Double rating, String path) {
-        this.name = name;
-        this.artist = artist;
-        this.album = album;
-        this.genre = genre;
-        this.rating = rating;
-        this.type = type;
-        this.playCount = 0;
-        this.path = path;
-    }
     
     public Track(SongType type, String path){
         this.path = path;
