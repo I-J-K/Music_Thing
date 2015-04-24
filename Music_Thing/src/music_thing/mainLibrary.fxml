@@ -82,6 +82,7 @@
             <Menu mnemonicParsing="false" text="File">
                <items>
                   <MenuItem fx:id="fileImport" mnemonicParsing="false" onAction="#importFromMenu" text="Import" />
+                  <MenuItem mnemonicParsing="false" onAction="#importDirectory" text="Import Folder" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
