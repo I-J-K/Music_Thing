@@ -34,7 +34,7 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <Slider fx:id="songTimeBar" prefHeight="16.0" prefWidth="620.0" />
+                  <Slider fx:id="songTimeBar" prefHeight="15.0" prefWidth="276.0" />
                   <Label fx:id="songTime" text="Label" />
                </children>
             </HBox>
@@ -42,9 +42,9 @@
       </AnchorPane>
    </bottom>
    <center>
-      <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.25" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
                <children>
                   <ListView layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children></AnchorPane>
@@ -81,7 +81,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem fx:id="fileImport" mnemonicParsing="false" onAction="#importFromMenu" text="Import" />
+                  <MenuItem fx:id="fileImport" mnemonicParsing="false" onAction="#importBest" text="Import" />
                   <MenuItem mnemonicParsing="false" onAction="#importDirectory" text="Import Folder" />
                </items>
             </Menu>
