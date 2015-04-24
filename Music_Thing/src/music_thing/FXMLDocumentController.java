@@ -179,14 +179,7 @@ public class FXMLDocumentController implements Initializable {
             }catch (Exception e){}
             
         }else if(file.isDirectory()){
-            try{
-                DirectoryStream<Path> stream = Files.newDirectoryStream(file.toPath());
-                Iterator<Path> pIter = stream.iterator();
-                while(pIter.hasNext()){
-                    importFile(pIter.next().toFile());
-                }
-                stream.close();
-            }catch(Exception e){}
+            for(File thing : file.listFiles()) importFile(thing);
         }
         MusicLibrary.save();
     }
