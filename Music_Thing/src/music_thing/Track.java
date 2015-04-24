@@ -4,7 +4,12 @@
  * and open the template in the editor.
  */
 package music_thing;
-
+import java.io.*;
+import org.jaudiotagger.*;
+import org.jaudiotagger.audio.mp3.*;
+import org.jaudiotagger.audio.*;
+import org.jaudiotagger.tag.*;
+import org.jaudiotagger.tag.FieldKey.*;
 /**
  *
  * @author joshuakaplan
@@ -14,6 +19,8 @@ public class Track implements java.io.Serializable{
     private String artist;
     private String album;
     private String genre;
+    private String composer;
+    private String trackNumber;
     private Double rating;
     
     private SongType type;
@@ -27,6 +34,24 @@ public class Track implements java.io.Serializable{
         this.playCount = 0;
         this.type = type;
         this.name = path.substring(0,path.lastIndexOf('.'));
+        if(/*mp3*/){
+            try{
+            AudioFile f = AudioFileIO.read(new File(path));
+            Tag tag = f.getTag();
+            AudioHeader ah = f.getAudioHeader();
+            
+            this.name = tag.getFirst(FieldKey.TITLE);
+            this.artist = tag.getFirst(FieldKey.ARTIST);
+            this.album = tag.getFirst(FieldKey.ALBUM);
+            this.composer = tag.getFirst(FieldKey.COMPOSER);
+            this.trackNumber = tag.getFirst(FieldKey.TRACK);
+        }catch (Exception e){
+            
+        }
+        }
+        }
+             
+                
     }
 
     public String getName() {
