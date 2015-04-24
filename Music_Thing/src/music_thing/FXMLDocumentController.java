@@ -28,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -102,6 +103,7 @@ public class FXMLDocumentController implements Initializable {
             MusicLibrary.removeTrack(toDelete);
             MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
         }catch(Exception e){}
+        MusicLibrary.save();
     }
     
     @FXML
@@ -142,26 +144,38 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    @FXML
+    private void importDirectory(ActionEvent event){
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choose a folder for import");
+        File file = directoryChooser.showDialog(Music_Thing.getMainWindow());
+        if(file!=null)importFile(file);
+    }
+    
     private void importFile(File file){
         if(file.isFile()){
             File copyTo =  new File("music/"+file.getName());
-            boolean copy = true;
             try{
-                if(file.getName().toLowerCase().endsWith("mp3")){
-                    MusicLibrary.addSong(new Track(SongType.MP3, file.getName()));
-                }else if(file.getName().toLowerCase().endsWith("mid")){
-                    MusicLibrary.addSong(new Track(SongType.MIDI, file.getName()));
-                }else if(file.getName().toLowerCase().endsWith("m4a")){
-                    MusicLibrary.addSong(new Track(SongType.AAC, file.getName()));
-                }else if(file.getName().toLowerCase().endsWith("aiff")){
-                    MusicLibrary.addSong(new Track(SongType.AIFF, file.getName()));
-                }else if(file.getName().toLowerCase().endsWith("wav")){
-                    MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
-                }else{
-                    copy=false;
-                    //add alert file not supported
+                if(!copyTo.exists()){
+                    if(file.getName().toLowerCase().endsWith("mp3")){
+                        Files.copy(file.toPath(), copyTo.toPath());
+                        MusicLibrary.addSong(new Track(SongType.MP3, file.getName()));
+                    }else if(file.getName().toLowerCase().endsWith("mid")){
+                        Files.copy(file.toPath(), copyTo.toPath());
+                        MusicLibrary.addSong(new Track(SongType.MIDI, file.getName()));
+                    }else if(file.getName().toLowerCase().endsWith("m4a")){
+                        Files.copy(file.toPath(), copyTo.toPath());
+                        MusicLibrary.addSong(new Track(SongType.AAC, file.getName()));
+                    }else if(file.getName().toLowerCase().endsWith("aiff")){
+                        Files.copy(file.toPath(), copyTo.toPath());
+                        MusicLibrary.addSong(new Track(SongType.AIFF, file.getName()));
+                    }else if(file.getName().toLowerCase().endsWith("wav")){
+                        Files.copy(file.toPath(), copyTo.toPath());
+                        MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
+                    }//else{
+                        //add alert file not supported
+                    //}
                 }
-                if(copy && !copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
             }catch (Exception e){}
             
         }else if(file.isDirectory()){
@@ -174,6 +188,7 @@ public class FXMLDocumentController implements Initializable {
                 stream.close();
             }catch(Exception e){}
         }
+        MusicLibrary.save();
     }
     
     @Override

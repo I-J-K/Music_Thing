@@ -58,8 +58,6 @@ public class Track implements java.io.Serializable{
         this.name = path.substring(0,path.lastIndexOf('.'));
     }
 
-    
-    
     public String getName() {
         return name;
     }
