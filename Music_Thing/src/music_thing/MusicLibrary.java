@@ -47,12 +47,10 @@ public class MusicLibrary implements java.io.Serializable{
     
     public static void addSong(Track track){
         library.add(track);
-        save();
     }
     
     public static void removeTrack(Track track){
         library.remove(track);
-        save();
     }
     
     public static int size(){
