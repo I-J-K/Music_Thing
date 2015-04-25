@@ -10,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="517.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
+<BorderPane minWidth="776.0" prefHeight="517.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
    <bottom>
       <AnchorPane prefHeight="33.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -62,7 +62,8 @@
                         <TableColumn fx:id="artistCol" prefWidth="61.0" text="Artist" />
                         <TableColumn fx:id="albumCol" prefWidth="75.0" text="Album" />
                         <TableColumn fx:id="genreCol" prefWidth="75.0" text="Genre" />
-                        <TableColumn fx:id="ratingCol" prefWidth="75.0" text="Rating" />
+                        <TableColumn fx:id="ratingCol" prefWidth="139.0" text="Rating" />
+                        <TableColumn fx:id="playcountCol" prefWidth="52.0" text="Plays" />
                      </columns>
                   </TableView>
                </children>
