@@ -31,6 +31,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -130,46 +132,28 @@ public class FXMLDocumentController implements Initializable {
         event.setDropCompleted(success);
         event.consume();
     }
-    
+     
     @FXML
     private void importFromMenu(ActionEvent event){
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open A Music File");
-        fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("Supported Audio Files", "*.mp3", "*.mid", "*.m4a", "*.wav", "*.aiff"),
-                new ExtensionFilter("All Files", "*.*")
-        );
-        List<File> files = fileChooser.showOpenMultipleDialog(Music_Thing.getMainWindow());
-        if(files!=null){
-            for(File file: files) importFile(file);
-        }
-    }
-    
-    
-    
-    @FXML
-    private void importDirectory(ActionEvent event){
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Choose a folder for import");
-        File file = directoryChooser.showDialog(Music_Thing.getMainWindow());
-        if(file!=null)importFile(file);
-    }
-    
-    @FXML
-    private void importBest(ActionEvent event){
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff");
-        chooser.setFileFilter(filter);
-        chooser.setMultiSelectionEnabled(true);
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        int result = chooser.showOpenDialog(null);
-        if(result == JFileChooser.APPROVE_OPTION) {
-            File[] files = chooser.getSelectedFiles();
-            if(files!=null){
-                for(File file: java.util.Arrays.asList(files)) importFile(file);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFileChooser chooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff");
+                chooser.setFileFilter(filter);
+                chooser.setMultiSelectionEnabled(true);
+                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                int result = chooser.showOpenDialog(null);
+                if(result == JFileChooser.APPROVE_OPTION) {
+                    File[] files = chooser.getSelectedFiles();
+                    if(files!=null){
+                        for(File file: java.util.Arrays.asList(files)) importFile(file);
+                    }
+                }
             }
-        }
+        });
+        
     }
     
     private void importFile(File file){
