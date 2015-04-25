@@ -67,6 +67,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Track,Double> ratingCol;
 
+    @FXML
+    private TableColumn<Track,Integer> playcountCol;
     
     @FXML
     private void play(ActionEvent event) {
@@ -90,16 +92,18 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void deleteFile(ActionEvent event){
-        try{
-            Track toDelete = MusicLibrary.getSelectedTrack(songList);
-            if(MusicController.getCurrentTrack()==toDelete){
-                MusicController.stop();
-            }
-            Files.delete(Paths.get("music/"+toDelete.getPath()));
-            MusicLibrary.removeTrack(toDelete);
-            MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
-        }catch(Exception e){}
-        MusicLibrary.save();
+        SwingUtilities.invokeLater(() -> {
+            try{
+                Track toDelete = MusicLibrary.getSelectedTrack(songList);
+                if(MusicController.getCurrentTrack()==toDelete){
+                    MusicController.stop();
+                }
+                Files.delete(Paths.get("music/"+toDelete.getPath()));
+                MusicLibrary.removeTrack(toDelete);
+                MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
+            }catch(Exception e){}
+            MusicLibrary.save();
+        });
     }
     
     @FXML
@@ -114,16 +118,16 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void importFromDrag(DragEvent event){
-        Dragboard db = event.getDragboard();
-        boolean success = false;
-        if (db.hasFiles()) {
-            success = true;
-            for (File file : db.getFiles()) {
-                importFile(file);
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                success = true;
+                for (File file : db.getFiles()) {
+                    SwingUtilities.invokeLater(() -> {importFile(file);});
+                }
             }
-        }
-        event.setDropCompleted(success);
-        event.consume();
+            event.setDropCompleted(success);
+            event.consume();
     }
      
     @FXML
@@ -175,7 +179,7 @@ public class FXMLDocumentController implements Initializable {
         }else if(file.isDirectory()){
             for(File thing : file.listFiles()) importFile(thing);
         }
-        MusicLibrary.save();
+        SwingUtilities.invokeLater(() -> {MusicLibrary.save();});
     }
     
     @Override
@@ -193,8 +197,8 @@ public class FXMLDocumentController implements Initializable {
                 new PropertyValueFactory("genre"));
         ratingCol.setCellValueFactory(
                 new PropertyValueFactory("rating"));
-        
+        playcountCol.setCellValueFactory(
+                new PropertyValueFactory("playCount"));
         songList.setItems(MusicLibrary.getLibrary());
-    }    
-    
+    }
 }
