@@ -34,22 +34,19 @@ public class Track implements java.io.Serializable{
         this.playCount = 0;
         this.type = type;
         this.name = path.substring(0,path.lastIndexOf('.'));
-        if(/*mp3*/){
+        //if(/*mp3*/){
             try{
-            AudioFile f = AudioFileIO.read(new File(path));
-            Tag tag = f.getTag();
-            AudioHeader ah = f.getAudioHeader();
-            
-            this.name = tag.getFirst(FieldKey.TITLE);
-            this.artist = tag.getFirst(FieldKey.ARTIST);
-            this.album = tag.getFirst(FieldKey.ALBUM);
-            this.composer = tag.getFirst(FieldKey.COMPOSER);
-            this.trackNumber = tag.getFirst(FieldKey.TRACK);
-        }catch (Exception e){
-            
-        }
-        }
-        }
+                AudioFile f = AudioFileIO.read(new File("music/"+path));
+                Tag tag = f.getTag();
+                AudioHeader ah = f.getAudioHeader();
+
+                this.name = tag.getFirst(FieldKey.TITLE);
+                this.artist = tag.getFirst(FieldKey.ARTIST);
+                this.album = tag.getFirst(FieldKey.ALBUM);
+                this.composer = tag.getFirst(FieldKey.COMPOSER);
+                this.trackNumber = tag.getFirst(FieldKey.TRACK);
+            }catch (Exception e){}
+        //}
              
                 
     }
