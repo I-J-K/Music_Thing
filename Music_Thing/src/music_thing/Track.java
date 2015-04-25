@@ -25,7 +25,7 @@ public class Track implements java.io.Serializable{
     
     private SongType type;
     private double length;
-    private int playCount;
+    private Integer playCount;
     private String albumArt;
     private String path;
     

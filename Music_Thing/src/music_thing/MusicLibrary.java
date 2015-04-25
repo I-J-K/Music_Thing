@@ -7,7 +7,6 @@ package music_thing;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class MusicLibrary implements java.io.Serializable{
     
     private static ObservableList<Track> library = FXCollections.observableArrayList();
     
-    private static ArrayList<Track> libraryList = new ArrayList(library.subList(0, library.size()));
+    private static ArrayList<Track> libraryList;
 
     public static ObservableList<Track> getLibrary() {
         return library;
@@ -57,7 +56,7 @@ public class MusicLibrary implements java.io.Serializable{
     
     public static void save(){
         try{
-            libraryList = new ArrayList(library.subList(0, library.size()));
+            libraryList = new ArrayList(library);
             FileOutputStream fileOut = new FileOutputStream("library.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(libraryList);
@@ -73,7 +72,7 @@ public class MusicLibrary implements java.io.Serializable{
             libraryList = (ArrayList<Track>) in.readObject();
             in.close();
             fileIn.close();
-        }catch(IOException | ClassNotFoundException e){}
-        library = FXCollections.observableList(libraryList);
+            library = FXCollections.observableList(libraryList);
+        }catch(Exception e){}
     }
 }

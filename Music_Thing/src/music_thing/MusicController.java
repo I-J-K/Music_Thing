@@ -10,6 +10,7 @@ import java.io.IOException;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javax.sound.midi.*;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author joshuakaplan
@@ -53,22 +54,24 @@ public class MusicController {
     }
     
     public static void play(Track track){
-        SongType type = track.getType();
-        if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
-            if(mp3==null || track!=currentTrack){
-                setSong(track);
+        SwingUtilities.invokeLater(() -> {
+            SongType type = track.getType();
+            if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
+                if(mp3==null || track!=currentTrack){
+                    setSong(track);
+                }
+                mp3player.play();
+            }else if(type==SongType.MIDI){
+                try{
+                    if(midiSequencer==null)midiSequencer = MidiSystem.getSequencer();
+                    if(midiSequence==null || track!=currentTrack)setSong(track);
+                    midiSequencer.open();
+                    midiSequencer.start();
+                }catch(Exception e){}
             }
-            mp3player.play();
-        }else if(type==SongType.MIDI){
-            try{
-                if(midiSequencer==null)midiSequencer = MidiSystem.getSequencer();
-                if(midiSequence==null || track!=currentTrack)setSong(track);
-                midiSequencer.open();
-                midiSequencer.start();
-            }catch(Exception e){}
-        }
-        playing = true;
-        currentTrack = track;
+            playing = true;
+            currentTrack = track;
+        });
     }
     
     public static void pause(){
