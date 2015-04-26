@@ -34,7 +34,7 @@
                         </Button>
                      </children>
                   </StackPane>
-                  <Slider fx:id="songTimeBar" prefHeight="15.0" prefWidth="276.0" />
+                  <Slider fx:id="songVolumeBar" blockIncrement="0.01" max="1.0" onMouseDragged="#changeVolume" prefHeight="8.0" prefWidth="136.0" value="1.0" />
                   <Label fx:id="songTime" text="Label" />
                </children>
             </HBox>

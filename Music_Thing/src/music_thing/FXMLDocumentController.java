@@ -23,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
@@ -50,7 +51,7 @@ public class FXMLDocumentController implements Initializable {
     private Label songTime;
     
     @FXML
-    private Slider songTimeBar;
+    private Slider songVolumeBar;
     
     @FXML
     private TableColumn<Track,String> songCol;
@@ -74,9 +75,9 @@ public class FXMLDocumentController implements Initializable {
     private void play(ActionEvent event) {
         if(MusicLibrary.size()>0){
             if(!MusicController.getPlaying()){
-                MusicController.play(MusicLibrary.getSelectedTrack(songList));
+                MusicController.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
             }else if(MusicController.getPlaying() && MusicLibrary.getSelectedTrack(songList)!=MusicController.getCurrentTrack()){
-                MusicController.play(MusicLibrary.getSelectedTrack(songList));
+                MusicController.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
             }else{
                 MusicController.pause();
             }
@@ -91,8 +92,13 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
+    private void changeVolume(MouseEvent event){
+        MusicController.setVolume(songVolumeBar.getValue());
+    }
+    
+    @FXML
     private void deleteFile(ActionEvent event){
-        SwingUtilities.invokeLater(() -> {
+        Platform.runLater(() -> {
             try{
                 Track toDelete = MusicLibrary.getSelectedTrack(songList);
                 if(MusicController.getCurrentTrack()==toDelete){
@@ -179,7 +185,7 @@ public class FXMLDocumentController implements Initializable {
         }else if(file.isDirectory()){
             for(File thing : file.listFiles()) importFile(thing);
         }
-        SwingUtilities.invokeLater(() -> {MusicLibrary.save();});
+        Platform.runLater(MusicLibrary::save);
     }
     
     @Override
