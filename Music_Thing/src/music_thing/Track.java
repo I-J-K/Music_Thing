@@ -45,6 +45,7 @@ public class Track implements java.io.Serializable{
                 this.album = tag.getFirst(FieldKey.ALBUM);
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 this.trackNumber = tag.getFirst(FieldKey.TRACK);
+                this.length = f.getAudioHeader().getTrackLength();
             }catch (Exception e){}
             if(name == null){
                 this.name = path.substring(0,path.lastIndexOf('.'));
