@@ -46,14 +46,10 @@ public class Track implements java.io.Serializable{
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 this.trackNumber = tag.getFirst(FieldKey.TRACK);
             }catch (Exception e){}
-        if(name == null){
-            this.name = path.substring(0,path.lastIndexOf('.'));
-            }
-            }
+            if(name == null){
+                this.name = path.substring(0,path.lastIndexOf('.'));
+            }      
         }
-        //}
-             
-                
     }
 
     public String getName() {
