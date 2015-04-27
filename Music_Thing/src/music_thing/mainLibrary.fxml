@@ -18,18 +18,32 @@
                <children>
                   <StackPane minHeight="10.0" minWidth="10.0" prefHeight="32.0" prefWidth="64.0">
                      <children>
-                        <Button fx:id="play" mnemonicParsing="false" onAction="#play" scaleX="0.2" scaleY="0.2" scaleZ="0.2">
+                        <Button fx:id="play" mnemonicParsing="false" onAction="#play" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                            <graphic>
-                              <Polygon rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
-                                 <points>
-                                    <Double fx:value="-50.0" />
-                                    <Double fx:value="40.0" />
-                                    <Double fx:value="50.0" />
-                                    <Double fx:value="40.0" />
-                                    <Double fx:value="0.0" />
-                                    <Double fx:value="-60.0" />
-                                 </points>
-                              </Polygon>
+                              <Group scaleX="0.5" scaleY="0.5" scaleZ="0.5">
+                                 <children>
+                                    <HBox fx:id="pauseSymbol" prefHeight="5.0" prefWidth="0.0" visible="false">
+                                       <children>
+                                          <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" stroke="BLACK" strokeType="INSIDE" width="13.0">
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
+                                          </Rectangle>
+                                          <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" stroke="BLACK" strokeType="INSIDE" width="13.0" />
+                                       </children>
+                                    </HBox>
+                                    <Polygon fx:id="playSymbol" layoutY="2.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                       <points>
+                                          <Double fx:value="-50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="0.0" />
+                                          <Double fx:value="-60.0" />
+                                       </points>
+                                    </Polygon>
+                                 </children>
+                              </Group>
                            </graphic>
                         </Button>
                      </children>
