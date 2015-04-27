@@ -34,7 +34,7 @@ public class Track implements java.io.Serializable{
         this.playCount = 0;
         this.type = type;
         this.name = path.substring(0,path.lastIndexOf('.'));
-        //if(/*mp3*/){
+        if(type==SongType.MP3){
             try{
                 AudioFile f = AudioFileIO.read(new File("music/"+path));
                 Tag tag = f.getTag();
@@ -46,6 +46,11 @@ public class Track implements java.io.Serializable{
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 this.trackNumber = tag.getFirst(FieldKey.TRACK);
             }catch (Exception e){}
+        if(name == null){
+            this.name = path.substring(0,path.lastIndexOf('.'));
+            }
+            }
+        }
         //}
              
                 
