@@ -54,17 +54,17 @@
                   	<placeholder>
                   		<Label text="No Music In Library" />
                   	</placeholder>
+                     <columns>
+                        <TableColumn fx:id="songCol" minWidth="20.0" prefWidth="-1.0" text="Song" />
+                        <TableColumn fx:id="artistCol" minWidth="20.0" prefWidth="-1.0" text="Artist" />
+                        <TableColumn fx:id="albumCol" minWidth="20.0" prefWidth="-1.0" text="Album" />
+                        <TableColumn fx:id="genreCol" minWidth="20.0" prefWidth="-1.0" text="Genre" />
+                        <TableColumn fx:id="ratingCol" minWidth="20.0" prefWidth="-1.0" text="Rating" />
+                        <TableColumn fx:id="playcountCol" minWidth="20.0" prefWidth="-1.0" text="Plays" />
+                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
-                     <columns>
-                        <TableColumn fx:id="songCol" prefWidth="75.0" text="Song" />
-                        <TableColumn fx:id="artistCol" prefWidth="61.0" text="Artist" />
-                        <TableColumn fx:id="albumCol" prefWidth="75.0" text="Album" />
-                        <TableColumn fx:id="genreCol" prefWidth="75.0" text="Genre" />
-                        <TableColumn fx:id="ratingCol" prefWidth="139.0" text="Rating" />
-                        <TableColumn fx:id="playcountCol" prefWidth="52.0" text="Plays" />
-                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
