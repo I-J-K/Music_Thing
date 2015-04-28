@@ -16,38 +16,37 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <StackPane minHeight="10.0" minWidth="10.0" prefHeight="32.0" prefWidth="64.0">
-                     <children>
-                        <Button fx:id="play" mnemonicParsing="false" onAction="#play" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
-                           <graphic>
-                              <Group scaleX="0.5" scaleY="0.5" scaleZ="0.5">
+                  <Button fx:id="play" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#play" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                     <graphic>
+                        <Group scaleX="0.7" scaleY="0.7" scaleZ="0.7">
+                           <children>
+                              <HBox fx:id="pauseSymbol" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" visible="false">
                                  <children>
-                                    <HBox fx:id="pauseSymbol" prefHeight="5.0" prefWidth="0.0" visible="false">
-                                       <children>
-                                          <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" stroke="BLACK" strokeType="INSIDE" width="13.0">
-                                             <HBox.margin>
-                                                <Insets right="5.0" />
-                                             </HBox.margin>
-                                          </Rectangle>
-                                          <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" stroke="BLACK" strokeType="INSIDE" width="13.0" />
-                                       </children>
-                                    </HBox>
-                                    <Polygon fx:id="playSymbol" layoutY="2.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
-                                       <points>
-                                          <Double fx:value="-50.0" />
-                                          <Double fx:value="40.0" />
-                                          <Double fx:value="50.0" />
-                                          <Double fx:value="40.0" />
-                                          <Double fx:value="0.0" />
-                                          <Double fx:value="-60.0" />
-                                       </points>
-                                    </Polygon>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" stroke="BLACK" strokeType="INSIDE" width="13.0">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </Rectangle>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" stroke="BLACK" strokeType="INSIDE" width="13.0" />
                                  </children>
-                              </Group>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </StackPane>
+                              </HBox>
+                              <Polygon fx:id="playSymbol" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                 <points>
+                                    <Double fx:value="-50.0" />
+                                    <Double fx:value="40.0" />
+                                    <Double fx:value="50.0" />
+                                    <Double fx:value="40.0" />
+                                    <Double fx:value="0.0" />
+                                    <Double fx:value="-60.0" />
+                                 </points>
+                              </Polygon>
+                           </children>
+                        </Group>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-5.0" right="-5.0" top="-20.0" />
+                     </HBox.margin>
+                  </Button>
                   <Slider fx:id="songVolumeBar" blockIncrement="0.01" max="1.0" onMouseDragged="#changeVolume" prefHeight="8.0" prefWidth="136.0" value="1.0" />
                   <Label fx:id="songTime" text="Label" />
                </children>
@@ -70,6 +69,7 @@
                   	</placeholder>
                      <columns>
                         <TableColumn fx:id="songCol" minWidth="20.0" prefWidth="-1.0" text="Song" />
+                        <TableColumn fx:id="timeCol" minWidth="30.0" prefWidth="75.0" text="Time" />
                         <TableColumn fx:id="artistCol" minWidth="20.0" prefWidth="-1.0" text="Artist" />
                         <TableColumn fx:id="albumCol" minWidth="20.0" prefWidth="-1.0" text="Album" />
                         <TableColumn fx:id="genreCol" minWidth="20.0" prefWidth="-1.0" text="Genre" />
