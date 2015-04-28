@@ -42,14 +42,17 @@ public class Track implements java.io.Serializable{
                 this.name = tag.getFirst(FieldKey.TITLE);
                 this.artist = tag.getFirst(FieldKey.ARTIST);
                 this.album = tag.getFirst(FieldKey.ALBUM);
+                this.genre = tag.getFirst(FieldKey.GENRE);
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 this.trackNumber = tag.getFirst(FieldKey.TRACK);
                 this.length = f.getAudioHeader().getTrackLength();
             }catch (Exception e){}  
         }
+        
         if(this.name == null || this.name.equals("")){
                 this.name = path.substring(0,path.lastIndexOf('.'));
         }
+        
         if(this.length==null){
             this.length=0;
         }
