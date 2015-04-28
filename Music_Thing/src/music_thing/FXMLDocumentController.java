@@ -25,6 +25,8 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
+import javafx.scene.shape.Polygon;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -72,14 +74,29 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Track,Integer> playcountCol;
     
     @FXML
+    private TableColumn<Track,Integer> timeCol;
+    
+    @FXML
+    private HBox pauseSymbol;
+    
+    @FXML
+    private Polygon playSymbol;
+    
+    @FXML
     private void play(ActionEvent event) {
         if(MusicLibrary.size()>0){
             if(!MusicController.getPlaying()){
                 MusicController.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
+                pauseSymbol.setVisible(true);
+                playSymbol.setVisible(false);
             }else if(MusicController.getPlaying() && MusicLibrary.getSelectedTrack(songList)!=MusicController.getCurrentTrack()){
                 MusicController.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
+                pauseSymbol.setVisible(true);
+                playSymbol.setVisible(false);
             }else{
                 MusicController.pause();
+                pauseSymbol.setVisible(false);
+                playSymbol.setVisible(true);
             }
             songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
             songList.requestFocus();
@@ -205,6 +222,8 @@ public class FXMLDocumentController implements Initializable {
                 new PropertyValueFactory("rating"));
         playcountCol.setCellValueFactory(
                 new PropertyValueFactory("playCount"));
+        timeCol.setCellValueFactory(
+                new PropertyValueFactory("length"));
         songList.setItems(MusicLibrary.getLibrary());
     }
 }

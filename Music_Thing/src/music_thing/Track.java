@@ -24,7 +24,7 @@ public class Track implements java.io.Serializable{
     private Double rating;
     
     private SongType type;
-    private double length;
+    private Integer length;
     private Integer playCount;
     private String albumArt;
     private String path;
@@ -33,7 +33,6 @@ public class Track implements java.io.Serializable{
         this.path = path;
         this.playCount = 0;
         this.type = type;
-        this.name = path.substring(0,path.lastIndexOf('.'));
         if(type==SongType.MP3){
             try{
                 AudioFile f = AudioFileIO.read(new File("music/"+path));
@@ -46,10 +45,13 @@ public class Track implements java.io.Serializable{
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 this.trackNumber = tag.getFirst(FieldKey.TRACK);
                 this.length = f.getAudioHeader().getTrackLength();
-            }catch (Exception e){}
-            if(name == null){
+            }catch (Exception e){}  
+        }
+        if(this.name == null || this.name.equals("")){
                 this.name = path.substring(0,path.lastIndexOf('.'));
-            }      
+        }
+        if(this.length==null){
+            this.length=0;
         }
     }
 
@@ -73,7 +75,7 @@ public class Track implements java.io.Serializable{
         return length;
     }
 
-    public void setLength(double length) {
+    public void setLength(int length) {
         this.length = length;
     }
 
