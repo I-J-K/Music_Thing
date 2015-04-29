@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -21,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -127,27 +129,34 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void deleteFile(ActionEvent event){
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Delete?");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            Platform.runLater(() -> {
+        Platform.runLater(() -> {
             try{
-                Track toDelete = MusicLibrary.getSelectedTrack(songList);
-                if(MusicController.getCurrentTrack()==toDelete){
-                    MusicController.stop();
+                //Track toDelete = MusicLibrary.getSelectedTrack(songList);
+                List<Track> toDelete = songList.getSelectionModel().getSelectedItems();
+                //if(MusicController.getCurrentTrack()==toDelete){
+                if(toDelete.size()>0){
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setTitle("Delete?");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Are you sure you want to delete "+toDelete.size()+" tracks?");
+                    if(toDelete.size()==1)alert.setContentText("Are you sure you want to delete 1 track?");
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK){
+                        if(toDelete.contains(MusicController.getCurrentTrack())){
+                            MusicController.stop();
+                        }
+                        for(Track track: toDelete){
+                            //Files.delete(Paths.get("music/"+toDelete.getPath()));
+                            //MusicLibrary.removeTrack(toDelete);
+                            Files.delete(Paths.get("music/"+track.getPath()));
+                            MusicLibrary.removeTrack(track);
+                        }
+                        MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
+                    }
                 }
-                Files.delete(Paths.get("music/"+toDelete.getPath()));
-                MusicLibrary.removeTrack(toDelete);
-                MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
             }catch(Exception e){}
             MusicLibrary.save();
-            
         });
-        } else {}
     }
     
     @FXML
@@ -173,7 +182,10 @@ public class FXMLDocumentController implements Initializable {
             event.setDropCompleted(success);
             event.consume();
             if(success){
-                SwingUtilities.invokeLater(() -> {Platform.runLater(FXMLDocumentController::alertImportComplete);});
+                SwingUtilities.invokeLater(() -> {
+                    Platform.runLater(songList::sort);
+                    Platform.runLater(FXMLDocumentController::alertImportComplete);
+                });
             }
     }
      
@@ -191,6 +203,7 @@ public class FXMLDocumentController implements Initializable {
                 File[] files = chooser.getSelectedFiles();
                 if(files!=null){
                     for(File file: java.util.Arrays.asList(files)) importFile(file);
+                    Platform.runLater(songList::sort);
                     Platform.runLater(FXMLDocumentController::alertImportComplete);
                 }
             }
@@ -257,5 +270,6 @@ public class FXMLDocumentController implements Initializable {
         timeCol.setCellValueFactory(
                 new PropertyValueFactory("length"));
         songList.setItems(MusicLibrary.getLibrary());
+        songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 }
