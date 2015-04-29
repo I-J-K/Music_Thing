@@ -78,7 +78,7 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Track,Integer> playcountCol;
     
     @FXML
-    private TableColumn<Track,Integer> timeCol;
+    private TableColumn<Track,TimeFormat> timeCol;
     
     @FXML
     private HBox pauseSymbol;
@@ -86,8 +86,16 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Polygon playSymbol;
     
+    
     @FXML
-    private void play(ActionEvent event) {
+    private void clickedTable(MouseEvent event){
+        if (event.isPrimaryButtonDown() && event.getClickCount() > 1) {
+            play(event);
+        }
+    }
+    
+    @FXML
+    private void play(MouseEvent event) {
         if(MusicLibrary.size()>0){
             if(!MusicController.getPlaying()){
                 MusicController.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
