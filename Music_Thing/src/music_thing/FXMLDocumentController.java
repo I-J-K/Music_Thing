@@ -9,7 +9,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -132,7 +132,7 @@ public class FXMLDocumentController implements Initializable {
         Platform.runLater(() -> {
             try{
                 //Track toDelete = MusicLibrary.getSelectedTrack(songList);
-                List<Track> toDelete = songList.getSelectionModel().getSelectedItems();
+                HashSet<Track> toDelete = new HashSet(songList.getSelectionModel().getSelectedItems());
                 //if(MusicController.getCurrentTrack()==toDelete){
                 if(toDelete.size()>0){
                     Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -154,7 +154,7 @@ public class FXMLDocumentController implements Initializable {
                         MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
                     }
                 }
-            }catch(Exception e){}
+            }catch(Exception e){System.out.println(e);}
             MusicLibrary.save();
         });
     }
