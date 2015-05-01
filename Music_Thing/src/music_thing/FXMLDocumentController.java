@@ -9,7 +9,10 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -131,9 +134,7 @@ public class FXMLDocumentController implements Initializable {
     private void deleteFile(ActionEvent event){
         Platform.runLater(() -> {
             try{
-                //Track toDelete = MusicLibrary.getSelectedTrack(songList);
                 HashSet<Track> toDelete = new HashSet(songList.getSelectionModel().getSelectedItems());
-                //if(MusicController.getCurrentTrack()==toDelete){
                 if(toDelete.size()>0){
                     Alert alert = new Alert(AlertType.CONFIRMATION);
                     alert.setTitle("Delete?");
@@ -176,21 +177,24 @@ public class FXMLDocumentController implements Initializable {
             if (db.hasFiles()) {
                 success = true;
                 for (File file : db.getFiles()) {
-                    SwingUtilities.invokeLater(() -> {importFile(file);});
+                    //SwingUtilities.invokeLater(() -> {importFile(file);});
+                     Platform.runLater(() -> {importFile(file);});
                 }
             }
             event.setDropCompleted(success);
             event.consume();
             if(success){
-                SwingUtilities.invokeLater(() -> {
+                //SwingUtilities.invokeLater(() -> {
                     Platform.runLater(songList::sort);
+                    Platform.runLater(MusicLibrary::save);
                     Platform.runLater(FXMLDocumentController::alertImportComplete);
-                });
+                //});
             }
     }
      
     @FXML
     private void importFromMenu(ActionEvent event){
+        List<File> files = new ArrayList<File>();
         SwingUtilities.invokeLater(() -> {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -200,14 +204,17 @@ public class FXMLDocumentController implements Initializable {
             chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             int result = chooser.showOpenDialog(null);
             if(result == JFileChooser.APPROVE_OPTION) {
-                File[] files = chooser.getSelectedFiles();
-                if(files!=null){
-                    for(File file: java.util.Arrays.asList(files)) importFile(file);
-                    Platform.runLater(songList::sort);
-                    Platform.runLater(FXMLDocumentController::alertImportComplete);
-                }
+                //File[] files = chooser.getSelectedFiles();
+                files.addAll(Arrays.asList(chooser.getSelectedFiles()));
             }
-        }); 
+            Platform.runLater(() ->{
+                for(File file: files) importFile(file);
+                songList.sort();
+                MusicLibrary.save();
+                alertImportComplete();
+            });
+        });
+        
     }
     
     public static void alertImportComplete(){
@@ -238,16 +245,14 @@ public class FXMLDocumentController implements Initializable {
                     }else if(file.getName().toLowerCase().endsWith("wav")){
                         Files.copy(file.toPath(), copyTo.toPath());
                         MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
-                    }//else{
-                        //add alert file not supported
-                    //}
+                    }
                 }
             }catch (Exception e){}
             
         }else if(file.isDirectory()){
             for(File thing : file.listFiles()) importFile(thing);
         }
-        Platform.runLater(MusicLibrary::save);
+        
     }
     
     @Override
