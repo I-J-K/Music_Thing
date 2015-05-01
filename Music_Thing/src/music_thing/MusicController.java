@@ -7,7 +7,6 @@ package music_thing;
 
 import java.io.File;
 import java.io.IOException;
-import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javax.sound.midi.*;
@@ -57,37 +56,35 @@ public class MusicController {
     }
     
     public static void play(Track track, double volume){
-        Platform.runLater(() -> {
-            SongType type = track.getType();
-            if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
-                if(mp3==null || track!=currentTrack){
-                    setSong(track);
-                }
-                mp3player.play();
-            }else if(type==SongType.MIDI){
-                try{
-                    if(midiSequencer==null)midiSequencer = MidiSystem.getSequencer(false);
-                    if(midiSequence==null || track!=currentTrack)setSong(track);
-                    if(midiSynthesizer==null){
-                        midiSynthesizer = MidiSystem.getSynthesizer();
-                        Soundbank soundbank = midiSynthesizer.getDefaultSoundbank();
-                        if(soundbank == null) {
-                           midiSequencer.getTransmitter().setReceiver(MidiSystem.getReceiver());
-                        }
-                        else {
-                           midiSynthesizer.loadAllInstruments(soundbank);
-                           midiSequencer.getTransmitter().setReceiver(midiSynthesizer.getReceiver());
-                        }
-                    }
-                    midiSynthesizer.open();
-                    midiSequencer.open();
-                    midiSequencer.start();
-                }catch(Exception e){}
+        SongType type = track.getType();
+        if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
+            if(mp3==null || track!=currentTrack){
+                setSong(track);
             }
-            playing = true;
-            currentTrack = track;
-            setVolume(volume);
-        });
+            mp3player.play();
+        }else if(type==SongType.MIDI){
+            try{
+                if(midiSequencer==null)midiSequencer = MidiSystem.getSequencer(false);
+                if(midiSequence==null || track!=currentTrack)setSong(track);
+                if(midiSynthesizer==null){
+                    midiSynthesizer = MidiSystem.getSynthesizer();
+                    Soundbank soundbank = midiSynthesizer.getDefaultSoundbank();
+                    if(soundbank == null) {
+                       midiSequencer.getTransmitter().setReceiver(MidiSystem.getReceiver());
+                    }
+                    else {
+                       midiSynthesizer.loadAllInstruments(soundbank);
+                       midiSequencer.getTransmitter().setReceiver(midiSynthesizer.getReceiver());
+                    }
+                }
+                midiSynthesizer.open();
+                midiSequencer.open();
+                midiSequencer.start();
+            }catch(Exception e){}
+        }
+        playing = true;
+        currentTrack = track;
+        setVolume(volume);
     }
     
     public static void pause(){
