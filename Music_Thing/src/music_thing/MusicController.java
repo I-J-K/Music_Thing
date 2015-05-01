@@ -37,7 +37,7 @@ public class MusicController {
             try{
                 midiSequence = MidiSystem.getSequence(file);
                 midiSequencer.setSequence(midiSequence);
-            }catch(InvalidMidiDataException | IOException e){}
+            }catch(InvalidMidiDataException | IOException e){System.out.println(e);}
         }
     }
     
@@ -66,16 +66,14 @@ public class MusicController {
             try{
                 if(midiSequencer==null)midiSequencer = MidiSystem.getSequencer(false);
                 if(midiSequence==null || track!=currentTrack)setSong(track);
-                if(midiSynthesizer==null){
-                    midiSynthesizer = MidiSystem.getSynthesizer();
-                    Soundbank soundbank = midiSynthesizer.getDefaultSoundbank();
-                    if(soundbank == null) {
-                       midiSequencer.getTransmitter().setReceiver(MidiSystem.getReceiver());
-                    }
-                    else {
-                       midiSynthesizer.loadAllInstruments(soundbank);
-                       midiSequencer.getTransmitter().setReceiver(midiSynthesizer.getReceiver());
-                    }
+                midiSynthesizer = MidiSystem.getSynthesizer();
+                Soundbank soundbank = midiSynthesizer.getDefaultSoundbank();
+                if(soundbank == null) {
+                   midiSequencer.getTransmitter().setReceiver(MidiSystem.getReceiver());
+                }
+                else {
+                   midiSynthesizer.loadAllInstruments(soundbank);
+                   midiSequencer.getTransmitter().setReceiver(midiSynthesizer.getReceiver());
                 }
                 midiSynthesizer.open();
                 midiSequencer.open();
