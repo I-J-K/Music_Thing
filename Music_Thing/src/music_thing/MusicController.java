@@ -7,12 +7,9 @@ package music_thing;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javax.sound.midi.*;
-import org.kc7bfi.jflac.apps.*;
 import org.kc7bfi.jflac.sound.spi.*;
 import javax.sound.sampled.*;
 
