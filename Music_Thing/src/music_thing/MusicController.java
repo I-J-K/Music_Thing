@@ -7,9 +7,15 @@ package music_thing;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javax.sound.midi.*;
+import org.kc7bfi.jflac.apps.*;
+import org.kc7bfi.jflac.sound.spi.*;
+import javax.sound.sampled.*;
+
 /**
  *
  * @author joshuakaplan
@@ -26,6 +32,14 @@ public class MusicController {
     private static Sequence midiSequence;
     private static Synthesizer midiSynthesizer;
     
+    private static Clip flacPlayer;
+    private static final FlacFormatConversionProvider flacStreamConverter = new FlacFormatConversionProvider();
+    private static final FlacAudioFileReader flacReader = new FlacAudioFileReader();
+    
+    public static void reset(){
+        setSong(currentTrack);
+    }
+    
     public static void setSong(Track track){
         stop();
         File file = new File("music/"+track.getPath());
@@ -37,7 +51,12 @@ public class MusicController {
             try{
                 midiSequence = MidiSystem.getSequence(file);
                 midiSequencer.setSequence(midiSequence);
-            }catch(InvalidMidiDataException | IOException e){System.out.println(e);}
+            }catch(InvalidMidiDataException | IOException e){}
+        }else if(type==SongType.FLAC){
+            try{
+                flacPlayer = AudioSystem.getClip();
+                flacPlayer.open(flacStreamConverter.getAudioInputStream(AudioFormat.Encoding.PCM_SIGNED, flacReader.getAudioInputStream(file)));
+            }catch(Exception e){System.out.println(e);}
         }
     }
     
@@ -51,6 +70,9 @@ public class MusicController {
             if(midiSequence!=null && midiSequencer!=null){
                 return midiSequencer.getMicrosecondPosition()/1000000.0;
             }
+        }
+        else if(type==SongType.FLAC){
+            return flacPlayer.getMicrosecondPosition()/1000000.0;
         }
         return 0.0;
     }
@@ -79,6 +101,9 @@ public class MusicController {
                 midiSequencer.open();
                 midiSequencer.start();
             }catch(Exception e){}
+        }else if(type==SongType.FLAC){
+            if(flacPlayer==null || track!=currentTrack)setSong(track);
+            flacPlayer.start();
         }
         playing = true;
         currentTrack = track;
@@ -91,6 +116,8 @@ public class MusicController {
             mp3player.pause();
         }else if(type==SongType.MIDI){
             midiSequencer.stop();
+        }else if(type==SongType.FLAC){
+            flacPlayer.stop();
         }
         playing = false;
     }
@@ -109,6 +136,10 @@ public class MusicController {
         if(mp3player!=null){
             if(mp3player.getStatus()!=MediaPlayer.Status.STOPPED) mp3player.stop();
             mp3player.dispose();
+        }
+        if(flacPlayer!=null){
+            flacPlayer.stop();
+            flacPlayer.close();
         }
         playing=false;
     }
@@ -131,6 +162,9 @@ public class MusicController {
                         }
                      }
                 }catch(Exception e){}
+            }else if(type==SongType.FLAC){
+                FloatControl c = (FloatControl) flacPlayer.getControl(FloatControl.Type.MASTER_GAIN);
+                c.setValue((float) volume*(c.getMaximum()-c.getMinimum())+c.getMinimum());
             }
         }
     }

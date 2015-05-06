@@ -48,6 +48,14 @@
                         <Insets bottom="-20.0" left="-5.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#stopMusic" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                     <graphic>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
+                     </HBox.margin>
+                  </Button>
                   <Slider fx:id="songVolumeBar" blockIncrement="0.01" max="1.0" onMouseDragged="#changeVolume" prefHeight="8.0" prefWidth="136.0" value="1.0" />
                   <Label fx:id="songTime" text="Label" />
                </children>
