@@ -100,6 +100,14 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
+    private void stopMusic(MouseEvent event) {
+        MusicController.reset();
+        pauseSymbol.setVisible(false);
+        playSymbol.setVisible(true);
+        songList.requestFocus();
+    }
+    
+    @FXML
     private void play(MouseEvent event) {
         if(MusicLibrary.size()>0){
             if(!MusicController.getPlaying()){
@@ -198,7 +206,7 @@ public class FXMLDocumentController implements Initializable {
         SwingUtilities.invokeLater(() -> {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff");
+                    "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff", "flac");
             chooser.setFileFilter(filter);
             chooser.setMultiSelectionEnabled(true);
             chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -245,6 +253,9 @@ public class FXMLDocumentController implements Initializable {
                     }else if(file.getName().toLowerCase().endsWith("wav")){
                         Files.copy(file.toPath(), copyTo.toPath());
                         MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
+                    }else if(file.getName().toLowerCase().endsWith("flac")){
+                        Files.copy(file.toPath(), copyTo.toPath());
+                        MusicLibrary.addSong(new Track(SongType.FLAC, file.getName()));
                     }
                 }
             }catch (Exception e){}
