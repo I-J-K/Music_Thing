@@ -69,7 +69,9 @@ public class MusicController {
             }
         }
         else if(type==SongType.FLAC){
-            return flacPlayer.getMicrosecondPosition()/1000000.0;
+            if(flacPlayer!=null){
+                return flacPlayer.getMicrosecondPosition()/1000000.0;
+            }
         }
         return 0.0;
     }
