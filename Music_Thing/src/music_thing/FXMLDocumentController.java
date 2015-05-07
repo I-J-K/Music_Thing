@@ -91,7 +91,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void stopMusic(MouseEvent event) {
-        MusicController.reset();
+        player.reset();
         pauseSymbol.setVisible(false);
         playSymbol.setVisible(true);
         songList.requestFocus();
@@ -101,25 +101,27 @@ public class FXMLDocumentController implements Initializable {
     private void play(MouseEvent event) {
         if(MusicLibrary.size()>0){
             Track selectedTrack = MusicLibrary.getSelectedTrack(songList);
-            SongType type = selectedTrack.getType();
-            if(player!=null)player.stop();
-            if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
-                player = jfxPlayer;
-            }else if(type==SongType.MIDI){
-                player = midiPlayer;
-            }else if(type==SongType.FLAC){
-                player = clipPlayer;
+            if(selectedTrack!=player.getCurrentTrack()){
+                SongType type = selectedTrack.getType();
+                if(player!=null)player.stop();
+                if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
+                    player = jfxPlayer;
+                }else if(type==SongType.MIDI){
+                    player = midiPlayer;
+                }else if(type==SongType.FLAC){
+                    player = clipPlayer;
+                }
             }
-            if(!MusicController.getPlaying()){
-                MusicController.play(selectedTrack, songVolumeBar.getValue());
+            if(!player.getPlaying()){
+                player.play(selectedTrack, songVolumeBar.getValue());
                 pauseSymbol.setVisible(true);
                 playSymbol.setVisible(false);
-            }else if(MusicController.getPlaying() && MusicLibrary.getSelectedTrack(songList)!=MusicController.getCurrentTrack()){
-                MusicController.play(selectedTrack, songVolumeBar.getValue());
+            }else if(player.getPlaying() && MusicLibrary.getSelectedTrack(songList)!=player.getCurrentTrack()){
+                player.play(selectedTrack, songVolumeBar.getValue());
                 pauseSymbol.setVisible(true);
                 playSymbol.setVisible(false);
             }else{
-                MusicController.pause();
+                player.pause();
                 pauseSymbol.setVisible(false);
                 playSymbol.setVisible(true);
             }
@@ -135,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void changeVolume(MouseEvent event){
-        MusicController.setVolume(songVolumeBar.getValue());
+        player.setVolume(songVolumeBar.getValue());
     }
     
     @FXML
@@ -151,8 +153,8 @@ public class FXMLDocumentController implements Initializable {
                     if(toDelete.size()==1)alert.setContentText("Are you sure you want to delete 1 track?");
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK){
-                        if(toDelete.contains(MusicController.getCurrentTrack())){
-                            MusicController.stop();
+                        if(toDelete.contains(player.getCurrentTrack())){
+                            player.stop();
                         }
                         for(Track track: toDelete){
                             //Files.delete(Paths.get("music/"+toDelete.getPath()));
