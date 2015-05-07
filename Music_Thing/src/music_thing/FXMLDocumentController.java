@@ -48,49 +48,39 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private Button play;
-    
     @FXML
     private TableView<Track> songList;
-    
     @FXML
     private MenuItem fileImport;
-    
     @FXML
     private MenuItem quit;
-    
     @FXML
     private Label songTime;
-    
     @FXML
     private Slider songVolumeBar;
-    
     @FXML
     private TableColumn<Track,String> songCol;
-    
     @FXML
     private TableColumn<Track,String> artistCol;
-    
     @FXML
     private TableColumn<Track,String> albumCol;
-    
     @FXML
     private TableColumn<Track,String> genreCol;
-    
     @FXML
     private TableColumn<Track,Double> ratingCol;
-
     @FXML
     private TableColumn<Track,Integer> playcountCol;
-    
     @FXML
     private TableColumn<Track,TimeFormat> timeCol;
-    
     @FXML
     private HBox pauseSymbol;
-    
     @FXML
     private Polygon playSymbol;
     
+    private MusicPlayer player;
+    private final JavafxPlayer jfxPlayer = new JavafxPlayer();
+    private final MidiPlayer midiPlayer = new MidiPlayer();
+    private final ClipPlayer clipPlayer = new ClipPlayer();
     
     @FXML
     private void clickedTable(MouseEvent event){
@@ -110,12 +100,22 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void play(MouseEvent event) {
         if(MusicLibrary.size()>0){
+            Track selectedTrack = MusicLibrary.getSelectedTrack(songList);
+            SongType type = selectedTrack.getType();
+            if(player!=null)player.stop();
+            if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
+                player = jfxPlayer;
+            }else if(type==SongType.MIDI){
+                player = midiPlayer;
+            }else if(type==SongType.FLAC){
+                player = clipPlayer;
+            }
             if(!MusicController.getPlaying()){
-                MusicController.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
+                MusicController.play(selectedTrack, songVolumeBar.getValue());
                 pauseSymbol.setVisible(true);
                 playSymbol.setVisible(false);
             }else if(MusicController.getPlaying() && MusicLibrary.getSelectedTrack(songList)!=MusicController.getCurrentTrack()){
-                MusicController.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
+                MusicController.play(selectedTrack, songVolumeBar.getValue());
                 pauseSymbol.setVisible(true);
                 playSymbol.setVisible(false);
             }else{
