@@ -59,7 +59,7 @@ public class Track implements java.io.Serializable{
                 this.album = tag.getFirst(FieldKey.ALBUM);
                 this.genre = tag.getFirst(FieldKey.GENRE);
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
-                this.trackNumber = tag.getFirst(FieldKey.TRACKNUMBER);
+                //this.trackNumber = tag.getFirst(FieldKey.TRACKNUMBER);
                 this.length = new TimeFormat(f.getAudioHeader().getTrackLength());
             }catch (Exception e){}  
         }
