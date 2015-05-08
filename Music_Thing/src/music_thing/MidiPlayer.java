@@ -19,6 +19,9 @@ import javax.sound.midi.Synthesizer;
 /**
  *
  * @author joshuakaplan
+ * 
+ * Only plays midi files.
+ * 
  */
 public class MidiPlayer extends MusicPlayer{
     

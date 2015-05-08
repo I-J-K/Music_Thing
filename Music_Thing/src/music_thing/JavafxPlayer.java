@@ -12,6 +12,8 @@ import javafx.scene.media.MediaPlayer;
 /**
  *
  * @author joshuakaplan
+ * 
+ * Plays mp3, m4a, wav, and aiff files... this is all basic file types.
  */
 public class JavafxPlayer extends MusicPlayer{
     private static MediaPlayer mp3player;
