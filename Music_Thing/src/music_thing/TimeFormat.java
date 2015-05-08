@@ -10,6 +10,11 @@ import java.io.Serializable;
 /**
  *
  * @author joshuakaplan
+ * 
+ * Fixes the time from the straight "seconds" format it comes in into an
+ * "hours:minutes:seconds" format for display from the screen.
+ * 
+ * 
  */
 public class TimeFormat implements Serializable{
     private int seconds;

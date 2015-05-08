@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author csstudent
  */
-public class Music_Thing extends Application {
+public class Main extends Application {
     private static Stage mainWindow;
     
     @Override
@@ -30,7 +30,7 @@ public class Music_Thing extends Application {
 
     @Override
     public void stop(){
-        MusicController.stop();
+        OldController.stop();
         MusicLibrary.save();
     }
     
