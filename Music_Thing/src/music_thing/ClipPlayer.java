@@ -16,6 +16,10 @@ import org.kc7bfi.jflac.sound.spi.FlacFormatConversionProvider;
 /**
  *
  * @author joshuakaplan
+ * 
+ * Sound from built into java... now only for FLAC, but can also play
+ * others... Josh will find them. 
+ * 
  */
 public class ClipPlayer extends MusicPlayer{
     private static Clip flacPlayer;

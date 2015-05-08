@@ -17,7 +17,7 @@ import javax.sound.sampled.*;
  *
  * @author joshuakaplan
  */
-public class MusicController {
+public class OldController {
     
     private static boolean playing = false;
     private static Track currentTrack;
