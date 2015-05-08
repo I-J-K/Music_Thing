@@ -91,7 +91,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void stopMusic(MouseEvent event) {
-        player.reset();
+        if(player!=null)player.reset();
         pauseSymbol.setVisible(false);
         playSymbol.setVisible(true);
         songList.requestFocus();
@@ -137,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void changeVolume(MouseEvent event){
-        player.setVolume(songVolumeBar.getValue());
+        if(player!=null)player.setVolume(songVolumeBar.getValue());
     }
     
     @FXML
