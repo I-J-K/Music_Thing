@@ -77,6 +77,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Polygon playSymbol;
     
+    private Main main;
+    
     private MusicPlayer player;
     private final JavafxPlayer jfxPlayer = new JavafxPlayer();
     private final MidiPlayer midiPlayer = new MidiPlayer();
@@ -311,5 +313,52 @@ public class FXMLDocumentController implements Initializable {
                 new PropertyValueFactory("length"));
         songList.setItems(MusicLibrary.getLibrary());
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+    
+    /**
+     * Called when the user clicks the edit button.
+     * Opens a dialog to edit details for the selected track.
+     */
+    @FXML
+    private void handleEditTrack() {
+        Track track = MusicLibrary.getSelectedTrack(songList);
+        if (track != null) {
+          boolean okClicked = main.showTrackEditDialog(track);
+          if (okClicked) {
+            refresh();
+          }
+
+        } else {
+          // Nothing selected.
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.initOwner(Main.getMainWindow());
+          alert.setTitle("No Selection");
+          alert.setHeaderText("No Track Selected");
+          alert.setContentText("Please select a track in the table.");
+
+          alert.showAndWait();
+        }
+    }
+
+    /**
+     * Refreshes the table. This is only necessary if an item that is already in
+     * the table is changed. New and deleted items are refreshed automatically.
+     * 
+     * This is a workaround because otherwise we would need to use property
+     * bindings in the model class and add a *property() method for each
+     * property. Maybe this will not be necessary in future versions of JavaFX
+     */
+    private void refresh() {
+      int selectedIndex = songList.getSelectionModel().getSelectedIndex();
+      //selectedIndex = MusicLibrary.getTrackNumber();
+      songList.setItems(null);
+      songList.layout();
+      songList.setItems(MusicLibrary.getLibrary());
+      // Must set the selected index again (see http://javafx-jira.kenai.com/browse/RT-26291)
+      songList.getSelectionModel().select(selectedIndex);
+    }
+    
+    public void setMain(Main main){
+        this.main = main;
     }
 }

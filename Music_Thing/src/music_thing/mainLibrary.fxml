@@ -180,6 +180,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
                   <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete" />
                </items>
             </Menu>
