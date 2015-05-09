@@ -36,6 +36,7 @@ public class Track implements java.io.Serializable{
         this.path = path;
         this.playCount = 0;
         this.type = type;
+        this.rating = 0.0;
         if(type==SongType.MP3){
             try{
                 AudioFile f = AudioFileIO.read(new File("music/"+path));
@@ -154,5 +155,20 @@ public class Track implements java.io.Serializable{
     public void setRating(Double rating) {
         this.rating = rating;
     }
-    
+
+    public String getComposer() {
+        return composer;
+    }
+
+    public void setComposer(String composer) {
+        this.composer = composer;
+    }
+
+    public String getTrackNumber() {
+        return trackNumber;
+    }
+
+    public void setTrackNumber(String trackNumber) {
+        this.trackNumber = trackNumber;
+    }    
 }
