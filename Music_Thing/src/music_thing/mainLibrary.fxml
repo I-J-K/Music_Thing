@@ -140,7 +140,7 @@
                <children>
                   <ListView layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children></AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <AnchorPane>
                <children>
                   <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" onMousePressed="#clickedTable" prefHeight="339.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   	<placeholder>
@@ -148,7 +148,7 @@
                   	</placeholder>
                      <columns>
                         <TableColumn fx:id="songCol" minWidth="20.0" prefWidth="-1.0" text="Song" />
-                        <TableColumn fx:id="timeCol" minWidth="30.0" prefWidth="75.0" text="Time" />
+                        <TableColumn fx:id="timeCol" minWidth="20.0" prefWidth="-1.0" text="Time" />
                         <TableColumn fx:id="artistCol" minWidth="20.0" prefWidth="-1.0" text="Artist" />
                         <TableColumn fx:id="albumCol" minWidth="20.0" prefWidth="-1.0" text="Album" />
                         <TableColumn fx:id="genreCol" minWidth="20.0" prefWidth="-1.0" text="Genre" />
@@ -183,6 +183,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
                   <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete" />
                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="View">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#toggleFulllscreen" text="Fullscreen" />
+              </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Share">
               <items>
