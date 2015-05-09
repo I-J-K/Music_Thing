@@ -177,19 +177,17 @@ public class FXMLDocumentController implements Initializable {
                     if(toDelete.size()==1)alert.setContentText("Are you sure you want to delete 1 track?");
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.OK){
-                        if(toDelete.contains(player.getCurrentTrack())){
+                        if(player!=null && toDelete.contains(player.getCurrentTrack())){
                             player.stop();
                         }
                         for(Track track: toDelete){
-                            //Files.delete(Paths.get("music/"+toDelete.getPath()));
-                            //MusicLibrary.removeTrack(toDelete);
                             Files.delete(Paths.get("music/"+track.getPath()));
                             MusicLibrary.removeTrack(track);
                         }
                         MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
                     }
                 }
-            }catch(Exception e){System.out.println(e);}
+            }catch(Exception e){}
             MusicLibrary.save();
         });
     }
