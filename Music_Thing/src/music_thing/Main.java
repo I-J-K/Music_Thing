@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -30,6 +29,8 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
         ((FXMLDocumentController)(loader.getController())).setMain(this);
+        stage.setMinWidth(600);
+        stage.setMinHeight(400);
         
     }
 
@@ -83,11 +84,7 @@ public class Main extends Application {
 
       } catch (Exception e) {
         // Exception gets thrown if the fxml file could not be loaded
-          e.printStackTrace();
         return false;
       }
     }
-    
-    //public Main(){}
-    
 }

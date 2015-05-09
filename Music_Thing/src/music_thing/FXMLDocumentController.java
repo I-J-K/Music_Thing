@@ -350,15 +350,18 @@ public class FXMLDocumentController implements Initializable {
      */
     private void refresh() {
       int selectedIndex = songList.getSelectionModel().getSelectedIndex();
-      //selectedIndex = MusicLibrary.getTrackNumber();
       songList.setItems(null);
       songList.layout();
       songList.setItems(MusicLibrary.getLibrary());
-      // Must set the selected index again (see http://javafx-jira.kenai.com/browse/RT-26291)
       songList.getSelectionModel().select(selectedIndex);
     }
     
     public void setMain(Main main){
         this.main = main;
+    }
+    
+    @FXML
+    public void toggleFulllscreen(ActionEvent event){
+        Main.getMainWindow().setFullScreen(!Main.getMainWindow().isFullScreen());
     }
 }
