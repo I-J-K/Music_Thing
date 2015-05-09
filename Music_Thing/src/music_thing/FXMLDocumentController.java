@@ -98,10 +98,34 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
+    private void nextSong(MouseEvent event){
+        if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
+            songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
+            MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+            if(player!=null && player.getPlaying()==true)play(event);
+        }else{
+            stopMusic(event);
+        }
+        songList.requestFocus();
+    }
+    
+    @FXML
+    private void prevSong(MouseEvent event){
+        if(MusicLibrary.getTrackNumber()>0){
+            songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()-1);
+            MusicLibrary.setTrack(MusicLibrary.getTrackNumber()-1);
+            if(player!=null && player.getPlaying()==true)play(event);
+        }else{
+            stopMusic(event);
+        }
+        songList.requestFocus();
+    }
+    
+    @FXML
     private void play(MouseEvent event) {
         if(MusicLibrary.size()>0){
             Track selectedTrack = MusicLibrary.getSelectedTrack(songList);
-            if(selectedTrack!=player.getCurrentTrack()){
+            if(player!=null && selectedTrack!=player.getCurrentTrack() || player==null){
                 SongType type = selectedTrack.getType();
                 if(player!=null)player.stop();
                 if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
