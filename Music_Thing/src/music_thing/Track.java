@@ -8,6 +8,9 @@ import java.io.*;
 import org.jaudiotagger.*;
 import org.jaudiotagger.audio.mp3.*;
 import org.jaudiotagger.audio.*;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.*;
 import org.jaudiotagger.tag.FieldKey.*;
 /**
@@ -46,7 +49,7 @@ public class Track implements java.io.Serializable{
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 this.trackNumber = tag.getFirst(FieldKey.TRACK);
                 this.length = new TimeFormat(f.getAudioHeader().getTrackLength());
-            }catch (Exception e){}  
+            }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e){}  
         }
         else if(type==SongType.FLAC){
             try{
@@ -61,7 +64,7 @@ public class Track implements java.io.Serializable{
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 //this.trackNumber = tag.getFirst(FieldKey.TRACKNUMBER);
                 this.length = new TimeFormat(f.getAudioHeader().getTrackLength());
-            }catch (Exception e){}  
+            }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e){}  
         }
         if(this.name == null || this.name.equals("")){
                 this.name = path.substring(0,path.lastIndexOf('.'));
