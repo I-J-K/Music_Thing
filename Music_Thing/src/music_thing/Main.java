@@ -69,6 +69,7 @@ public class Main extends Application {
         dialogStage.initOwner(mainWindow);
         Scene scene = new Scene(page);
         dialogStage.setScene(scene);
+        dialogStage.setResizable(false);
 
         // Set the person into the controller
         EditTrackController controller = loader.getController();
