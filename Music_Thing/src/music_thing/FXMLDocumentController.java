@@ -11,12 +11,17 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -24,10 +29,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.DragEvent;
@@ -36,9 +44,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polygon;
+import javafx.util.Callback;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.controlsfx.control.Rating;
 
 /**
  *
@@ -76,6 +86,8 @@ public class FXMLDocumentController implements Initializable {
     private HBox pauseSymbol;
     @FXML
     private Polygon playSymbol;
+    @FXML
+    private MenuItem menuPlay;
     
     private Main main;
     
@@ -92,15 +104,16 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void stopMusic(MouseEvent event) {
+    private void stopMusic(Event event) {
         if(player!=null)player.reset();
         pauseSymbol.setVisible(false);
         playSymbol.setVisible(true);
+        menuPlay.setText("Play");
         songList.requestFocus();
     }
     
     @FXML
-    private void nextSong(MouseEvent event){
+    private void nextSong(Event event){
         if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
             songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
             MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
@@ -112,7 +125,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void prevSong(MouseEvent event){
+    private void prevSong(Event event){
         if(MusicLibrary.getTrackNumber()>0){
             songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()-1);
             MusicLibrary.setTrack(MusicLibrary.getTrackNumber()-1);
@@ -124,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void play(MouseEvent event) {
+    private void play(Event event) {
         if(MusicLibrary.size()>0){
             Track selectedTrack = MusicLibrary.getSelectedTrack(songList);
             if(player!=null && selectedTrack!=player.getCurrentTrack() || player==null){
@@ -142,14 +155,17 @@ public class FXMLDocumentController implements Initializable {
                 player.play(selectedTrack, songVolumeBar.getValue());
                 pauseSymbol.setVisible(true);
                 playSymbol.setVisible(false);
+                menuPlay.setText("Pause");
             }else if(player.getPlaying() && MusicLibrary.getSelectedTrack(songList)!=player.getCurrentTrack()){
                 player.play(selectedTrack, songVolumeBar.getValue());
                 pauseSymbol.setVisible(true);
                 playSymbol.setVisible(false);
+                menuPlay.setText("Pause");
             }else{
                 player.pause();
                 pauseSymbol.setVisible(false);
                 playSymbol.setVisible(true);
+                menuPlay.setText("Play");
             }
             songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
             songList.requestFocus();
@@ -162,12 +178,12 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void changeVolume(MouseEvent event){
+    private void changeVolume(Event event){
         if(player!=null)player.setVolume(songVolumeBar.getValue());
     }
     
     @FXML
-    private void deleteFile(ActionEvent event){
+    private void deleteFile(Event event){
         Platform.runLater(() -> {
             try{
                 HashSet<Track> toDelete = new HashSet(songList.getSelectionModel().getSelectedItems());
@@ -263,26 +279,24 @@ public class FXMLDocumentController implements Initializable {
         if(file.isFile()){
             File copyTo =  new File("music/"+file.getName());
             try{
-                if(!copyTo.exists()){
-                    if(file.getName().toLowerCase().endsWith("mp3")){
-                        Files.copy(file.toPath(), copyTo.toPath());
-                        MusicLibrary.addSong(new Track(SongType.MP3, file.getName()));
-                    }else if(file.getName().toLowerCase().endsWith("mid")){
-                        Files.copy(file.toPath(), copyTo.toPath());
-                        MusicLibrary.addSong(new Track(SongType.MIDI, file.getName()));
-                    }else if(file.getName().toLowerCase().endsWith("m4a")){
-                        Files.copy(file.toPath(), copyTo.toPath());
-                        MusicLibrary.addSong(new Track(SongType.AAC, file.getName()));
-                    }else if(file.getName().toLowerCase().endsWith("aiff")){
-                        Files.copy(file.toPath(), copyTo.toPath());
-                        MusicLibrary.addSong(new Track(SongType.AIFF, file.getName()));
-                    }else if(file.getName().toLowerCase().endsWith("wav")){
-                        Files.copy(file.toPath(), copyTo.toPath());
-                        MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
-                    }else if(file.getName().toLowerCase().endsWith("flac")){
-                        Files.copy(file.toPath(), copyTo.toPath());
-                        MusicLibrary.addSong(new Track(SongType.FLAC, file.getName()));
-                    }
+                if(file.getName().toLowerCase().endsWith("mp3")){
+                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
+                    MusicLibrary.addSong(new Track(SongType.MP3, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("mid")){
+                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
+                    MusicLibrary.addSong(new Track(SongType.MIDI, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("m4a")){
+                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
+                    MusicLibrary.addSong(new Track(SongType.AAC, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("aiff")){
+                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
+                    MusicLibrary.addSong(new Track(SongType.AIFF, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("wav")){
+                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
+                    MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
+                }else if(file.getName().toLowerCase().endsWith("flac")){
+                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
+                    MusicLibrary.addSong(new Track(SongType.FLAC, file.getName()));
                 }
             }catch (Exception e){}
             
@@ -292,51 +306,30 @@ public class FXMLDocumentController implements Initializable {
         
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        MusicLibrary.load();
-        File music = new File("music");
-        if(!music.exists())music.mkdir();
-        songCol.setCellValueFactory(
-                new PropertyValueFactory("name"));
-        artistCol.setCellValueFactory(
-                new PropertyValueFactory("artist"));
-        albumCol.setCellValueFactory(
-                new PropertyValueFactory("album"));
-        genreCol.setCellValueFactory(
-                new PropertyValueFactory("genre"));
-        ratingCol.setCellValueFactory(
-                new PropertyValueFactory("rating"));
-        playcountCol.setCellValueFactory(
-                new PropertyValueFactory("playCount"));
-        timeCol.setCellValueFactory(
-                new PropertyValueFactory("length"));
-        songList.setItems(MusicLibrary.getLibrary());
-        songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-    }
-    
     /**
      * Called when the user clicks the edit button.
      * Opens a dialog to edit details for the selected track.
      */
     @FXML
     private void handleEditTrack() {
-        Track track = MusicLibrary.getSelectedTrack(songList);
-        if (track != null) {
-          boolean okClicked = main.showTrackEditDialog(track);
-          if (okClicked) {
-            refresh();
-          }
+        if(MusicLibrary.size()>0){
+            Track track = MusicLibrary.getSelectedTrack(songList);
+            if (track != null) {
+              boolean okClicked = main.showTrackEditDialog(track);
+              if (okClicked) {
+                refresh();
+              }
 
-        } else {
-          // Nothing selected.
-          Alert alert = new Alert(AlertType.WARNING);
-          alert.initOwner(Main.getMainWindow());
-          alert.setTitle("No Selection");
-          alert.setHeaderText("No Track Selected");
-          alert.setContentText("Please select a track in the table.");
+            } else {
+              // Nothing selected.
+              Alert alert = new Alert(AlertType.WARNING);
+              alert.initOwner(Main.getMainWindow());
+              alert.setTitle("No Selection");
+              alert.setHeaderText("No Track Selected");
+              alert.setContentText("Please select a track in the table.");
 
-          alert.showAndWait();
+              alert.showAndWait();
+            }
         }
     }
 
@@ -363,5 +356,45 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void toggleFulllscreen(ActionEvent event){
         Main.getMainWindow().setFullScreen(!Main.getMainWindow().isFullScreen());
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        MusicLibrary.load();
+        File music = new File("music");
+        if(!music.exists())music.mkdir();
+        songCol.setCellValueFactory(
+                new PropertyValueFactory("name"));
+        artistCol.setCellValueFactory(
+                new PropertyValueFactory("artist"));
+        albumCol.setCellValueFactory(
+                new PropertyValueFactory("album"));
+        genreCol.setCellValueFactory(
+                new PropertyValueFactory("genre"));
+        ratingCol.setCellValueFactory(
+                new PropertyValueFactory("rating"));
+        playcountCol.setCellValueFactory(
+                new PropertyValueFactory("playCount"));
+        timeCol.setCellValueFactory(
+                new PropertyValueFactory("length"));
+        //        ratingCol.setCellFactory(new Callback<TableColumn<Track,Double>,TableCell<Track,Double>>() {
+        //            @Override
+        //            public TableCell<Track, Double> call(TableColumn<Track,Double> param){
+        //                TableCell<Track, Double> cell = new TableCell<Track, Double>(){
+        //                    @Override
+        //                    public void updateItem(Double d, boolean empty){
+        //                        if(d != null){
+        //                            Rating rating = new Rating();
+        //                            rating.setRating(d);
+        //                            rating.autosize();
+        //                            setGraphic(rating);
+        //                        }
+        //                    }
+        //                };
+        //                return cell;
+        //            }
+        //        }); 
+        songList.setItems(MusicLibrary.getLibrary());
+        songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 }

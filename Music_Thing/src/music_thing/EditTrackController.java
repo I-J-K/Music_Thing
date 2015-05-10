@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.controlsfx.control.Rating;
 
 /**
  * FXML Controller class
@@ -31,7 +32,7 @@ public class EditTrackController implements Initializable {
     @FXML
     private TextField editAlbum;
     @FXML
-    private TextField editRating;
+    private Rating editRating;
     
     private Track track;
     private Stage dialogStage;
@@ -58,22 +59,15 @@ public class EditTrackController implements Initializable {
      */
     @FXML
     private void handleOk() {
-        if (isInputValid()) {
-            track.setName(editName.getText());
-            track.setArtist(editArtist.getText());
-            track.setComposer(editComposer.getText());
-            track.setAlbum(editAlbum.getText());
-            track.setGenre(editGenre.getText());
-            String rating = editRating.getText();
-            if(rating!=null && !rating.equals("")){
-                track.setRating(new Double(editRating.getText()));
-            }else{
-                track.setRating(0.0);
-            }
-            
-            okClicked = true;
-            dialogStage.close();
-        }
+        track.setName(editName.getText());
+        track.setArtist(editArtist.getText());
+        track.setComposer(editComposer.getText());
+        track.setAlbum(editAlbum.getText());
+        track.setGenre(editGenre.getText());
+        track.setRating(editRating.getRating());
+
+        okClicked = true;
+        dialogStage.close();
     }
 
     /**
@@ -91,26 +85,13 @@ public class EditTrackController implements Initializable {
         editComposer.setText(track.getComposer());
         editGenre.setText(track.getGenre());
         editAlbum.setText(track.getAlbum());
-        editRating.setText(track.getRating().toString());
+        editRating.setRating(track.getRating());
     }
-    
-    private boolean isInputValid() {
-        try{
-            if(editRating.getText()!=null && !editRating.getText().equals(""))Double.parseDouble(editRating.getText());
-            return true;
-        }catch(Exception e){
-            System.out.println(e);
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.initOwner(dialogStage);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText("Rating is not a number");
-            return false;
-        }
-    }
-    
+
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
