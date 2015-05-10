@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.*?>
@@ -142,7 +144,7 @@
                </children></AnchorPane>
             <AnchorPane>
                <children>
-                  <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" onMousePressed="#clickedTable" prefHeight="339.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" onMousePressed="#clickedTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   	<placeholder>
                   		<Label text="No Music In Library" />
                   	</placeholder>
@@ -170,7 +172,10 @@
             <Menu mnemonicParsing="false" text="Music Library">
               <items>
                 <MenuItem mnemonicParsing="false" text="Preferences" />
-                  <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit" />
+                  <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="File">
@@ -178,15 +183,29 @@
                   <MenuItem fx:id="fileImport" mnemonicParsing="false" onAction="#importFromMenu" text="Import" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
+            <Menu mnemonicParsing="false" text="Track">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
-                  <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete" />
+                  <MenuItem fx:id="menuPlay" mnemonicParsing="false" onAction="#play" text="Play">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="P" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />
+                  <MenuItem mnemonicParsing="false" onAction="#nextSong" text="Next" />
+                  <MenuItem mnemonicParsing="false" onAction="#prevSong" text="Previous" />
+                  <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="BACK_SPACE" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="View">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#toggleFulllscreen" text="Fullscreen" />
+                <MenuItem mnemonicParsing="false" onAction="#toggleFulllscreen" text="Fullscreen">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Share">
