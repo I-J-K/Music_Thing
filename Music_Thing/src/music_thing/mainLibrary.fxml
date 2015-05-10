@@ -57,7 +57,20 @@
                      </HBox.margin>
                   </Button>
                   <Slider fx:id="songVolumeBar" blockIncrement="0.01" max="1.0" onMouseDragged="#changeVolume" prefHeight="8.0" prefWidth="136.0" value="1.0" />
-                  <Label fx:id="songTime" text="Label" />
+                  <Group>
+                     <children>
+                        <Label fx:id="songTime" alignment="CENTER_RIGHT" text=" : ">
+                           <padding>
+                              <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Label>
+                        <Label text="Label">
+                           <padding>
+                              <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </Group>
                </children>
             </HBox>
          </children>
