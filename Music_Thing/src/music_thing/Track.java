@@ -5,6 +5,7 @@
  */
 package music_thing;
 import java.io.*;
+import javafx.beans.property.DoubleProperty;
 import org.jaudiotagger.*;
 import org.jaudiotagger.audio.mp3.*;
 import org.jaudiotagger.audio.*;
