@@ -5,9 +5,13 @@
  */
 package music_thing;
 import java.io.*;
+import javafx.beans.property.DoubleProperty;
 import org.jaudiotagger.*;
 import org.jaudiotagger.audio.mp3.*;
 import org.jaudiotagger.audio.*;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.*;
 import org.jaudiotagger.tag.FieldKey.*;
 /**
@@ -33,6 +37,7 @@ public class Track implements java.io.Serializable{
         this.path = path;
         this.playCount = 0;
         this.type = type;
+        this.rating = 0.0;
         if(type==SongType.MP3){
             try{
                 AudioFile f = AudioFileIO.read(new File("music/"+path));
@@ -46,7 +51,7 @@ public class Track implements java.io.Serializable{
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 this.trackNumber = tag.getFirst(FieldKey.TRACK);
                 this.length = new TimeFormat(f.getAudioHeader().getTrackLength());
-            }catch (Exception e){}  
+            }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e){}  
         }
         else if(type==SongType.FLAC){
             try{
@@ -61,7 +66,7 @@ public class Track implements java.io.Serializable{
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 //this.trackNumber = tag.getFirst(FieldKey.TRACKNUMBER);
                 this.length = new TimeFormat(f.getAudioHeader().getTrackLength());
-            }catch (Exception e){}  
+            }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e){}  
         }
         if(this.name == null || this.name.equals("")){
                 this.name = path.substring(0,path.lastIndexOf('.'));
@@ -151,5 +156,20 @@ public class Track implements java.io.Serializable{
     public void setRating(Double rating) {
         this.rating = rating;
     }
-    
+
+    public String getComposer() {
+        return composer;
+    }
+
+    public void setComposer(String composer) {
+        this.composer = composer;
+    }
+
+    public String getTrackNumber() {
+        return trackNumber;
+    }
+
+    public void setTrackNumber(String trackNumber) {
+        this.trackNumber = trackNumber;
+    }    
 }
