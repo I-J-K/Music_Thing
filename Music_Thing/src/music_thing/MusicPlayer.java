@@ -17,7 +17,7 @@ package music_thing;
 public abstract class MusicPlayer {
     private static boolean playing = false;
     private static Track currentTrack;
-    
+    private static int currentTime;
     
     public void setPlaying(boolean bool){
         playing = bool;
@@ -35,6 +35,14 @@ public abstract class MusicPlayer {
         return currentTrack;
     }
     
+    public void setCurrentTime(int time){
+        currentTime = time;
+    }
+    
+    public int getCurrentTime(){
+        return currentTime;
+    }
+    
     public abstract void reset();
     
     public abstract void play(Track track, double volume);
@@ -45,7 +53,7 @@ public abstract class MusicPlayer {
     
     public abstract void setVolume(double volume);
     
-    public abstract double getCurrentTime();
+    public abstract double getSongTime();
     
     public abstract void setSong(Track track);
 }
