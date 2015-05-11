@@ -18,6 +18,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  * 
  */
 public abstract class MusicPlayer {
+    private static int playTime;
     private static boolean playing = false;
     private static Track currentTrack;
     private static IntegerProperty currentTime = new SimpleIntegerProperty();
@@ -63,4 +64,5 @@ public abstract class MusicPlayer {
     public abstract double getSongTime();
     
     public abstract void setSong(Track track);
+   
 }
