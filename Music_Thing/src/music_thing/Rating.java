@@ -41,7 +41,7 @@ public class Rating extends HBox{
         for(int i = 0; i<5; i++){
             Label t = new Label("⋆");
             t.setFont(Font.font(31));
-            t.setTextFill(Color.BLACK);
+            t.setTextFill(Color.GRAY);
             t.setOnMouseClicked(new EventHandler(){
                 @Override
                 public void handle(Event event) {
@@ -64,7 +64,7 @@ public class Rating extends HBox{
             while(stars.size()<max){
                Label t = new Label("⋆");
             t.setFont(Font.font(31));
-            t.setTextFill(Color.BLACK);
+            t.setTextFill(Color.GRAY);
             stars.add(t);
             getChildren().add(t); 
             }
@@ -74,10 +74,10 @@ public class Rating extends HBox{
     public void setRating(int rating){
         if(rating>=0 && rating<=stars.size()){
             for(int i=0; i<rating; i++){
-                stars.get(i).setTextFill(Color.YELLOW);
+                stars.get(i).setTextFill(Color.BLACK);
             }
             for(int i=rating; i<stars.size(); i++){
-                stars.get(i).setTextFill(Color.BLACK);
+                stars.get(i).setTextFill(Color.GRAY);
             }
         }
         this.rating.set(rating);
