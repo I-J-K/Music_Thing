@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.*?>
@@ -17,6 +19,41 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#prevSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                     <graphic>
+                        <Group rotate="180.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5">
+                           <children>
+                              <Pane prefHeight="127.0" prefWidth="107.0">
+                                 <children>
+                                    <Polygon layoutX="38.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                       <points>
+                                          <Double fx:value="-50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="0.0" />
+                                          <Double fx:value="-60.0" />
+                                       </points>
+                                    </Polygon>
+                                    <Polygon layoutX="80.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                       <points>
+                                          <Double fx:value="-50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="0.0" />
+                                          <Double fx:value="-60.0" />
+                                       </points>
+                                    </Polygon>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Group>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-5.0" right="-5.0" top="-20.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button fx:id="play" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Group scaleX="0.7" scaleY="0.7" scaleZ="0.7">
@@ -45,12 +82,47 @@
                         </Group>
                      </graphic>
                      <HBox.margin>
-                        <Insets bottom="-20.0" left="-5.0" right="-5.0" top="-20.0" />
+                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
                   <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#stopMusic" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#nextSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                     <graphic>
+                        <Group scaleX="0.5" scaleY="0.5" scaleZ="0.5">
+                           <children>
+                              <Pane prefHeight="127.0" prefWidth="107.0">
+                                 <children>
+                                    <Polygon layoutX="38.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                       <points>
+                                          <Double fx:value="-50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="0.0" />
+                                          <Double fx:value="-60.0" />
+                                       </points>
+                                    </Polygon>
+                                    <Polygon layoutX="80.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                       <points>
+                                          <Double fx:value="-50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="50.0" />
+                                          <Double fx:value="40.0" />
+                                          <Double fx:value="0.0" />
+                                          <Double fx:value="-60.0" />
+                                       </points>
+                                    </Polygon>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Group>
                      </graphic>
                      <HBox.margin>
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
@@ -83,15 +155,15 @@
                <children>
                   <ListView layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children></AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <AnchorPane>
                <children>
-                  <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" onMousePressed="#clickedTable" prefHeight="339.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" onMousePressed="#clickedTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   	<placeholder>
                   		<Label text="No Music In Library" />
                   	</placeholder>
                      <columns>
                         <TableColumn fx:id="songCol" minWidth="20.0" prefWidth="-1.0" text="Song" />
-                        <TableColumn fx:id="timeCol" minWidth="30.0" prefWidth="75.0" text="Time" />
+                        <TableColumn fx:id="timeCol" minWidth="20.0" prefWidth="-1.0" text="Time" />
                         <TableColumn fx:id="artistCol" minWidth="20.0" prefWidth="-1.0" text="Artist" />
                         <TableColumn fx:id="albumCol" minWidth="20.0" prefWidth="-1.0" text="Album" />
                         <TableColumn fx:id="genreCol" minWidth="20.0" prefWidth="-1.0" text="Genre" />
@@ -113,7 +185,10 @@
             <Menu mnemonicParsing="false" text="Music Library">
               <items>
                 <MenuItem mnemonicParsing="false" text="Preferences" />
-                  <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit" />
+                  <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="File">
@@ -121,10 +196,30 @@
                   <MenuItem fx:id="fileImport" mnemonicParsing="false" onAction="#importFromMenu" text="Import" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
+            <Menu mnemonicParsing="false" text="Track">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
+                  <MenuItem fx:id="menuPlay" mnemonicParsing="false" onAction="#play" text="Play">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="P" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />
+                  <MenuItem mnemonicParsing="false" onAction="#nextSong" text="Next" />
+                  <MenuItem mnemonicParsing="false" onAction="#prevSong" text="Previous" />
+                  <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="BACK_SPACE" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="View">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#toggleFulllscreen" text="Fullscreen">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+              </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Share">
               <items>
