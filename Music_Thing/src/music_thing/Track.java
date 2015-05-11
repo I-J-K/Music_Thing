@@ -172,4 +172,23 @@ public class Track implements java.io.Serializable{
     public void setTrackNumber(String trackNumber) {
         this.trackNumber = trackNumber;
     }    
+    
+    public void saveTags(){
+        AudioFile f = AudioFileIO.read(track);
+        Tag tag = f.getTag();
+        tag.setField(FieldKey.TITLE,name);
+        tag.setField(FieldKey.ARTIST,artist);
+        tag.setField(FieldKey.ALBUM,album);
+        tag.setField(FieldKey.GENRE,genre);
+        tag.setField(FieldKey.COMPOSER,composer);
+        AudioFileIO.write(f);
+    }
 }
+
+
+               /* this.name = tag.getFirst(FieldKey.TITLE);
+                this.artist = tag.getFirst(FieldKey.ARTIST);
+                this.album = tag.getFirst(FieldKey.ALBUM);
+                this.genre = tag.getFirst(FieldKey.GENRE);
+                this.composer = tag.getFirst(FieldKey.COMPOSER);
+                this.trackNumber = tag.getFirst(FieldKey.TRACK);*/
