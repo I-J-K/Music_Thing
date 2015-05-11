@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.controlsfx.control.Rating;
 
 /**
  * FXML Controller class
@@ -62,7 +61,7 @@ public class EditTrackController implements Initializable {
         track.setComposer(editComposer.getText());
         track.setAlbum(editAlbum.getText());
         track.setGenre(editGenre.getText());
-        track.setRating(editRating.getRating());
+        track.setRating(new Double(editRating.getRating()));
 
         okClicked = true;
         dialogStage.close();
@@ -83,7 +82,7 @@ public class EditTrackController implements Initializable {
         editComposer.setText(track.getComposer());
         editGenre.setText(track.getGenre());
         editAlbum.setText(track.getAlbum());
-        editRating.setRating(track.getRating());
+        editRating.setRating(track.getRating().intValue());
     }
 
     /**
