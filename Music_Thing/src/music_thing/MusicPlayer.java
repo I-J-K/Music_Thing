@@ -16,7 +16,6 @@ package music_thing;
  */
 public abstract class MusicPlayer {
     private static int playTime;
-    public final long oneSecond = 1000;
     private static boolean playing = false;
     private static Track currentTrack;
     
@@ -58,15 +57,5 @@ public abstract class MusicPlayer {
     public abstract double getCurrentTime();
     
     public abstract void setSong(Track track);
-    
-    public void count(){
-        try{
-            synchronized(this){
-                while(getPlaying()){
-                    this.wait(oneSecond);
-                    playTime++;
-                } 
-            } 
-        }catch(InterruptedException i){}
-    }
+   
 }
