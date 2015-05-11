@@ -174,7 +174,7 @@ public class Track implements java.io.Serializable{
     }    
     
     public void saveTags(){
-        AudioFile f = AudioFileIO.read(track);
+        try{AudioFile f = AudioFileIO.read(new File("music/"+path));
         Tag tag = f.getTag();
         tag.setField(FieldKey.TITLE,name);
         tag.setField(FieldKey.ARTIST,artist);
@@ -182,6 +182,8 @@ public class Track implements java.io.Serializable{
         tag.setField(FieldKey.GENRE,genre);
         tag.setField(FieldKey.COMPOSER,composer);
         AudioFileIO.write(f);
+        }catch(Exception e){}
+        
     }
 }
 
