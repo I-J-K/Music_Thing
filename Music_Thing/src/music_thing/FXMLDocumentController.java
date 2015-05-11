@@ -21,6 +21,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -184,6 +185,12 @@ public class FXMLDocumentController implements Initializable {
             }, 1000, 0);
             timeBar.setMin(0);
             timeBar.setMax(selectedTrack.getLength().toSeconds());
+            player.getTimeProperty().addListener(new ChangeListener(){
+                @Override
+                public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                     timeBar.setValue(((IntegerProperty)newValue).doubleValue());
+                }
+            });
             songList.requestFocus();
         }
     }
