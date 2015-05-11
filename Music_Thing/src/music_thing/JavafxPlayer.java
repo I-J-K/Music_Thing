@@ -49,7 +49,8 @@ public class JavafxPlayer extends MusicPlayer{
         
         setPlayTime(0);
         setPlaying(true);
-        count();
+        Counter c = new Counter();
+        c.count();
         setCurrentTrack(track);
         setVolume(volume);
     }
@@ -75,19 +76,4 @@ public class JavafxPlayer extends MusicPlayer{
             mp3player.setVolume(volume);
         }
     }
-    
-    @Override
-    public void count(){
-        int time = getPlayTime();
-        try{
-            synchronized(this){
-                while(getPlaying()){
-                    this.wait(oneSecond);
-                    setPlayTime(time + 1);
-                    time++;
-                } 
-            } 
-        }catch(InterruptedException i){}
-    }
-    
 }
