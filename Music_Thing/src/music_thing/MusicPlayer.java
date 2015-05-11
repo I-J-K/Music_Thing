@@ -20,19 +20,19 @@ public abstract class MusicPlayer {
     private static Track currentTrack;
     
     
-    public static void setPlaying(boolean bool){
+    public void setPlaying(boolean bool){
         playing = bool;
     }
     
-    public static void setCurrentTrack(Track track){
+    public void setCurrentTrack(Track track){
         currentTrack = track;
     }
     
-    public static boolean getPlaying(){
+    public boolean getPlaying(){
         return playing;
     }
 
-    public static Track getCurrentTrack() {
+    public Track getCurrentTrack() {
         return currentTrack;
     }
     
