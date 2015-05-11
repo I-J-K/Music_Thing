@@ -62,7 +62,7 @@ public class EditTrackController implements Initializable {
         track.setAlbum(editAlbum.getText());
         track.setGenre(editGenre.getText());
         track.setRating(new Double(editRating.getRating()));
-
+        track.saveTags();
         okClicked = true;
         dialogStage.close();
     }
