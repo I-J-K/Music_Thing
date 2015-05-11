@@ -42,7 +42,7 @@ public class ClipPlayer extends MusicPlayer{
     }
     
     @Override
-    public double getCurrentTime(){
+    public double getSongTime(){
         if(flacPlayer!=null){
             return flacPlayer.getMicrosecondPosition()/1000000.0;
         }
