@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -28,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,10 +40,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polygon;
+import javafx.util.Callback;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.controlsfx.control.Rating;
 
 /**
  *
@@ -369,23 +372,28 @@ public class FXMLDocumentController implements Initializable {
                 new PropertyValueFactory("playCount"));
         timeCol.setCellValueFactory(
                 new PropertyValueFactory("length"));
-        //        ratingCol.setCellFactory(new Callback<TableColumn<Track,Double>,TableCell<Track,Double>>() {
-        //            @Override
-        //            public TableCell<Track, Double> call(TableColumn<Track,Double> param){
-        //                TableCell<Track, Double> cell = new TableCell<Track, Double>(){
-        //                    @Override
-        //                    public void updateItem(Double d, boolean empty){
-        //                        if(d != null){
-        //                            Rating rating = new Rating();
-        //                            rating.setRating(d);
-        //                            rating.autosize();
-        //                            setGraphic(rating);
-        //                        }
-        //                    }
-        //                };
-        //                return cell;
-        //            }
-        //        }); 
+                ratingCol.setCellFactory(new Callback<TableColumn<Track,Double>,TableCell<Track,Double>>() {
+                    @Override
+                    public TableCell<Track, Double> call(TableColumn<Track,Double> param){
+                        TableCell<Track, Double> cell = new TableCell<Track, Double>(){
+                            @Override
+                            public void updateItem(Double d, boolean empty){
+                                if(d != null){
+                                    Rating rating = new Rating();
+                                    rating.setRating(d.intValue());
+                                    rating.getRatingProperty().addListener(new ChangeListener(){
+                                        @Override
+                                        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                                             MusicLibrary.getLibrary().get(getIndex()).setRating(((Integer)newValue).doubleValue());
+                                        }
+                                    });
+                                    setGraphic(rating);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                }); 
         songList.setItems(MusicLibrary.getLibrary());
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
