@@ -33,7 +33,7 @@ public class JavafxPlayer extends MusicPlayer{
     }
     
     @Override
-    public double getCurrentTime(){
+    public double getSongTime(){
         if(mp3player!=null && mp3!=null){
             return mp3player.getCurrentTime().toSeconds();
         }

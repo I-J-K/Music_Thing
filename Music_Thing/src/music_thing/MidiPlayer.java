@@ -45,7 +45,7 @@ public class MidiPlayer extends MusicPlayer{
     }
     
     @Override
-    public double getCurrentTime(){
+    public double getSongTime(){
         if(midiSequence!=null && midiSequencer!=null){
             return midiSequencer.getMicrosecondPosition()/1000000.0;
         }

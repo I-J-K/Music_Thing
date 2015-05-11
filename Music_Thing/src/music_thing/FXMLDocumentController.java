@@ -15,6 +15,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,6 +46,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polygon;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -83,6 +89,8 @@ public class FXMLDocumentController implements Initializable {
     private Polygon playSymbol;
     @FXML
     private MenuItem menuPlay;
+    @FXML
+    private Slider timeBar;
     
     private Main main;
     
@@ -163,6 +171,19 @@ public class FXMLDocumentController implements Initializable {
                 menuPlay.setText("Play");
             }
             songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
+            
+            Timer timer = new java.util.Timer();
+
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                     Platform.runLater(() -> {
+                         player.setCurrentTime((int)(player.getSongTime()));
+                     });
+                }
+            }, 1000, 0);
+            timeBar.setMin(0);
+            timeBar.setMax(selectedTrack.getLength().toSeconds());
             songList.requestFocus();
         }
     }
