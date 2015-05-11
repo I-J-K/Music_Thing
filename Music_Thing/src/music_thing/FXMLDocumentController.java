@@ -62,6 +62,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label songTime;
     @FXML
+    private Label defaultTimeLabel;
+    @FXML
     private Slider songVolumeBar;
     @FXML
     private TableColumn<Track,String> songCol;
@@ -162,6 +164,10 @@ public class FXMLDocumentController implements Initializable {
                 playSymbol.setVisible(true);
                 menuPlay.setText("Play");
             }
+            defaultTimeLabel.setVisible(false);
+            songTime.setVisible(true);
+            songTime.setText("a");
+            
             songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
             songList.requestFocus();
         }
