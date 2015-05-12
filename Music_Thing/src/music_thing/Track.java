@@ -8,11 +8,16 @@ import java.io.*;
 import javafx.beans.property.DoubleProperty;
 import org.jaudiotagger.*;
 import org.jaudiotagger.audio.mp3.*;
+import org.jaudiotagger.audio.flac.*;
+
+
 import org.jaudiotagger.audio.*;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.*;
+import org.jaudiotagger.ogg.util.*;
+import org.jaudiotagger.tag.flac.FlacTag;
 import org.jaudiotagger.tag.FieldKey.*;
 /**
  *
@@ -21,11 +26,14 @@ import org.jaudiotagger.tag.FieldKey.*;
 public class Track implements java.io.Serializable{
     private String name;
     private String artist;
+    private String albumArtist;
     private String album;
+    
     private String genre;
     private String composer;
     private String trackNumber;
     private Double rating;
+    private String year;
     
     private SongType type;
     private TimeFormat length;
@@ -38,36 +46,23 @@ public class Track implements java.io.Serializable{
         this.playCount = 0;
         this.type = type;
         this.rating = 0.0;
-        if(type==SongType.MP3){
-            try{
-                AudioFile f = AudioFileIO.read(new File("music/"+path));
-                Tag tag = f.getTag();
-                AudioHeader ah = f.getAudioHeader();
+        try{
+            AudioFile f = AudioFileIO.read(new File("music/"+path));
+            Tag tag = f.getTag();
+            AudioHeader ah = f.getAudioHeader();
 
-                this.name = tag.getFirst(FieldKey.TITLE);
-                this.artist = tag.getFirst(FieldKey.ARTIST);
-                this.album = tag.getFirst(FieldKey.ALBUM);
-                this.genre = tag.getFirst(FieldKey.GENRE);
-                this.composer = tag.getFirst(FieldKey.COMPOSER);
-                this.trackNumber = tag.getFirst(FieldKey.TRACK);
-                this.length = new TimeFormat(f.getAudioHeader().getTrackLength());
-            }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e){}  
-        }
-        else if(type==SongType.FLAC){
-            try{
-                AudioFile f = AudioFileIO.read(new File("music/"+path));
-                Tag tag = f.getTag();
-                AudioHeader ah = f.getAudioHeader();
-
-                this.name = tag.getFirst(FieldKey.TITLE);
-                this.artist = tag.getFirst(FieldKey.ARTIST);
-                this.album = tag.getFirst(FieldKey.ALBUM);
-                this.genre = tag.getFirst(FieldKey.GENRE);
-                this.composer = tag.getFirst(FieldKey.COMPOSER);
-                //this.trackNumber = tag.getFirst(FieldKey.TRACKNUMBER);
-                this.length = new TimeFormat(f.getAudioHeader().getTrackLength());
-            }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e){}  
-        }
+            this.name = tag.getFirst(FieldKey.TITLE);
+            this.artist = tag.getFirst(FieldKey.ARTIST);
+            this.albumArtist = tag.getFirst(FieldKey.ALBUM_ARTIST);
+            this.album = tag.getFirst(FieldKey.ALBUM);
+            this.genre = tag.getFirst(FieldKey.GENRE);
+            this.composer = tag.getFirst(FieldKey.COMPOSER);
+            this.trackNumber = tag.getFirst(FieldKey.TRACK);
+            this.year = tag.getFirst(FieldKey.YEAR);            
+            this.length = new TimeFormat(f.getAudioHeader().getTrackLength());
+        }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e){}  
+    
+        
         if(this.name == null || this.name.equals("")){
                 this.name = path.substring(0,path.lastIndexOf('.'));
         }
