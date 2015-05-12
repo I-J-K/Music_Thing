@@ -18,6 +18,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
     private static Stage mainWindow;
+    private static FXMLDocumentController mainController;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,6 +30,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
         ((FXMLDocumentController)(loader.getController())).setMain(this);
+        mainController=loader.getController();
         stage.setMinWidth(600);
         stage.setMinHeight(400);
         
@@ -36,7 +38,7 @@ public class Main extends Application {
 
     @Override
     public void stop(){
-        OldController.stop();
+        if(mainController.getPlayer()!=null)mainController.getPlayer().stop();
         MusicLibrary.save();
     }
     

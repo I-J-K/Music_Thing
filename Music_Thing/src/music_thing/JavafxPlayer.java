@@ -20,6 +20,11 @@ public class JavafxPlayer extends MusicPlayer{
     private static Media mp3;
     
     @Override
+    public int getSongLength(){
+        return (int) mp3.getDuration().toSeconds();
+    }
+    
+    @Override
     public void reset(){
         setSong(getCurrentTrack());
     }
@@ -33,7 +38,7 @@ public class JavafxPlayer extends MusicPlayer{
     }
     
     @Override
-    public double getCurrentTime(){
+    public double getSongTime(){
         if(mp3player!=null && mp3!=null){
             return mp3player.getCurrentTime().toSeconds();
         }
@@ -46,8 +51,7 @@ public class JavafxPlayer extends MusicPlayer{
             setSong(track);
         }
         mp3player.play();
-        
-        setPlayTime(0);
+
         setPlaying(true);
         setCurrentTrack(track);
         setVolume(volume);
