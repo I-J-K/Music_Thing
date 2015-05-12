@@ -49,8 +49,6 @@ public class JavafxPlayer extends MusicPlayer{
         
         setPlayTime(0);
         setPlaying(true);
-        Counter c = new Counter();
-        c.count();
         setCurrentTrack(track);
         setVolume(volume);
     }
