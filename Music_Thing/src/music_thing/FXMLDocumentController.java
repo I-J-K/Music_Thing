@@ -113,6 +113,23 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
+    private void onSliderPressed(MouseEvent event){
+        if(player!=null && timeBar!=null){
+            player.pause();
+            timer.stop();
+        }
+    }
+    
+    @FXML
+    private void onSliderReleased(MouseEvent event){
+        if(player!=null && timeBar!=null){
+            player.seek((int) timeBar.getValue());
+            timer.play();
+            player.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
+        }
+    }
+    
+    @FXML
     private void clickedTable(MouseEvent event){
         if (event.isPrimaryButtonDown() && event.getClickCount() > 1) {
             play(event);
