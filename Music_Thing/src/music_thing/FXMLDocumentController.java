@@ -96,6 +96,8 @@ public class FXMLDocumentController implements Initializable {
     private Slider timeBar;
     @FXML
     private Label currentTimeLabel;
+    @FXML
+    private MenuItem playContextMenu;
     
     private Timeline timer;
     
@@ -173,6 +175,7 @@ public class FXMLDocumentController implements Initializable {
                 pauseSymbol.setVisible(true);
                 playSymbol.setVisible(false);
                 menuPlay.setText("Pause");
+                player.setCurrentTime((int)(player.getSongTime()));
                 currentTimeLabel.setText(new TimeFormat(player.getCurrentTime()).toString());
                 currentTimeLabel.setVisible(true);
                 int length = selectedTrack.getLength().toSeconds();
@@ -181,8 +184,9 @@ public class FXMLDocumentController implements Initializable {
                 songTime.setVisible(true);
                 timeBar.setMin(0);
                 timeBar.setMax(length);
+                timeBar.setValue(player.getSongTime());
                 timer = new Timeline(new KeyFrame(
-                    Duration.millis(500),
+                    Duration.millis(100),
                     ae -> player.setCurrentTime((int)(player.getSongTime()))));
                 timer.setCycleCount(Animation.INDEFINITE);
                 timer.play();
@@ -191,7 +195,6 @@ public class FXMLDocumentController implements Initializable {
                 pauseSymbol.setVisible(false);
                 playSymbol.setVisible(true);
                 menuPlay.setText("Play");
-                //timer.stop();
             }
 
             songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
