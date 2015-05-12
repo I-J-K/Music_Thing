@@ -43,4 +43,8 @@ public class TimeFormat implements Serializable{
         }
         return sMinutes+":"+sSeconds;
     }
+    
+    public int toSeconds(){
+        return seconds+(minutes*60)+(hours*60*60);
+    }
 }

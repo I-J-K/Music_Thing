@@ -5,6 +5,9 @@
  */
 package music_thing;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  *
  * @author joshuakaplan
@@ -18,7 +21,7 @@ public abstract class MusicPlayer {
     private static int playTime;
     private static boolean playing = false;
     private static Track currentTrack;
-    
+    private static IntegerProperty currentTime = new SimpleIntegerProperty();
     
     public void setPlaying(boolean bool){
         playing = bool;
@@ -36,12 +39,16 @@ public abstract class MusicPlayer {
         return currentTrack;
     }
     
-    public static void setPlayTime(int time){
-        playTime = time;
+    public void setCurrentTime(int time){
+        currentTime.set(time);
     }
     
-    public static int getPlayTime(){
-        return playTime;
+    public int getCurrentTime(){
+        return currentTime.get();
+    }
+    
+    public static IntegerProperty getTimeProperty(){
+        return currentTime;
     }
     
     public abstract void reset();
@@ -54,8 +61,9 @@ public abstract class MusicPlayer {
     
     public abstract void setVolume(double volume);
     
-    public abstract double getCurrentTime();
+    public abstract double getSongTime();
     
     public abstract void setSong(Track track);
-   
+    
+    public abstract int getSongLength();
 }
