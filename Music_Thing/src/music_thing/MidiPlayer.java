@@ -30,6 +30,11 @@ public class MidiPlayer extends MusicPlayer{
     private static Synthesizer midiSynthesizer;
     
     @Override
+    public int getSongLength(){
+        return (int) midiSequencer.getMicrosecondLength()/1000000;
+    }
+    
+    @Override
     public void reset(){
         setSong(getCurrentTrack());
     }
