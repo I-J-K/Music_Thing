@@ -15,7 +15,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -41,6 +47,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polygon;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -85,6 +92,14 @@ public class FXMLDocumentController implements Initializable {
     private Polygon playSymbol;
     @FXML
     private MenuItem menuPlay;
+    @FXML
+    private Slider timeBar;
+    @FXML
+    private Label currentTimeLabel;
+    @FXML
+    private MenuItem playContextMenu;
+    
+    private Timeline timer;
     
     private Main main;
     
@@ -92,6 +107,10 @@ public class FXMLDocumentController implements Initializable {
     private final JavafxPlayer jfxPlayer = new JavafxPlayer();
     private final MidiPlayer midiPlayer = new MidiPlayer();
     private final ClipPlayer clipPlayer = new ClipPlayer();
+    
+    public MusicPlayer getPlayer(){
+        return player;
+    }
     
     @FXML
     private void clickedTable(MouseEvent event){
@@ -103,6 +122,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void stopMusic(Event event) {
         if(player!=null)player.reset();
+        if(timer!=null)timer.stop();
         pauseSymbol.setVisible(false);
         playSymbol.setVisible(true);
         menuPlay.setText("Play");
@@ -136,38 +156,47 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void play(Event event) {
         if(MusicLibrary.size()>0){
+            if(timer!=null)timer.stop();
             Track selectedTrack = MusicLibrary.getSelectedTrack(songList);
             if(player!=null && selectedTrack!=player.getCurrentTrack() || player==null){
                 SongType type = selectedTrack.getType();
                 if(player!=null)player.stop();
-                if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV || type==SongType.AIFF){
+                if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV  || type==SongType.AIFF){
                     player = jfxPlayer;
                 }else if(type==SongType.MIDI){
                     player = midiPlayer;
-                }else if(type==SongType.FLAC){
+                }else if(type==SongType.FLAC || type==SongType.AU || type==SongType.OGG){
                     player = clipPlayer;
                 }
             }
-            if(!player.getPlaying()){
+            
+            if(!player.getPlaying() || (player.getPlaying() && MusicLibrary.getSelectedTrack(songList)!=player.getCurrentTrack())){
                 player.play(selectedTrack, songVolumeBar.getValue());
                 pauseSymbol.setVisible(true);
                 playSymbol.setVisible(false);
                 menuPlay.setText("Pause");
-            }else if(player.getPlaying() && MusicLibrary.getSelectedTrack(songList)!=player.getCurrentTrack()){
-                player.play(selectedTrack, songVolumeBar.getValue());
-                pauseSymbol.setVisible(true);
-                playSymbol.setVisible(false);
-                menuPlay.setText("Pause");
+                player.setCurrentTime((int)(player.getSongTime()));
+                currentTimeLabel.setText(new TimeFormat(player.getCurrentTime()).toString());
+                currentTimeLabel.setVisible(true);
+                int length = selectedTrack.getLength().toSeconds();
+                if(length==0)length=player.getSongLength();
+                songTime.setText(new TimeFormat(length).toString());
+                songTime.setVisible(true);
+                timeBar.setMin(0);
+                timeBar.setMax(length);
+                timeBar.setValue(player.getSongTime());
+                timer = new Timeline(new KeyFrame(
+                    Duration.millis(100),
+                    ae -> player.setCurrentTime((int)(player.getSongTime()))));
+                timer.setCycleCount(Animation.INDEFINITE);
+                timer.play();
             }else{
                 player.pause();
                 pauseSymbol.setVisible(false);
                 playSymbol.setVisible(true);
                 menuPlay.setText("Play");
             }
-            defaultTimeLabel.setVisible(false);
-            songTime.setVisible(true);
-            songTime.setText("a");
-            
+
             songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
             songList.requestFocus();
         }
@@ -279,32 +308,34 @@ public class FXMLDocumentController implements Initializable {
     private void importFile(File file){
         if(file.isFile()){
             File copyTo =  new File("music/"+file.getName());
+            SongType type = null;
             try{
                 if(file.getName().toLowerCase().endsWith("mp3")){
-                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-                    MusicLibrary.addSong(new Track(SongType.MP3, file.getName()));
+                    type=SongType.MP3;
                 }else if(file.getName().toLowerCase().endsWith("mid")){
-                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-                    MusicLibrary.addSong(new Track(SongType.MIDI, file.getName()));
+                    type=SongType.MIDI;
                 }else if(file.getName().toLowerCase().endsWith("m4a")){
-                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-                    MusicLibrary.addSong(new Track(SongType.AAC, file.getName()));
+                    type=SongType.AAC;
                 }else if(file.getName().toLowerCase().endsWith("aiff")){
-                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-                    MusicLibrary.addSong(new Track(SongType.AIFF, file.getName()));
+                    type=SongType.AIFF;
                 }else if(file.getName().toLowerCase().endsWith("wav")){
-                    if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-                    MusicLibrary.addSong(new Track(SongType.WAV, file.getName()));
+                    type=SongType.WAV;
                 }else if(file.getName().toLowerCase().endsWith("flac")){
+                    type=SongType.FLAC;
+                }else if(file.getName().toLowerCase().endsWith("au")){
+                    type=SongType.AU;
+                }else if(file.getName().toLowerCase().endsWith("ogg")){
+                    type=SongType.OGG;
+                }
+                if(type!=null){
                     if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-                    MusicLibrary.addSong(new Track(SongType.FLAC, file.getName()));
+                    MusicLibrary.addSong(new Track(type, file.getName()));
                 }
             }catch (Exception e){}
             
         }else if(file.isDirectory()){
             for(File thing : file.listFiles()) importFile(thing);
         }
-        
     }
     
     /**
@@ -400,6 +431,13 @@ public class FXMLDocumentController implements Initializable {
                         return cell;
                     }
                 }); 
+        MusicPlayer.getTimeProperty().addListener(new ChangeListener(){
+                @Override
+                public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                    timeBar.setValue(((Integer)newValue).doubleValue());
+                    currentTimeLabel.setText(new TimeFormat(((Integer)newValue)).toString());
+                }
+            });
         songList.setItems(MusicLibrary.getLibrary());
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
