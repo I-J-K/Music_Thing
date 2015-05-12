@@ -8,6 +8,7 @@ package music_thing;
 import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /**
  *
@@ -18,6 +19,11 @@ import javafx.scene.media.MediaPlayer;
 public class JavafxPlayer extends MusicPlayer{
     private static MediaPlayer mp3player;
     private static Media mp3;
+    
+    @Override
+    public void seek(int seconds){
+        mp3player.seek(new Duration(seconds*1000));
+    }
     
     @Override
     public int getSongLength(){
