@@ -47,7 +47,7 @@ public abstract class MusicPlayer {
         return currentTime.get();
     }
     
-    public IntegerProperty getTimeProperty(){
+    public static IntegerProperty getTimeProperty(){
         return currentTime;
     }
     
@@ -64,5 +64,6 @@ public abstract class MusicPlayer {
     public abstract double getSongTime();
     
     public abstract void setSong(Track track);
-   
+    
+    public abstract int getSongLength();
 }
