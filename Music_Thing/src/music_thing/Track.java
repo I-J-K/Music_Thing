@@ -16,7 +16,7 @@ import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.*;
-import org.jaudiotagger.ogg.util.*;
+//import org.jaudiotagger.ogg.util.*;
 import org.jaudiotagger.tag.flac.FlacTag;
 import org.jaudiotagger.tag.FieldKey.*;
 /**

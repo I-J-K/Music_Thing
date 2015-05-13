@@ -32,6 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -231,30 +232,29 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void deleteFile(Event event){
-        Platform.runLater(() -> {
-            try{
-                HashSet<Track> toDelete = new HashSet(songList.getSelectionModel().getSelectedItems());
-                if(toDelete.size()>0){
-                    Alert alert = new Alert(AlertType.CONFIRMATION);
-                    alert.setTitle("Delete?");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Are you sure you want to delete "+toDelete.size()+" tracks?");
-                    if(toDelete.size()==1)alert.setContentText("Are you sure you want to delete 1 track?");
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.get() == ButtonType.OK){
-                        if(player!=null && toDelete.contains(player.getCurrentTrack())){
-                            player.stop();
-                        }
-                        for(Track track: toDelete){
-                            Files.delete(Paths.get("music/"+track.getPath()));
-                            MusicLibrary.removeTrack(track);
-                        }
-                        MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
+        try{
+            HashSet<Track> toDelete = new HashSet(songList.getSelectionModel().getSelectedItems());
+            if(toDelete.size()>0){
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Delete?");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to delete "+toDelete.size()+" tracks?");
+                if(toDelete.size()==1)alert.setContentText("Are you sure you want to delete 1 track?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    if(player!=null && toDelete.contains(player.getCurrentTrack())){
+                        player.stop();
+                        if(timer!=null)timer.stop();
                     }
+                    for(Track track: toDelete){
+                        MusicLibrary.removeTrack(track);
+                        Files.delete(Paths.get("music/"+track.getPath()));
+                    }
+                    MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
                 }
-            }catch(Exception e){}
-            MusicLibrary.save();
-        });
+            }
+        }catch(Exception e){}
+        MusicLibrary.save();
     }
     
     @FXML
@@ -275,17 +275,22 @@ public class FXMLDocumentController implements Initializable {
                 success = true;
                 for (File file : db.getFiles()) {
                     //SwingUtilities.invokeLater(() -> {importFile(file);});
-                     Platform.runLater(() -> {importFile(file);});
+                    // Platform.runLater(() -> {
+                         importFile(file);
+                    // });
                 }
             }
             event.setDropCompleted(success);
             event.consume();
             if(success){
                 //SwingUtilities.invokeLater(() -> {
-                    Platform.runLater(songList::sort);
-                    Platform.runLater(MusicLibrary::save);
-                    Platform.runLater(FXMLDocumentController::alertImportComplete);
+                    //Platform.runLater(songList::sort);
+                    //Platform.runLater(MusicLibrary::save);
+                    //Platform.runLater(FXMLDocumentController::alertImportComplete);
                 //});
+                songList.sort();
+                MusicLibrary.save();
+                alertImportComplete();
             }
     }
      
@@ -442,9 +447,13 @@ public class FXMLDocumentController implements Initializable {
                                         }
                                     });
                                     setGraphic(rating);
+                                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                                }else{
+                                    setGraphic(null);
                                 }
                             }
                         };
+                        
                         return cell;
                     }
                 }); 
