@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -52,21 +53,22 @@ public class Rating extends HBox{
             getChildren().add(t);
         }
         setAlignment(Pos.CENTER_LEFT);
-        setPrefHeight(10);
-        HBox.setMargin(this, new Insets(-8,0,0,0)); 
+        this.setPadding(new Insets(-15,0,-10,0));
         rating = new SimpleIntegerProperty();
     }
     
     public void setMax(int max){
         if(stars.size()>max){
-            while(stars.size()>max)getChildren().remove(stars.remove(stars.size()-1));
+            while(stars.size()>max){
+                getChildren().remove(stars.remove(stars.size()-1));
+                stars.remove(stars.size()-1);
+            }
         }else if(stars.size()<max){
             while(stars.size()<max){
-               Label t = new Label("⋆");
-            t.setFont(Font.font(31));
-            t.setTextFill(Color.GRAY);
-            stars.add(t);
-            getChildren().add(t); 
+                Label t = new Label("⋆");
+                t.setTextFill(Color.GRAY);
+                stars.add(t);
+                getChildren().add(t); 
             }
         }
     }
