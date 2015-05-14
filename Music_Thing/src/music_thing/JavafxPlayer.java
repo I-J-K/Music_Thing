@@ -22,7 +22,7 @@ public class JavafxPlayer extends MusicPlayer{
     
     @Override
     public void seek(int seconds){
-        mp3player.seek(new Duration(seconds*1000));
+        mp3player.seek(Duration.seconds(seconds));
     }
     
     @Override
