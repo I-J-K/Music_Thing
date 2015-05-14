@@ -62,6 +62,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button play;
     @FXML
+    private Button autoRepeat;
+    @FXML
     private TableView<Track> songList;
     @FXML
     private MenuItem fileImport;
@@ -103,6 +105,7 @@ public class FXMLDocumentController implements Initializable {
     private Timeline timer;
     private boolean wasPlaying;
     private Main main;
+    private boolean autoRepeatOn = false;
     
     private MusicPlayer player;
     private final JavafxPlayer jfxPlayer = new JavafxPlayer();
@@ -169,8 +172,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void nextSong(Event event){
         if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
-            songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
-            MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+            if(!autoRepeatOn){
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
+                MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+            }else{
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
+                MusicLibrary.setTrack(MusicLibrary.getTrackNumber());
+            }
             if(player!=null && player.getPlaying()==true)play(event);
         }else{
             stopMusic(event);
@@ -504,5 +512,9 @@ public class FXMLDocumentController implements Initializable {
             new Timeline(new KeyFrame(Duration.millis(1000), ae -> nextSong(null))).play();
             timer.stop();
         }
+    }
+    
+    private void autoRepeat(){
+        autoRepeatOn = !autoRepeatOn;
     }
 }
