@@ -519,6 +519,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    @FXML
     private void autoRepeat(){
         autoRepeatOn = !autoRepeatOn;
     }
