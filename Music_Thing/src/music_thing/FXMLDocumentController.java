@@ -47,6 +47,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polygon;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import javax.swing.JFileChooser;
@@ -163,7 +164,6 @@ public class FXMLDocumentController implements Initializable {
         menuPlay.setText("Play");
         player.setCurrentTime((int)(player.getSongTime()));
         currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
-        songList.requestFocus();
     }
     
     @FXML
@@ -188,6 +188,7 @@ public class FXMLDocumentController implements Initializable {
             stopMusic(event);
         }
         songList.requestFocus();
+        songList.scrollTo(player.getCurrentTrack());
     }
     
     @FXML
@@ -254,6 +255,7 @@ public class FXMLDocumentController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Are you sure you want to delete "+toDelete.size()+" tracks?");
                 if(toDelete.size()==1)alert.setContentText("Are you sure you want to delete 1 track?");
+                ((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
                     if(player!=null && toDelete.contains(player.getCurrentTrack())){
@@ -348,6 +350,7 @@ public class FXMLDocumentController implements Initializable {
         alert.setTitle("Finished Importing");
         alert.setHeaderText(null);
         alert.setContentText("Import Complete");
+        ((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
         alert.showAndWait();
     }
     
@@ -406,7 +409,7 @@ public class FXMLDocumentController implements Initializable {
               alert.setTitle("No Selection");
               alert.setHeaderText("No Track Selected");
               alert.setContentText("Please select a track in the table.");
-
+              ((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
               alert.showAndWait();
             }
         }
@@ -503,6 +506,8 @@ public class FXMLDocumentController implements Initializable {
         if(player.getCurrentTime()>=player.getSongLength()){
             new Timeline(new KeyFrame(Duration.millis(1000), ae -> nextSong(null))).play();
             timer.stop();
+            player.getCurrentTrack().setPlayCount(player.getCurrentTrack().getPlayCount()+1);
+            refresh();
         }
     }
 }
