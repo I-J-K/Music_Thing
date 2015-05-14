@@ -101,7 +101,7 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem playContextMenu;
     
     private Timeline timer;
-    
+    private boolean wasPlaying;
     private Main main;
     
     private MusicPlayer player;
@@ -116,17 +116,34 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void onSliderPressed(MouseEvent event){
         if(player!=null && timeBar!=null){
+            if(player.getPlaying()){
+                wasPlaying=true;
+            }
             player.pause();
             timer.stop();
         }
     }
     
     @FXML
-    private void onSliderReleased(MouseEvent event){
+    private void onSliderDragged(MouseEvent event){
         if(player!=null && timeBar!=null){
             player.seek((int) timeBar.getValue());
-            timer.play();
-            player.play(MusicLibrary.getSelectedTrack(songList), songVolumeBar.getValue());
+            player.setCurrentTime((int)timeBar.getValue());
+            currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
+        }
+    }
+    
+    @FXML
+    private void onSliderReleased(MouseEvent event){
+        if(player!=null && timeBar!=null){
+            if(wasPlaying){
+                player.seek((int) timeBar.getValue());
+                player.setPlaying(false);
+                player.setCurrentTime((int)(timeBar.getValue()));
+                currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
+                play(event);
+                wasPlaying=false;
+            }
         }
     }
     
@@ -144,6 +161,8 @@ public class FXMLDocumentController implements Initializable {
         pauseSymbol.setVisible(false);
         playSymbol.setVisible(true);
         menuPlay.setText("Play");
+        player.setCurrentTime((int)(player.getSongTime()));
+        currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
         songList.requestFocus();
     }
     
@@ -200,13 +219,8 @@ public class FXMLDocumentController implements Initializable {
                 if(length==0)length=player.getSongLength();
                 songTime.setText(new TimeFormat(length).toString());
                 songTime.setVisible(true);
-                timeBar.setMin(0);
                 timeBar.setMax(length);
                 timeBar.setValue(player.getSongTime());
-                timer = new Timeline(new KeyFrame(
-                    Duration.millis(100),
-                    ae -> player.setCurrentTime((int)(player.getSongTime()))));
-                timer.setCycleCount(Animation.INDEFINITE);
                 timer.play();
             }else{
                 player.pause();
@@ -351,7 +365,8 @@ public class FXMLDocumentController implements Initializable {
                 }
                 if(type!=null){
                     if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-                    MusicLibrary.addSong(new Track(type, file.getName()));
+                    Track newTrack = new Track(type, file.getName());
+                    if(!MusicLibrary.getLibrary().contains(newTrack))MusicLibrary.addSong(newTrack);
                 }
             }catch (Exception e){}
             
@@ -464,7 +479,20 @@ public class FXMLDocumentController implements Initializable {
                     currentTimeLabel.setText(new TimeFormat(((Integer)newValue)).toString());
                 }
             });
+        timer = new Timeline(new KeyFrame(
+                    Duration.millis(100),
+                    ae -> tick()));
+        timer.setCycleCount(Animation.INDEFINITE);
+        timeBar.setMin(0);
         songList.setItems(MusicLibrary.getLibrary());
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+    
+    private void tick(){
+        player.setCurrentTime((int)(player.getSongTime()));
+        if(player.getCurrentTime()>=player.getSongLength()){
+            new Timeline(new KeyFrame(Duration.millis(1000), ae -> nextSong(null))).play();
+            timer.stop();
+        }
     }
 }

@@ -129,8 +129,8 @@
                      </HBox.margin>
                   </Button>
                   <Slider fx:id="songVolumeBar" blockIncrement="0.01" max="1.0" onMouseDragged="#changeVolume" prefHeight="8.0" prefWidth="136.0" value="1.0" />
-                  <Label fx:id="currentTimeLabel" text="Label" />
-                  <Slider fx:id="timeBar" blockIncrement="1.0" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="16.0" prefWidth="269.0" />
+                  <Label fx:id="currentTimeLabel" text="0:00" />
+                  <Slider fx:id="timeBar" blockIncrement="1.0" onMouseDragged="#onSliderDragged" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="16.0" prefWidth="269.0" />
                   <Label fx:id="songTime" text="Label" />
                </children>
             </HBox>

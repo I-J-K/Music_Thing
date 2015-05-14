@@ -179,4 +179,12 @@ public class Track implements java.io.Serializable{
             AudioFileIO.write(f);
         }catch(Exception e){}        
     }
+    
+    @Override
+    public boolean equals(Object o){
+        if(o!=null && ((Track)o).getPath()!=null){
+            return this.getPath().equals(((Track)o).getPath());
+        }
+        return false;
+    }
 }
