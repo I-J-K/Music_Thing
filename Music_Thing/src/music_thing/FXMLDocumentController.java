@@ -283,53 +283,63 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void importFromDrag(DragEvent event){
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-            if (db.hasFiles()) {
-                success = true;
-                for (File file : db.getFiles()) {
-                    //SwingUtilities.invokeLater(() -> {importFile(file);});
-                    // Platform.runLater(() -> {
-                         importFile(file);
-                    // });
-                }
+        new Thread() {
+            @Override
+            public void run() {
+                //Do some stuff in another thread
+                Platform.runLater(() -> {
+                    Dragboard db = event.getDragboard();
+                    boolean success = false;
+                    if (db.hasFiles()) {
+                        success = true;
+                        for (File file : db.getFiles()) {
+                            importFile(file);
+                        }
+                    }
+                    event.setDropCompleted(success);
+                    event.consume();
+                    if(success){
+                        songList.sort();
+                        MusicLibrary.save();
+                        alertImportComplete();
+                    }
+                });
             }
-            event.setDropCompleted(success);
-            event.consume();
-            if(success){
-                //SwingUtilities.invokeLater(() -> {
-                    //Platform.runLater(songList::sort);
-                    //Platform.runLater(MusicLibrary::save);
-                    //Platform.runLater(FXMLDocumentController::alertImportComplete);
-                //});
-                songList.sort();
-                MusicLibrary.save();
-                alertImportComplete();
-            }
+        }.start();    
     }
      
     @FXML
     private void importFromMenu(ActionEvent event){
-        List<File> files = new ArrayList<File>();
-        SwingUtilities.invokeLater(() -> {
-            JFileChooser chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff", "flac");
-            chooser.setFileFilter(filter);
-            chooser.setMultiSelectionEnabled(true);
-            chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            int result = chooser.showOpenDialog(null);
-            if(result == JFileChooser.APPROVE_OPTION) {
-                //File[] files = chooser.getSelectedFiles();
-                files.addAll(Arrays.asList(chooser.getSelectedFiles()));
+        new Thread() {
+            public void run() {
+                //Do some stuff in another thread
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        List<File> files = new ArrayList<File>();
+                        SwingUtilities.invokeLater(() -> {
+                            JFileChooser chooser = new JFileChooser();
+                            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                                    "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff", "flac");
+                            chooser.setFileFilter(filter);
+                            chooser.setMultiSelectionEnabled(true);
+                            chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                            int result = chooser.showOpenDialog(null);
+                            if(result == JFileChooser.APPROVE_OPTION) {
+                                //File[] files = chooser.getSelectedFiles();
+                                files.addAll(Arrays.asList(chooser.getSelectedFiles()));
+                            }
+                            Platform.runLater(() ->{
+                                for(File file: files) importFile(file);
+                                songList.sort();
+                                MusicLibrary.save();
+                                alertImportComplete();
+                            });
+                        });
+                    }
+                });
             }
-            Platform.runLater(() ->{
-                for(File file: files) importFile(file);
-                songList.sort();
-                MusicLibrary.save();
-                alertImportComplete();
-            });
-        });
+        }.start();
+        
         
     }
     
