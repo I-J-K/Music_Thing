@@ -30,6 +30,11 @@ public class ClipPlayer extends MusicPlayer{
     private static final FlacAudioFileReader flacReader = new FlacAudioFileReader();
     
     @Override
+    public void seek(int seconds){
+        clip.setMicrosecondPosition(seconds*1000000);
+    }
+    
+    @Override
     public int getSongLength(){
         return (int)clip.getMicrosecondLength()/1000000;
     }
@@ -108,6 +113,9 @@ public class ClipPlayer extends MusicPlayer{
     public void setVolume(double volume){
         if(getCurrentTrack()!=null){
             FloatControl c = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            //float range = c.getMaximum() - c.getMinimum();
+            //float min = c.getMinimum();
+            //c.setValue((float) (10000 * Math.log(range*(volume + 1/range)) + min));
             c.setValue((float) volume*(c.getMaximum()-c.getMinimum())+c.getMinimum());
         }
     }

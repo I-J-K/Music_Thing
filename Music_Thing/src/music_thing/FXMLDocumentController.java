@@ -32,6 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -100,7 +101,7 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem playContextMenu;
     
     private Timeline timer;
-    
+    private boolean wasPlaying;
     private Main main;
     
     private MusicPlayer player;
@@ -110,6 +111,40 @@ public class FXMLDocumentController implements Initializable {
     
     public MusicPlayer getPlayer(){
         return player;
+    }
+    
+    @FXML
+    private void onSliderPressed(MouseEvent event){
+        if(player!=null && timeBar!=null){
+            if(player.getPlaying()){
+                wasPlaying=true;
+            }
+            player.pause();
+            timer.stop();
+        }
+    }
+    
+    @FXML
+    private void onSliderDragged(MouseEvent event){
+        if(player!=null && timeBar!=null){
+            player.seek((int) timeBar.getValue());
+            player.setCurrentTime((int)timeBar.getValue());
+            currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
+        }
+    }
+    
+    @FXML
+    private void onSliderReleased(MouseEvent event){
+        if(player!=null && timeBar!=null){
+            if(wasPlaying){
+                player.seek((int) timeBar.getValue());
+                player.setPlaying(false);
+                player.setCurrentTime((int)(timeBar.getValue()));
+                currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
+                play(event);
+                wasPlaying=false;
+            }
+        }
     }
     
     @FXML
@@ -126,6 +161,8 @@ public class FXMLDocumentController implements Initializable {
         pauseSymbol.setVisible(false);
         playSymbol.setVisible(true);
         menuPlay.setText("Play");
+        player.setCurrentTime((int)(player.getSongTime()));
+        currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
         songList.requestFocus();
     }
     
@@ -182,13 +219,8 @@ public class FXMLDocumentController implements Initializable {
                 if(length==0)length=player.getSongLength();
                 songTime.setText(new TimeFormat(length).toString());
                 songTime.setVisible(true);
-                timeBar.setMin(0);
                 timeBar.setMax(length);
                 timeBar.setValue(player.getSongTime());
-                timer = new Timeline(new KeyFrame(
-                    Duration.millis(100),
-                    ae -> player.setCurrentTime((int)(player.getSongTime()))));
-                timer.setCycleCount(Animation.INDEFINITE);
                 timer.play();
             }else{
                 player.pause();
@@ -214,30 +246,29 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void deleteFile(Event event){
-        Platform.runLater(() -> {
-            try{
-                HashSet<Track> toDelete = new HashSet(songList.getSelectionModel().getSelectedItems());
-                if(toDelete.size()>0){
-                    Alert alert = new Alert(AlertType.CONFIRMATION);
-                    alert.setTitle("Delete?");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Are you sure you want to delete "+toDelete.size()+" tracks?");
-                    if(toDelete.size()==1)alert.setContentText("Are you sure you want to delete 1 track?");
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.get() == ButtonType.OK){
-                        if(player!=null && toDelete.contains(player.getCurrentTrack())){
-                            player.stop();
-                        }
-                        for(Track track: toDelete){
-                            Files.delete(Paths.get("music/"+track.getPath()));
-                            MusicLibrary.removeTrack(track);
-                        }
-                        MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
+        try{
+            HashSet<Track> toDelete = new HashSet(songList.getSelectionModel().getSelectedItems());
+            if(toDelete.size()>0){
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Delete?");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to delete "+toDelete.size()+" tracks?");
+                if(toDelete.size()==1)alert.setContentText("Are you sure you want to delete 1 track?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    if(player!=null && toDelete.contains(player.getCurrentTrack())){
+                        player.stop();
+                        if(timer!=null)timer.stop();
                     }
+                    for(Track track: toDelete){
+                        MusicLibrary.removeTrack(track);
+                        Files.delete(Paths.get("music/"+track.getPath()));
+                    }
+                    MusicLibrary.setTrack(songList.getFocusModel().getFocusedCell().getRow());
                 }
-            }catch(Exception e){}
-            MusicLibrary.save();
-        });
+            }
+        }catch(Exception e){}
+        MusicLibrary.save();
     }
     
     @FXML
@@ -252,48 +283,63 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void importFromDrag(DragEvent event){
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-            if (db.hasFiles()) {
-                success = true;
-                for (File file : db.getFiles()) {
-                    //SwingUtilities.invokeLater(() -> {importFile(file);});
-                     Platform.runLater(() -> {importFile(file);});
-                }
+        new Thread() {
+            @Override
+            public void run() {
+                //Do some stuff in another thread
+                Platform.runLater(() -> {
+                    Dragboard db = event.getDragboard();
+                    boolean success = false;
+                    if (db.hasFiles()) {
+                        success = true;
+                        for (File file : db.getFiles()) {
+                            importFile(file);
+                        }
+                    }
+                    event.setDropCompleted(success);
+                    event.consume();
+                    if(success){
+                        songList.sort();
+                        MusicLibrary.save();
+                        alertImportComplete();
+                    }
+                });
             }
-            event.setDropCompleted(success);
-            event.consume();
-            if(success){
-                //SwingUtilities.invokeLater(() -> {
-                    Platform.runLater(songList::sort);
-                    Platform.runLater(MusicLibrary::save);
-                    Platform.runLater(FXMLDocumentController::alertImportComplete);
-                //});
-            }
+        }.start();    
     }
      
     @FXML
     private void importFromMenu(ActionEvent event){
-        List<File> files = new ArrayList<File>();
-        SwingUtilities.invokeLater(() -> {
-            JFileChooser chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff", "flac");
-            chooser.setFileFilter(filter);
-            chooser.setMultiSelectionEnabled(true);
-            chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            int result = chooser.showOpenDialog(null);
-            if(result == JFileChooser.APPROVE_OPTION) {
-                //File[] files = chooser.getSelectedFiles();
-                files.addAll(Arrays.asList(chooser.getSelectedFiles()));
+        new Thread() {
+            public void run() {
+                //Do some stuff in another thread
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        List<File> files = new ArrayList<File>();
+                        SwingUtilities.invokeLater(() -> {
+                            JFileChooser chooser = new JFileChooser();
+                            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                                    "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff", "flac");
+                            chooser.setFileFilter(filter);
+                            chooser.setMultiSelectionEnabled(true);
+                            chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                            int result = chooser.showOpenDialog(null);
+                            if(result == JFileChooser.APPROVE_OPTION) {
+                                //File[] files = chooser.getSelectedFiles();
+                                files.addAll(Arrays.asList(chooser.getSelectedFiles()));
+                            }
+                            Platform.runLater(() ->{
+                                for(File file: files) importFile(file);
+                                songList.sort();
+                                MusicLibrary.save();
+                                alertImportComplete();
+                            });
+                        });
+                    }
+                });
             }
-            Platform.runLater(() ->{
-                for(File file: files) importFile(file);
-                songList.sort();
-                MusicLibrary.save();
-                alertImportComplete();
-            });
-        });
+        }.start();
+        
         
     }
     
@@ -329,7 +375,8 @@ public class FXMLDocumentController implements Initializable {
                 }
                 if(type!=null){
                     if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
-                    MusicLibrary.addSong(new Track(type, file.getName()));
+                    Track newTrack = new Track(type, file.getName());
+                    if(!MusicLibrary.getLibrary().contains(newTrack))MusicLibrary.addSong(newTrack);
                 }
             }catch (Exception e){}
             
@@ -425,9 +472,13 @@ public class FXMLDocumentController implements Initializable {
                                         }
                                     });
                                     setGraphic(rating);
+                                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                                }else{
+                                    setGraphic(null);
                                 }
                             }
                         };
+                        
                         return cell;
                     }
                 }); 
@@ -438,7 +489,20 @@ public class FXMLDocumentController implements Initializable {
                     currentTimeLabel.setText(new TimeFormat(((Integer)newValue)).toString());
                 }
             });
+        timer = new Timeline(new KeyFrame(
+                    Duration.millis(100),
+                    ae -> tick()));
+        timer.setCycleCount(Animation.INDEFINITE);
+        timeBar.setMin(0);
         songList.setItems(MusicLibrary.getLibrary());
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
+    
+    private void tick(){
+        player.setCurrentTime((int)(player.getSongTime()));
+        if(player.getCurrentTime()>=player.getSongLength()){
+            new Timeline(new KeyFrame(Duration.millis(1000), ae -> nextSong(null))).play();
+            timer.stop();
+        }
     }
 }
