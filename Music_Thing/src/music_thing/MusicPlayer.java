@@ -51,6 +51,8 @@ public abstract class MusicPlayer {
         return currentTime;
     }
     
+    public abstract void seek(int seconds);
+    
     public abstract void reset();
     
     public abstract void play(Track track, double volume);
