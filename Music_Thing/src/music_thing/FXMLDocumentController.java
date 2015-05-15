@@ -5,6 +5,7 @@
  */
 package music_thing;
 
+import com.sun.javafx.scene.control.skin.TableViewSkinBase;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
@@ -225,7 +226,11 @@ public class FXMLDocumentController implements Initializable {
                 currentTimeLabel.setText(new TimeFormat(player.getCurrentTime()).toString());
                 currentTimeLabel.setVisible(true);
                 int length = selectedTrack.getLength().toSeconds();
-                if(length==0)length=player.getSongLength();
+                if(length==0){
+                    length=player.getSongLength();
+                    selectedTrack.setLength(length);
+                    refresh();
+                }
                 songTime.setText(new TimeFormat(length).toString());
                 songTime.setVisible(true);
                 timeBar.setMax(length);
@@ -438,9 +443,10 @@ public class FXMLDocumentController implements Initializable {
      */
     private void refresh() {
       int selectedIndex = songList.getSelectionModel().getSelectedIndex();
-      songList.setItems(null);
-      songList.layout();
-      songList.setItems(MusicLibrary.getLibrary());
+      //songList.setItems(null);
+      //songList.layout();
+      //songList.setItems(MusicLibrary.getLibrary());
+      songList.getProperties().put(TableViewSkinBase.RECREATE, Boolean.TRUE);
       songList.getSelectionModel().select(selectedIndex);
     }
     
@@ -472,32 +478,32 @@ public class FXMLDocumentController implements Initializable {
                 new PropertyValueFactory("playCount"));
         timeCol.setCellValueFactory(
                 new PropertyValueFactory("length"));
-                ratingCol.setCellFactory(new Callback<TableColumn<Track,Double>,TableCell<Track,Double>>() {
+        ratingCol.setCellFactory(new Callback<TableColumn<Track,Double>,TableCell<Track,Double>>() {
+            @Override
+            public TableCell<Track, Double> call(TableColumn<Track,Double> param){
+                TableCell<Track, Double> cell = new TableCell<Track, Double>(){
                     @Override
-                    public TableCell<Track, Double> call(TableColumn<Track,Double> param){
-                        TableCell<Track, Double> cell = new TableCell<Track, Double>(){
-                            @Override
-                            public void updateItem(Double d, boolean empty){
-                                if(d != null){
-                                    Rating rating = new Rating();
-                                    rating.setRating(d.intValue());
-                                    rating.getRatingProperty().addListener(new ChangeListener(){
-                                        @Override
-                                        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                                             MusicLibrary.getLibrary().get(getIndex()).setRating(((Integer)newValue).doubleValue());
-                                        }
-                                    });
-                                    setGraphic(rating);
-                                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                                }else{
-                                    setGraphic(null);
+                    public void updateItem(Double d, boolean empty){
+                        if(d != null){
+                            Rating rating = new Rating();
+                            rating.setRating(d.intValue());
+                            rating.getRatingProperty().addListener(new ChangeListener(){
+                                @Override
+                                public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                                     MusicLibrary.getLibrary().get(getIndex()).setRating(((Integer)newValue).doubleValue());
                                 }
-                            }
-                        };
-                        
-                        return cell;
+                            });
+                            setGraphic(rating);
+                            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                        }else{
+                            setGraphic(null);
+                        }
                     }
-                }); 
+                };
+
+                return cell;
+            }
+        }); 
         MusicPlayer.getTimeProperty().addListener(new ChangeListener(){
                 @Override
                 public void changed(ObservableValue observable, Object oldValue, Object newValue) {
