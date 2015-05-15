@@ -207,11 +207,11 @@ public class FXMLDocumentController implements Initializable {
             if(player!=null && selectedTrack!=player.getCurrentTrack() || player==null){
                 SongType type = selectedTrack.getType();
                 if(player!=null)player.stop();
-                if(type==SongType.MP3 || type==SongType.AAC || type==SongType.WAV  || type==SongType.AIFF){
+                if(type==SongType.MP3 || type==SongType.M4A || type==SongType.WAV  || type==SongType.AIFF || type==SongType.MP4){
                     player = jfxPlayer;
                 }else if(type==SongType.MIDI){
                     player = midiPlayer;
-                }else if(type==SongType.FLAC || type==SongType.AU || type==SongType.OGG){
+                }else if(type==SongType.FLAC || type==SongType.AU || type==SongType.OGG || type==SongType.AAC){
                     player = clipPlayer;
                 }
             }
@@ -366,23 +366,28 @@ public class FXMLDocumentController implements Initializable {
         if(file.isFile()){
             File copyTo =  new File("music/"+file.getName());
             SongType type = null;
+            String name = file.getName().toLowerCase();
             try{
-                if(file.getName().toLowerCase().endsWith("mp3")){
+                if(name.endsWith("mp3")){
                     type=SongType.MP3;
-                }else if(file.getName().toLowerCase().endsWith("mid")){
+                }else if(name.endsWith("mid")){
                     type=SongType.MIDI;
-                }else if(file.getName().toLowerCase().endsWith("m4a")){
+                }else if(name.endsWith("m4a")){
+                    type=SongType.M4A;
+                }else if(name.endsWith("aac")){
                     type=SongType.AAC;
-                }else if(file.getName().toLowerCase().endsWith("aiff")){
+                }else if(name.endsWith("aiff")){
                     type=SongType.AIFF;
-                }else if(file.getName().toLowerCase().endsWith("wav")){
+                }else if(name.endsWith("wav")){
                     type=SongType.WAV;
-                }else if(file.getName().toLowerCase().endsWith("flac")){
+                }else if(name.endsWith("flac")){
                     type=SongType.FLAC;
-                }else if(file.getName().toLowerCase().endsWith("au")){
+                }else if(name.endsWith("au")){
                     type=SongType.AU;
-                }else if(file.getName().toLowerCase().endsWith("ogg")){
+                }else if(name.endsWith("ogg")){
                     type=SongType.OGG;
+                }else if(name.endsWith("mp4")){
+                    type=SongType.MP4;
                 }
                 if(type!=null){
                     if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
