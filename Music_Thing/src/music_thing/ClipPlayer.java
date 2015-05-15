@@ -114,11 +114,10 @@ public class ClipPlayer extends MusicPlayer{
         if(getCurrentTrack()!=null){
             try{
                 FloatControl c = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                //float range = c.getMaximum() - c.getMinimum();
-                //float min = c.getMinimum();
-                //c.setValue((float) (10000 * Math.log(range*(volume + 1/range)) + min));
-                c.setValue((float) volume*(c.getMaximum()-c.getMinimum())+c.getMinimum());
+                //c.setValue((float) Math.sqrt(volume)*(c.getMaximum()-c.getMinimum())+c.getMinimum());
+                c.setValue((float) Math.pow(volume, 1.0/3)*(c.getMaximum()-c.getMinimum())+c.getMinimum());
             }catch(IllegalArgumentException e){
+                System.out.println(e);
             }
         }
     }
