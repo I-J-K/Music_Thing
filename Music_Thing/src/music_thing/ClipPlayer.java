@@ -112,11 +112,14 @@ public class ClipPlayer extends MusicPlayer{
     @Override
     public void setVolume(double volume){
         if(getCurrentTrack()!=null){
-            FloatControl c = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            //float range = c.getMaximum() - c.getMinimum();
-            //float min = c.getMinimum();
-            //c.setValue((float) (10000 * Math.log(range*(volume + 1/range)) + min));
-            c.setValue((float) volume*(c.getMaximum()-c.getMinimum())+c.getMinimum());
+            try{
+                FloatControl c = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                //float range = c.getMaximum() - c.getMinimum();
+                //float min = c.getMinimum();
+                //c.setValue((float) (10000 * Math.log(range*(volume + 1/range)) + min));
+                c.setValue((float) volume*(c.getMaximum()-c.getMinimum())+c.getMinimum());
+            }catch(IllegalArgumentException e){
+            }
         }
     }
 }
