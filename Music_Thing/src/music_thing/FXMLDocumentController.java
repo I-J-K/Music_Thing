@@ -41,6 +41,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
@@ -527,5 +529,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void autoRepeat(){
         autoRepeatOn = !autoRepeatOn;
+        if(autoRepeatOn){
+            Light.Distant light;
+            light = new Light.Distant();
+            Lighting lighting = new Lighting();
+            lighting.setLight(light);
+            autoRepeat.setEffect(lighting);
+        }else{
+            autoRepeat.setEffect(null); 
+        }
     }
 }
