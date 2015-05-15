@@ -128,7 +128,17 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#autoRepeat" />
+                  <Button fx:id="autoRepeat" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#autoRepeat" prefHeight="20.0" prefWidth="20.0">
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../../../Desktop/Untitled.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Button>
                   <Label text="Volume">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" />
