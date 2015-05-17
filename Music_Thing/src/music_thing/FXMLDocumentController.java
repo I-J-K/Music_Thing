@@ -24,6 +24,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -303,7 +304,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void importFromDrag(DragEvent event){
-        new Thread() {
+        new Thread(){
             @Override
             public void run() {
                 //Do some stuff in another thread
@@ -326,54 +327,46 @@ public class FXMLDocumentController implements Initializable {
                     }
                 });
             }
-        }.start();    
+        }.start();  
     }
      
     @FXML
     private void importFromMenu(ActionEvent event){
-        new Thread() {
-            public void run() {
-                //Do some stuff in another thread
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        List<File> files = new ArrayList<File>();
-                        SwingUtilities.invokeLater(() -> {
-                            JFileChooser chooser = new JFileChooser(){
-                                @Override
-                                protected JDialog createDialog(Component parent) throws HeadlessException {
-                                    // intercept the dialog created by JFileChooser
-                                    JDialog dialog = super.createDialog(parent);
-                                    dialog.setAlwaysOnTop(true);  // set modality (or setModalityType)
-                                    return dialog;
-                                }
-                                
-                            };
-                            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                                    "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff", "flac");
-                            chooser.setFileFilter(filter);
-                            chooser.setMultiSelectionEnabled(true);
-                            chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                            int result = chooser.showOpenDialog(null);
-                            if(result == JFileChooser.APPROVE_OPTION) {
-                                //File[] files = chooser.getSelectedFiles();
-                                files.addAll(Arrays.asList(chooser.getSelectedFiles()));
-                                Platform.runLater(() ->{
-                                    boolean imported = false;
-                                    for(File file: files){
-                                        //importFile(file);
-                                        imported = importFile(file) || imported;
-                                    }
-                                    songList.sort();
-                                    MusicLibrary.save();
-                                    alertImportComplete(imported);
-                                });
-                            }
-                        });
+        new Thread(new Task<Void>(){
+            @Override protected Void call() throws Exception{
+                List<File> files = new ArrayList<File>();
+                JFileChooser chooser = new JFileChooser(){
+                    @Override
+                    protected JDialog createDialog(Component parent) throws HeadlessException {
+                        // intercept the dialog created by JFileChooser
+                        JDialog dialog = super.createDialog(parent);
+                        dialog.setAlwaysOnTop(true);  // set modality (or setModalityType)
+                        return dialog;
                     }
-                });
+                };
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff", "flac");
+                chooser.setFileFilter(filter);
+                chooser.setMultiSelectionEnabled(true);
+                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    files.addAll(Arrays.asList(chooser.getSelectedFiles()));
+                    boolean imported = false;
+                    for(File file: files){
+                        //importFile(file);
+                        imported = importFile(file) || imported;
+                    }
+                    songList.sort();
+                    MusicLibrary.save();
+                    if(imported){
+                        Platform.runLater(() -> {alertImportComplete(true);});
+                    }else{
+                        Platform.runLater(() -> {alertImportComplete(false);});
+                    }
+                }
+                return null;
             }
-        }.start();
-        
+        }).start();
         
     }
     
@@ -516,8 +509,7 @@ public class FXMLDocumentController implements Initializable {
                             rating.getRatingProperty().addListener(new ChangeListener(){
                                 @Override
                                 public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                                    MusicLibrary.getLibrary().get(getIndex()).setRating((Double)newValue);
-                                    //(((Integer)newValue).doubleValue());
+                                    MusicLibrary.getLibrary().get(getIndex()).setRating(((Integer)newValue).doubleValue());
                                 }
                             });
                             setGraphic(rating);
