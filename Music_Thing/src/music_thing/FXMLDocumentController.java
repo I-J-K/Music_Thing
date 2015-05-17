@@ -6,6 +6,8 @@
 package music_thing;
 
 import com.sun.javafx.scene.control.skin.TableViewSkinBase;
+import java.awt.Component;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
@@ -16,13 +18,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -42,6 +41,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
@@ -51,6 +51,7 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -78,19 +79,19 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Slider songVolumeBar;
     @FXML
-    private TableColumn<Track,String> songCol;
+    private TableColumn<Track, String> songCol;
     @FXML
-    private TableColumn<Track,String> artistCol;
+    private TableColumn<Track, String> artistCol;
     @FXML
-    private TableColumn<Track,String> albumCol;
+    private TableColumn<Track, String> albumCol;
     @FXML
-    private TableColumn<Track,String> genreCol;
+    private TableColumn<Track, String> genreCol;
     @FXML
-    private TableColumn<Track,Double> ratingCol;
+    private TableColumn<Track, Double> ratingCol;
     @FXML
-    private TableColumn<Track,Integer> playcountCol;
+    private TableColumn<Track, Integer> playcountCol;
     @FXML
-    private TableColumn<Track,TimeFormat> timeCol;
+    private TableColumn<Track, Integer> timeCol;
     @FXML
     private HBox pauseSymbol;
     @FXML
@@ -176,11 +177,15 @@ public class FXMLDocumentController implements Initializable {
             if(!autoRepeatOn){
                 songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
                 MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+                if(player!=null && player.getPlaying()==true)play(event);
             }else{
                 songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                 MusicLibrary.setTrack(MusicLibrary.getTrackNumber());
+                if(player!=null && player.getPlaying()==true){
+                    stopMusic(event);
+                    play(event);
+                }
             }
-            if(player!=null && player.getPlaying()==true)play(event);
         }else{
             stopMusic(event);
         }
@@ -225,10 +230,10 @@ public class FXMLDocumentController implements Initializable {
                 player.setCurrentTime((int)(player.getSongTime()));
                 currentTimeLabel.setText(new TimeFormat(player.getCurrentTime()).toString());
                 currentTimeLabel.setVisible(true);
-                int length = selectedTrack.getLength().toSeconds();
+                int length = selectedTrack.getLength();
                 if(length==0){
                     length=player.getSongLength();
-                    selectedTrack.setLength(length);
+                    selectedTrack.setLength(length);//setLength(length);
                     refresh();
                 }
                 songTime.setText(new TimeFormat(length).toString());
@@ -305,10 +310,11 @@ public class FXMLDocumentController implements Initializable {
                 Platform.runLater(() -> {
                     Dragboard db = event.getDragboard();
                     boolean success = false;
+                    boolean imported = false;
                     if (db.hasFiles()) {
                         success = true;
                         for (File file : db.getFiles()) {
-                            importFile(file);
+                            imported = importFile(file) || imported;
                         }
                     }
                     event.setDropCompleted(success);
@@ -316,7 +322,7 @@ public class FXMLDocumentController implements Initializable {
                     if(success){
                         songList.sort();
                         MusicLibrary.save();
-                        alertImportComplete();
+                        alertImportComplete(imported);
                     }
                 });
             }
@@ -332,7 +338,16 @@ public class FXMLDocumentController implements Initializable {
                     public void run() {
                         List<File> files = new ArrayList<File>();
                         SwingUtilities.invokeLater(() -> {
-                            JFileChooser chooser = new JFileChooser();
+                            JFileChooser chooser = new JFileChooser(){
+                                @Override
+                                protected JDialog createDialog(Component parent) throws HeadlessException {
+                                    // intercept the dialog created by JFileChooser
+                                    JDialog dialog = super.createDialog(parent);
+                                    dialog.setAlwaysOnTop(true);  // set modality (or setModalityType)
+                                    return dialog;
+                                }
+                                
+                            };
                             FileNameExtensionFilter filter = new FileNameExtensionFilter(
                                     "Supported Audio Files", "mp3", "mid", "m4a", "wav", "aiff", "flac");
                             chooser.setFileFilter(filter);
@@ -342,13 +357,17 @@ public class FXMLDocumentController implements Initializable {
                             if(result == JFileChooser.APPROVE_OPTION) {
                                 //File[] files = chooser.getSelectedFiles();
                                 files.addAll(Arrays.asList(chooser.getSelectedFiles()));
+                                Platform.runLater(() ->{
+                                    boolean imported = false;
+                                    for(File file: files){
+                                        //importFile(file);
+                                        imported = importFile(file) || imported;
+                                    }
+                                    songList.sort();
+                                    MusicLibrary.save();
+                                    alertImportComplete(imported);
+                                });
                             }
-                            Platform.runLater(() ->{
-                                for(File file: files) importFile(file);
-                                songList.sort();
-                                MusicLibrary.save();
-                                alertImportComplete();
-                            });
                         });
                     }
                 });
@@ -358,16 +377,21 @@ public class FXMLDocumentController implements Initializable {
         
     }
     
-    public static void alertImportComplete(){
+    public static void alertImportComplete(boolean imported){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Finished Importing");
         alert.setHeaderText(null);
-        alert.setContentText("Import Complete");
+        if(imported){
+            alert.setContentText("Import Complete");
+        }else{
+            alert.setContentText("Nothing Imported");
+        }
         ((Stage) alert.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
         alert.showAndWait();
     }
     
-    private void importFile(File file){
+    private boolean importFile(File file){
+        boolean imported = false;
         if(file.isFile()){
             File copyTo =  new File("music/"+file.getName());
             SongType type = null;
@@ -398,12 +422,16 @@ public class FXMLDocumentController implements Initializable {
                     if(!copyTo.exists())Files.copy(file.toPath(), copyTo.toPath());
                     Track newTrack = new Track(type, file.getName());
                     if(!MusicLibrary.getLibrary().contains(newTrack))MusicLibrary.addSong(newTrack);
+                    imported = true;
                 }
             }catch (Exception e){}
             
         }else if(file.isDirectory()){
-            for(File thing : file.listFiles()) importFile(thing);
+            for(File thing : file.listFiles()){
+                imported = importFile(thing) || imported;
+            }
         }
+        return imported;
     }
     
     /**
@@ -443,10 +471,8 @@ public class FXMLDocumentController implements Initializable {
      */
     private void refresh() {
       int selectedIndex = songList.getSelectionModel().getSelectedIndex();
-      //songList.setItems(null);
-      //songList.layout();
-      //songList.setItems(MusicLibrary.getLibrary());
-      songList.getProperties().put(TableViewSkinBase.RECREATE, Boolean.TRUE);
+      songList.getColumns().get(0).setVisible(false);
+      songList.getColumns().get(0).setVisible(true);
       songList.getSelectionModel().select(selectedIndex);
     }
     
@@ -490,7 +516,8 @@ public class FXMLDocumentController implements Initializable {
                             rating.getRatingProperty().addListener(new ChangeListener(){
                                 @Override
                                 public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                                     MusicLibrary.getLibrary().get(getIndex()).setRating(((Integer)newValue).doubleValue());
+                                    MusicLibrary.getLibrary().get(getIndex()).setRating((Double)newValue);
+                                    //(((Integer)newValue).doubleValue());
                                 }
                             });
                             setGraphic(rating);
@@ -503,14 +530,31 @@ public class FXMLDocumentController implements Initializable {
 
                 return cell;
             }
-        }); 
+        });
+        timeCol.setCellFactory(new Callback<TableColumn<Track,Integer>,TableCell<Track,Integer>>() {
+            @Override
+            public TableCell<Track, Integer> call(TableColumn<Track,Integer> param){
+                TableCell<Track, Integer> cell = new TableCell<Track, Integer>(){
+                    @Override
+                    public void updateItem(Integer d, boolean empty){
+                        if(d != null){
+                            setText(new TimeFormat(d).toString());
+                        }else{
+                            setText(null);
+                        }
+                    }
+                };
+
+                return cell;
+            }
+        });
         MusicPlayer.getTimeProperty().addListener(new ChangeListener(){
                 @Override
                 public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                     timeBar.setValue(((Integer)newValue).doubleValue());
                     currentTimeLabel.setText(new TimeFormat(((Integer)newValue)).toString());
                 }
-            });
+        });
         timer = new Timeline(new KeyFrame(
                     Duration.millis(100),
                     ae -> tick()));
@@ -531,7 +575,14 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-    private void autoRepeat(){
+    private void autoRepeat(ActionEvent event){
         autoRepeatOn = !autoRepeatOn;
+        if(autoRepeatOn){
+            autoRepeat.setEffect(new Lighting());
+        }else{
+            autoRepeat.setEffect(null);
+        }
+        songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
+        songList.requestFocus();
     }
 }

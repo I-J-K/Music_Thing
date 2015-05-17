@@ -82,7 +82,6 @@ public class EditTrackController implements Initializable {
         editComposer.setText(track.getComposer());
         editGenre.setText(track.getGenre());
         editAlbum.setText(track.getAlbum());
-        editRating.setRating(track.getRating().intValue());
     }
 
     /**
