@@ -5,10 +5,6 @@
  */
 package music_thing;
 import java.io.*;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import org.jaudiotagger.*;
 import org.jaudiotagger.audio.mp3.*;
 import org.jaudiotagger.audio.flac.*;
@@ -27,28 +23,28 @@ import org.jaudiotagger.tag.FieldKey.*;
  * @author joshuakaplan
  */
 public class Track implements java.io.Serializable{
-    private SimpleStringProperty name;
-    private SimpleStringProperty artist;
-    private SimpleStringProperty albumArtist;
-    private SimpleStringProperty album;
+    private String name;
+    private String artist;
+    private String albumArtist;
+    private String album;
     
-    private SimpleStringProperty genre;
-    private SimpleStringProperty composer;
-    private SimpleStringProperty trackNumber;
-    private SimpleDoubleProperty rating;
-    private SimpleStringProperty year;
+    private String genre;
+    private String composer;
+    private String trackNumber;
+    private Double rating;
+    private String year;
     
     private SongType type;
-    private SimpleIntegerProperty length;
-    private SimpleIntegerProperty playCount;
-    private SimpleStringProperty albumArt;
-    private SimpleStringProperty path;
+    private Integer length;
+    private Integer playCount;
+    private String albumArt;
+    private String path;
     
     public Track(SongType type, String path){
-        this.path.set(path);
-        this.playCount.set(0);
+        this.path = path;
+        this.playCount = 0;
         this.type = type;
-        this.rating.set(0.0);
+        this.rating = 0.0;
         if(type==SongType.MIDI || type==SongType.AIFF || type==SongType.MP4){
         
         }else{
@@ -57,39 +53,99 @@ public class Track implements java.io.Serializable{
                 Tag tag = f.getTag();
                 AudioHeader ah = f.getAudioHeader();
 
-                this.name.set(tag.getFirst(FieldKey.TITLE));
-                this.artist.set(tag.getFirst(FieldKey.ARTIST));
-                this.albumArtist.set(tag.getFirst(FieldKey.ALBUM_ARTIST));
-                this.album.set(tag.getFirst(FieldKey.ALBUM));
-                this.genre.set(tag.getFirst(FieldKey.GENRE));
-                this.composer.set(tag.getFirst(FieldKey.COMPOSER));
-                this.trackNumber.set(tag.getFirst(FieldKey.TRACK));
-                this.year.set(tag.getFirst(FieldKey.YEAR));
-                this.length.set(f.getAudioHeader().getTrackLength());
-            }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException e){}  
+                this.name = tag.getFirst(FieldKey.TITLE);
+                this.artist = tag.getFirst(FieldKey.ARTIST);
+                this.albumArtist = tag.getFirst(FieldKey.ALBUM_ARTIST);
+                this.album = tag.getFirst(FieldKey.ALBUM);
+                this.genre = tag.getFirst(FieldKey.GENRE);
+                this.composer = tag.getFirst(FieldKey.COMPOSER);
+                this.trackNumber = tag.getFirst(FieldKey.TRACK);
+                this.year = tag.getFirst(FieldKey.YEAR);
+                this.length = f.getAudioHeader().getTrackLength();
+            }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException | UnsupportedOperationException e){}  
         }
         
         if(this.name == null || this.name.equals("")){
-                this.name.set(path.substring(0,path.lastIndexOf('.')));
+                this.name = path.substring(0,path.lastIndexOf('.'));
         }
         
         if(this.length==null){
-            this.length.set(0);
+            this.length = 0;
         }
     }
 
     public String getName() {
-        return name.get();
+        return name;
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = name;
     }
-    
-    public SimpleStringProperty nameProperty(){
-        return name;
+
+    public String getArtist() {
+        return artist;
     }
-    
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public String getAlbumArtist() {
+        return albumArtist;
+    }
+
+    public void setAlbumArtist(String albumArtist) {
+        this.albumArtist = albumArtist;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getComposer() {
+        return composer;
+    }
+
+    public void setComposer(String composer) {
+        this.composer = composer;
+    }
+
+    public String getTrackNumber() {
+        return trackNumber;
+    }
+
+    public void setTrackNumber(String trackNumber) {
+        this.trackNumber = trackNumber;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
     public SongType getType() {
         return type;
     }
@@ -98,131 +154,46 @@ public class Track implements java.io.Serializable{
         this.type = type;
     }
 
-    public int getLength() {
-        return length.get();
+    public Integer getLength() {
+        return length;
     }
 
-    public void setLength(int length) {
-        this.length.set(length);
+    public void setLength(Integer length) {
+        this.length = length;
     }
 
-    public int getPlayCount() {
-        return playCount.get();
-    }
-
-    public void setPlayCount(int playCount) {
-        this.playCount.set(playCount);
-    }
-    
-    public SimpleIntegerProperty playCountProperty(){
+    public Integer getPlayCount() {
         return playCount;
     }
 
-    public String getAlbumArt() {
-        return albumArt.get();
+    public void setPlayCount(Integer playCount) {
+        this.playCount = playCount;
     }
 
-    public void setAlbumArt(String albumArt) {
-        this.albumArt.set(albumArt);
-    }
-    
-    public SimpleStringProperty albumArtProperty(){
+    public String getAlbumArt() {
         return albumArt;
     }
 
+    public void setAlbumArt(String albumArt) {
+        this.albumArt = albumArt;
+    }
+
     public String getPath() {
-        return path.get();
+        return path;
     }
 
     public void setPath(String path) {
-        this.path.set(path);
-    }
-    
-    public SimpleStringProperty pathProperty(){
-        return path;
-    }
-    
-    public String getArtist() {
-        return artist.get();
+        this.path = path;
     }
 
-    public void setArtist(String artist) {
-        this.artist.set(artist);
-    }
-    
-    public SimpleStringProperty artistProperty(){
-        return artist;
-    }
-
-    public String getAlbum() {
-        return album.get();
-    }
-
-    public void setAlbum(String album) {
-        this.album.set(album);
-    }
-    
-    public SimpleStringProperty albumProperty(){
-        return album;
-    }
-
-    public String getGenre() {
-        return genre.get();
-    }
-
-    public void setGenre(String genre) {
-        this.genre.set(genre);
-    }
-    
-    public SimpleStringProperty genreProperty(){
-        return genre;
-    }
-
-    public Double getRating() {
-        return rating.get();
-    }
-
-    public void setRating(Double rating) {
-        this.rating.set(rating);
-    }
-    
-    public SimpleDoubleProperty ratingProperty(){
-        return rating;
-    }
-
-    public String getComposer() {
-        return composer.get();
-    }
-
-    public void setComposer(String composer) {
-        this.composer.set(composer);
-    }
-    
-    public SimpleStringProperty composerProperty(){
-        return composer;
-    }
-
-    public String getTrackNumber() {
-        return trackNumber.get();
-    }
-
-    public void setTrackNumber(String trackNumber) {
-        this.trackNumber.set(trackNumber);
-    }    
-    
-    public SimpleStringProperty trackNumberProperty(){
-        return trackNumber;
-    }
-    
-    
     public void saveTags(){
         try{AudioFile f = AudioFileIO.read(new File("music/"+path));
             Tag tag = f.getTag();
-            tag.setField(FieldKey.TITLE,name.get());
-            tag.setField(FieldKey.ARTIST,artist.get());
-            tag.setField(FieldKey.ALBUM,album.get());
-            tag.setField(FieldKey.GENRE,genre.get());
-            tag.setField(FieldKey.COMPOSER,composer.get());
+            tag.setField(FieldKey.TITLE,name);
+            tag.setField(FieldKey.ARTIST,artist);
+            tag.setField(FieldKey.ALBUM,album);
+            tag.setField(FieldKey.GENRE,genre);
+            tag.setField(FieldKey.COMPOSER,composer);
             AudioFileIO.write(f);
         }catch(Exception e){}        
     }

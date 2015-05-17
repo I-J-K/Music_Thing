@@ -128,7 +128,7 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#autoRepeat" />
+                  <Button fx:id="autoRepeat" mnemonicParsing="false" onAction="#autoRepeat" />
                   <Label text="Volume">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" />
