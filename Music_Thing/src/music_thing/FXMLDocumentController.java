@@ -120,6 +120,10 @@ public class FXMLDocumentController implements Initializable {
         return player;
     }
     
+    public TableView<Track> getSongList(){
+        return songList;
+    }
+    
     @FXML
     private void onSliderPressed(MouseEvent event){
         if(player!=null && timeBar!=null){
@@ -304,30 +308,31 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void importFromDrag(DragEvent event){
-        new Thread(){
-            @Override
-            public void run() {
-                //Do some stuff in another thread
-                Platform.runLater(() -> {
-                    Dragboard db = event.getDragboard();
-                    boolean success = false;
-                    boolean imported = false;
-                    if (db.hasFiles()) {
-                        success = true;
-                        for (File file : db.getFiles()) {
-                            imported = importFile(file) || imported;
-                        }
-                    }
-                    event.setDropCompleted(success);
-                    event.consume();
-                    if(success){
-                        songList.sort();
-                        MusicLibrary.save();
-                        alertImportComplete(imported);
-                    }
-                });
-            }
-        }.start();  
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                //Do some stuff in another thread
+//                Platform.runLater(() -> {
+//                    Dragboard db = event.getDragboard();
+//                    boolean success = false;
+//                    boolean imported = false;
+//                    if (db.hasFiles()) {
+//                        success = true;
+//                        for (File file : db.getFiles()) {
+//                            imported = importFile(file) || imported;
+//                        }
+//                    }
+//                    event.setDropCompleted(success);
+//                    event.consume();
+//                    if(success){
+//                        songList.sort();
+//                        MusicLibrary.save();
+//                        alertImportComplete(imported);
+//                    }
+//                });
+//            }
+//        }.start();  
+        new Thread(new dragTask(event.getDragboard(), event)).start();
     }
      
     @FXML
@@ -383,7 +388,7 @@ public class FXMLDocumentController implements Initializable {
         alert.showAndWait();
     }
     
-    private boolean importFile(File file){
+    public boolean importFile(File file){
         boolean imported = false;
         if(file.isFile()){
             File copyTo =  new File("music/"+file.getName());
