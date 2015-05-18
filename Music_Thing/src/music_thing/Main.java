@@ -45,6 +45,10 @@ public class Main extends Application {
     public static Stage getMainWindow() {
         return mainWindow;
     }
+    
+    public static FXMLDocumentController getController(){
+        return mainController;
+    }
 
     /**
      * @param args the command line arguments
