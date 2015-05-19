@@ -5,7 +5,6 @@
  */
 package music_thing;
 
-import com.sun.javafx.scene.control.skin.TableViewSkinBase;
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.io.File;
@@ -308,31 +307,9 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void importFromDrag(DragEvent event){
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                //Do some stuff in another thread
-//                Platform.runLater(() -> {
-//                    Dragboard db = event.getDragboard();
-//                    boolean success = false;
-//                    boolean imported = false;
-//                    if (db.hasFiles()) {
-//                        success = true;
-//                        for (File file : db.getFiles()) {
-//                            imported = importFile(file) || imported;
-//                        }
-//                    }
-//                    event.setDropCompleted(success);
-//                    event.consume();
-//                    if(success){
-//                        songList.sort();
-//                        MusicLibrary.save();
-//                        alertImportComplete(imported);
-//                    }
-//                });
-//            }
-//        }.start();  
-        new Thread(new dragTask(event.getDragboard(), event)).start();
+        event.setDropCompleted(false);
+        if (event.getDragboard().hasFiles()) new Thread(new dragTask(event.getDragboard().getFiles(), event)).start();
+        event.consume();
     }
      
     @FXML
