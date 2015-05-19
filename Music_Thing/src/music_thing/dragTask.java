@@ -6,6 +6,7 @@
 package music_thing;
 
 import java.io.File;
+import java.util.List;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.input.DragEvent;
@@ -16,37 +17,28 @@ import javafx.scene.input.Dragboard;
  * @author csstudent
  */
 public class dragTask extends Task<Void> {
-    final private Dragboard db;
+    final private List<File> files;
     final private DragEvent event;
     
-    public dragTask(Dragboard board, DragEvent ev){
+    public dragTask(List<File> files, DragEvent ev){
         super();
-        db = board;
+        this.files = files;
         event = ev;
     }
     
     @Override
     protected Void call() throws Exception {
-        boolean success = false;
         boolean imported = false;
-                        System.out.println(db.hasFiles());
-        if (db.hasFiles()) {
-            success = true;
-            for (File file : db.getFiles()) {
-                imported = Main.getController().importFile(file) || imported;
-            }
+        for (File file : files) {
+            imported = Main.getController().importFile(file) || imported;
         }
-        event.setDropCompleted(success);
-        event.consume();
-
-        if(success){
-            Main.getController().getSongList().sort();
-            MusicLibrary.save();
-            if(imported){
-                Platform.runLater(() -> {FXMLDocumentController.alertImportComplete(true);});
-            }else{
-                Platform.runLater(() -> {FXMLDocumentController.alertImportComplete(false);});
-            }
+        event.setDropCompleted(true);
+        Main.getController().getSongList().sort();
+        MusicLibrary.save();
+        if(imported){
+            Platform.runLater(() -> {FXMLDocumentController.alertImportComplete(true);});
+        }else{
+            Platform.runLater(() -> {FXMLDocumentController.alertImportComplete(false);});
         }
         return null;
     }
