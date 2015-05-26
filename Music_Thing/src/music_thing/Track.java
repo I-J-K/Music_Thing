@@ -28,6 +28,10 @@ public class Track implements java.io.Serializable{
     private String albumArtist;
     private String album;
     
+<<<<<<< HEAD
+    
+=======
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
     private String genre;
     private String composer;
     private String trackNumber;
@@ -37,7 +41,11 @@ public class Track implements java.io.Serializable{
     private SongType type;
     private Integer length;
     private Integer playCount;
+<<<<<<< HEAD
+    private String albumArtPath;
+=======
     private String albumArt;
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
     private String path;
     
     public Track(SongType type, String path){
@@ -61,7 +69,13 @@ public class Track implements java.io.Serializable{
                 this.composer = tag.getFirst(FieldKey.COMPOSER);
                 this.trackNumber = tag.getFirst(FieldKey.TRACK);
                 this.year = tag.getFirst(FieldKey.YEAR);
+<<<<<<< HEAD
+                this.albumArtPath = tag.getFirst(FieldKey.COVER_ART);
                 this.length = f.getAudioHeader().getTrackLength();
+                
+=======
+                this.length = f.getAudioHeader().getTrackLength();
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
             }catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | KeyNotFoundException | UnsupportedOperationException e){}  
         }
         
@@ -171,11 +185,19 @@ public class Track implements java.io.Serializable{
     }
 
     public String getAlbumArt() {
+<<<<<<< HEAD
+        return albumArtPath;
+    }
+
+    public void setAlbumArt(String albumArt) {
+        this.albumArtPath = albumArt;
+=======
         return albumArt;
     }
 
     public void setAlbumArt(String albumArt) {
         this.albumArt = albumArt;
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
     }
 
     public String getPath() {
@@ -194,6 +216,11 @@ public class Track implements java.io.Serializable{
             tag.setField(FieldKey.ALBUM,album);
             tag.setField(FieldKey.GENRE,genre);
             tag.setField(FieldKey.COMPOSER,composer);
+<<<<<<< HEAD
+            tag.setField(FieldKey.TRACK,trackNumber);
+            tag.setField(FieldKey.YEAR,year);
+=======
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
             AudioFileIO.write(f);
         }catch(Exception e){}        
     }
@@ -205,4 +232,8 @@ public class Track implements java.io.Serializable{
         }
         return false;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
