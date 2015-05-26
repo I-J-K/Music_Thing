@@ -181,7 +181,6 @@ public class Track implements java.io.Serializable{
 
     public void setAlbumArt(String albumArt) {
         this.albumArtPath = albumArt;
-        return albumArtPath;
     }
 
   
