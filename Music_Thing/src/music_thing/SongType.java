@@ -9,6 +9,10 @@ package music_thing;
  *
  * @author joshuakaplan
  * 
+<<<<<<< HEAD
+ * 
+=======
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
  * Just an enum, just the types we want to have supported, so that you can't 
  * give any type you want. 
  * 

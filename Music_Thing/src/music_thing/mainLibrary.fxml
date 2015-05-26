@@ -13,7 +13,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<<<<<<< HEAD
+<BorderPane minWidth="776.0" prefHeight="517.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
+=======
 <BorderPane minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
    <bottom>
       <AnchorPane prefHeight="33.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -128,18 +132,7 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
-                     <HBox.margin>
-                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
-                     </HBox.margin></Button>
-                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3" text="S">
-                     <HBox.margin>
-                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="31.0" />
-                     </font>
-                  </Button>
+                  <Button fx:id="autoRepeat" mnemonicParsing="false" onAction="#autoRepeat" />
                   <Label text="Volume">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" />
@@ -174,6 +167,15 @@
                   		<Label text="No Music In Library" />
                   	</placeholder>
                      <columns>
+<<<<<<< HEAD
+                        <TableColumn fx:id="songCol" minWidth="20.0" prefWidth="-1.0" text="Song" />
+                        <TableColumn fx:id="timeCol" minWidth="20.0" prefWidth="-1.0" text="Time" />
+                        <TableColumn fx:id="artistCol" minWidth="20.0" prefWidth="-1.0" text="Artist" />
+                        <TableColumn fx:id="albumCol" minWidth="20.0" prefWidth="-1.0" text="Album" />
+                        <TableColumn fx:id="genreCol" minWidth="20.0" prefWidth="-1.0" text="Genre" />
+                        <TableColumn fx:id="ratingCol" minWidth="50.0" prefWidth="-1.0" text="Rating" />
+                        <TableColumn fx:id="playcountCol" minWidth="20.0" prefWidth="-1.0" text="Plays" />
+=======
                         <TableColumn fx:id="songCol" minWidth="75.0" prefWidth="-1.0" text="Song" />
                         <TableColumn fx:id="timeCol" minWidth="75.0" prefWidth="-1.0" text="Time" />
                         <TableColumn fx:id="artistCol" minWidth="75.0" prefWidth="-1.0" text="Artist" />
@@ -181,6 +183,7 @@
                         <TableColumn fx:id="genreCol" minWidth="75.0" prefWidth="-1.0" text="Genre" />
                         <TableColumn fx:id="ratingCol" minWidth="100.0" prefWidth="100.0" resizable="false" text="Rating" />
                         <TableColumn fx:id="playcountCol" minWidth="30.0" prefWidth="56.0" text="Plays" />
+>>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
