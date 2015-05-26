@@ -128,7 +128,18 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="autoRepeat" mnemonicParsing="false" onAction="#autoRepeat" />
+                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3" text="S">
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="31.0" />
+                     </font>
+                  </Button>
                   <Label text="Volume">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" />
