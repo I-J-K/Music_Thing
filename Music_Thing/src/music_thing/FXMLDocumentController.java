@@ -5,10 +5,7 @@
  */
 package music_thing;
 
-<<<<<<< HEAD
 import com.sun.javafx.scene.control.skin.TableViewSkinBase;
-=======
->>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.io.File;
@@ -122,14 +119,11 @@ public class FXMLDocumentController implements Initializable {
     public MusicPlayer getPlayer(){
         return player;
     }
-    
-<<<<<<< HEAD
-=======
+
     public TableView<Track> getSongList(){
         return songList;
     }
     
->>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
     @FXML
     private void onSliderPressed(MouseEvent event){
         if(player!=null && timeBar!=null){
@@ -162,9 +156,7 @@ public class FXMLDocumentController implements Initializable {
                 wasPlaying=false;
             }
         }
-    }
-<<<<<<< HEAD
-    
+    }    
     @FXML
     private void clickedTable(MouseEvent event){
         if (event.isPrimaryButtonDown() && event.getClickCount() > 1) {
@@ -205,49 +197,6 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
-=======
-    
-    @FXML
-    private void clickedTable(MouseEvent event){
-        if (event.isPrimaryButtonDown() && event.getClickCount() > 1) {
-            play(event);
-        }
-    }
-    
-    @FXML
-    private void stopMusic(Event event) {
-        if(player!=null)player.reset();
-        if(timer!=null)timer.stop();
-        pauseSymbol.setVisible(false);
-        playSymbol.setVisible(true);
-        menuPlay.setText("Play");
-        player.setCurrentTime((int)(player.getSongTime()));
-        currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
-    }
-    
-    @FXML
-    private void nextSong(Event event){
-        if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
-            if(!autoRepeatOn){
-                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
-                MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
-                if(player!=null && player.getPlaying()==true)play(event);
-            }else{
-                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
-                MusicLibrary.setTrack(MusicLibrary.getTrackNumber());
-                if(player!=null && player.getPlaying()==true){
-                    stopMusic(event);
-                    play(event);
-                }
-            }
-        }else{
-            stopMusic(event);
-        }
-        songList.requestFocus();
-    }
-    
-    @FXML
->>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
     private void prevSong(Event event){
         if(MusicLibrary.getTrackNumber()>0){
             songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()-1);
@@ -358,7 +307,6 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void importFromDrag(DragEvent event){
-<<<<<<< HEAD
         new Thread(){
             @Override
             public void run() {
@@ -383,11 +331,10 @@ public class FXMLDocumentController implements Initializable {
                 });
             }
         }.start();  
-=======
+
         event.setDropCompleted(false);
         if (event.getDragboard().hasFiles()) new Thread(new dragTask(event.getDragboard().getFiles(), event)).start();
         event.consume();
->>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
     }
      
     @FXML
@@ -443,11 +390,7 @@ public class FXMLDocumentController implements Initializable {
         alert.showAndWait();
     }
     
-<<<<<<< HEAD
-    private boolean importFile(File file){
-=======
     public boolean importFile(File file){
->>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
         boolean imported = false;
         if(file.isFile()){
             File copyTo =  new File("music/"+file.getName());
@@ -547,11 +490,8 @@ public class FXMLDocumentController implements Initializable {
         MusicLibrary.load();
         File music = new File("music");
         if(!music.exists())music.mkdir();
-<<<<<<< HEAD
         File artwork = new File("artwork");
         if(!artwork.exists())artwork.mkdir();
-=======
->>>>>>> 71a64b1cabea57c492c51c9f7b34a07d45321fca
         songCol.setCellValueFactory(
                 new PropertyValueFactory("name"));
         artistCol.setCellValueFactory(
