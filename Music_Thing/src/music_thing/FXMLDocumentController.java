@@ -104,11 +104,14 @@ public class FXMLDocumentController implements Initializable {
     private Label currentTimeLabel;
     @FXML
     private MenuItem playContextMenu;
+    @FXML
+    private Button shuffleButton;
     
     private Timeline timer;
     private boolean wasPlaying;
     private Main main;
     private boolean autoRepeatOn = false;
+    private boolean shuffle = false;
     
     private MusicPlayer player;
     private final JavafxPlayer jfxPlayer = new JavafxPlayer();
@@ -179,9 +182,15 @@ public class FXMLDocumentController implements Initializable {
     private void nextSong(Event event){
         if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
             if(!autoRepeatOn){
-                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
-                MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
-                if(player!=null && player.getPlaying()==true)play(event);
+                if(!shuffle){
+                    songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
+                    MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+                    if(player!=null && player.getPlaying()==true)play(event);
+                }else{
+                    songList.getSelectionModel().clearAndSelect((int)(Math.random()*(MusicLibrary.size())));
+                    MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+                    if(player!=null && player.getPlaying()==true)play(event);
+                }
             }else{
                 songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                 MusicLibrary.setTrack(MusicLibrary.getTrackNumber());
@@ -551,10 +560,26 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void autoRepeat(ActionEvent event){
         autoRepeatOn = !autoRepeatOn;
+        shuffle = false;
+        shuffleButton.setEffect(null);
         if(autoRepeatOn){
             autoRepeat.setEffect(new Lighting());
         }else{
             autoRepeat.setEffect(null);
+        }
+        songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
+        songList.requestFocus();
+    }
+    
+    @FXML
+    private void shuffle(ActionEvent event){
+        shuffle = !shuffle;
+        autoRepeatOn = false;
+        autoRepeat.setEffect(null);
+        if(shuffle){
+            shuffleButton.setEffect(new Lighting());
+        }else{
+            shuffleButton.setEffect(null);
         }
         songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
         songList.requestFocus();
