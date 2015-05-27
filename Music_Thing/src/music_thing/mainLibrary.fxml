@@ -128,7 +128,15 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="autoRepeat" mnemonicParsing="false" onAction="#autoRepeat" />
+                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
+                     </HBox.margin>
+                  </Button>
                   <Label text="Volume">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" />
@@ -228,6 +236,8 @@
                   <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />
                   <MenuItem mnemonicParsing="false" onAction="#nextSong" text="Next" />
                   <MenuItem mnemonicParsing="false" onAction="#prevSong" text="Previous" />
+                  <CheckMenuItem fx:id="shuffleMenu" mnemonicParsing="false" onAction="#shuffle" text="Shuffle" />
+                  <CheckMenuItem fx:id="repeatMenu" mnemonicParsing="false" onAction="#autoRepeat" text="Repeat" />
                   <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="BACK_SPACE" control="UP" meta="DOWN" shift="UP" shortcut="UP" />

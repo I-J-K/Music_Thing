@@ -33,6 +33,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -105,11 +106,18 @@ public class FXMLDocumentController implements Initializable {
     private Label currentTimeLabel;
     @FXML
     private MenuItem playContextMenu;
+    @FXML
+    private CheckMenuItem repeatMenu;
+    @FXML
+    private CheckMenuItem shuffleMenu;
+    @FXML
+    private Button shuffleButton;
     
     private Timeline timer;
     private boolean wasPlaying;
     private Main main;
     private boolean autoRepeatOn = false;
+    private boolean shuffleOn = false;
     
     private MusicPlayer player;
     private final JavafxPlayer jfxPlayer = new JavafxPlayer();
@@ -179,9 +187,15 @@ public class FXMLDocumentController implements Initializable {
     private void nextSong(Event event){
         if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
             if(!autoRepeatOn){
-                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
-                MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
-                if(player!=null && player.getPlaying()==true)play(event);
+                if(!shuffleOn){
+                    songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
+                    MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+                    if(player!=null && player.getPlaying()==true)play(event);
+                }else{
+                    MusicLibrary.setTrack((int)(Math.random()*MusicLibrary.size()));
+                    songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
+                    if(player!=null && player.getPlaying()==true)play(event);
+                }
             }else{
                 songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                 MusicLibrary.setTrack(MusicLibrary.getTrackNumber());
@@ -591,9 +605,30 @@ public class FXMLDocumentController implements Initializable {
         autoRepeatOn = !autoRepeatOn;
         if(autoRepeatOn){
             autoRepeat.setEffect(new Lighting());
+            shuffleMenu.setSelected(false);
+            shuffleOn = false;
+            shuffleButton.setEffect(null);
+            
         }else{
             autoRepeat.setEffect(null);
         }
+        repeatMenu.setSelected(autoRepeatOn);
+        songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
+        songList.requestFocus();
+    }
+    
+    @FXML
+    private void shuffle(ActionEvent event){
+        shuffleOn = !shuffleOn;
+        if(shuffleOn){
+            repeatMenu.setSelected(false);
+            autoRepeatOn = false;
+            autoRepeat.setEffect(null);
+            shuffleButton.setEffect(new Lighting());
+        }else{
+            shuffleButton.setEffect(null);
+        }
+        shuffleMenu.setSelected(shuffleOn);
         songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
         songList.requestFocus();
     }
