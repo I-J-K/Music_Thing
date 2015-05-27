@@ -307,31 +307,6 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void importFromDrag(DragEvent event){
-        new Thread(){
-            @Override
-            public void run() {
-                //Do some stuff in another thread
-                Platform.runLater(() -> {
-                    Dragboard db = event.getDragboard();
-                    boolean success = false;
-                    boolean imported = false;
-                    if (db.hasFiles()) {
-                        success = true;
-                        for (File file : db.getFiles()) {
-                            imported = importFile(file) || imported;
-                        }
-                    }
-                    event.setDropCompleted(success);
-                    event.consume();
-                    if(success){
-                        songList.sort();
-                        MusicLibrary.save();
-                        alertImportComplete(imported);
-                    }
-                });
-            }
-        }.start();  
-
         event.setDropCompleted(false);
         if (event.getDragboard().hasFiles()) new Thread(new dragTask(event.getDragboard().getFiles(), event)).start();
         event.consume();
@@ -375,6 +350,42 @@ public class FXMLDocumentController implements Initializable {
             }
         }).start();
         
+    }
+    
+    @FXML
+    private void rate0(ActionEvent event){
+        MusicLibrary.getSelectedTrack(songList).setRating(0.0);
+        refresh();
+    }
+    
+    @FXML
+    private void rate1(ActionEvent event){
+        MusicLibrary.getSelectedTrack(songList).setRating(1.0);
+        refresh();
+    }
+    
+    @FXML
+    private void rate2(ActionEvent event){
+        MusicLibrary.getSelectedTrack(songList).setRating(2.0);
+        refresh();
+    }
+    
+    @FXML
+    private void rate3(ActionEvent event){
+        MusicLibrary.getSelectedTrack(songList).setRating(3.0);
+        refresh();
+    }
+    
+    @FXML
+    private void rate4(ActionEvent event){
+        MusicLibrary.getSelectedTrack(songList).setRating(4.0);
+        refresh();
+    }
+    
+    @FXML
+    private void rate5(ActionEvent event){
+        MusicLibrary.getSelectedTrack(songList).setRating(5.0);
+        refresh();
     }
     
     public static void alertImportComplete(boolean imported){
