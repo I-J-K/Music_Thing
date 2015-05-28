@@ -42,6 +42,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.*;
 import javafx.scene.input.DragEvent;
@@ -112,6 +113,8 @@ public class FXMLDocumentController implements Initializable {
     private CheckMenuItem shuffleMenu;
     @FXML
     private Button shuffleButton;
+    @FXML
+    private TextField searchField;
     
     private Timeline timer;
     private boolean wasPlaying;
