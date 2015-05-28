@@ -24,6 +24,12 @@ public class MusicLibrary implements java.io.Serializable{
     private static ObservableList<Track> library = FXCollections.observableArrayList();
     
     private static ArrayList<Track> libraryList;
+    
+    private static ArrayList<Track> queue;
+    
+    private static boolean queueIsEmpty;
+    
+    private static Track lastPlayed;
 
     public static ObservableList<Track> getLibrary() {
         return library;
@@ -74,5 +80,24 @@ public class MusicLibrary implements java.io.Serializable{
             fileIn.close();
             library = FXCollections.observableList(libraryList);
         }catch(Exception e){}
+    }
+    
+    public static void addToQueue(Track toAdd, Integer position){
+        if(queueIsEmpty)
+            queueIsEmpty = false;
+        queue.add(position, toAdd);
+    }
+    
+    public static boolean isQueueEmpty(){
+        return queueIsEmpty;
+    }
+    
+    public static void updateQueue(){
+        lastPlayed = queue.get(0);
+        queue.remove(0);
+    }
+    
+    public static Track getTopOfQueue(){
+        return queue.get(0);
     }
 }
