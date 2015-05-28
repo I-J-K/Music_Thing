@@ -137,7 +137,7 @@
                            <children>
                               <Circle radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                               <Circle fill="#ebebeb" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="19.0" layoutX="6.0" layoutY="-5.0" rotate="41.6" stroke="#00000005" strokeType="INSIDE" width="16.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="19.0" layoutX="9.0" layoutY="-8.0" rotate="41.6" stroke="#00000005" strokeType="INSIDE" width="16.0" />
                               <Polygon layoutX="14.0" layoutY="-3.0" scaleX="0.2" scaleY="0.2" scaleZ="0.2" stroke="BLACK" strokeType="INSIDE">
                                 <points>
                                   <Double fx:value="-50.0" />
@@ -155,6 +155,15 @@
                      <HBox.margin>
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
+                     <graphic>
+                        <Group>
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="33.0" rotate="-25.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="1.5" width="19.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="33.0" layoutX="9.0" layoutY="-4.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="1.5" width="19.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="33.0" layoutX="18.0" rotate="25.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="1.5" width="19.0" />
+                           </children>
+                        </Group>
+                     </graphic>
                   </Button>
                   <Label text="Volume">
                      <HBox.margin>
