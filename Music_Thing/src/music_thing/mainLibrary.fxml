@@ -158,9 +158,8 @@
                      <graphic>
                         <Group>
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="33.0" rotate="-25.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="1.5" width="19.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="33.0" layoutX="9.0" layoutY="-4.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="1.5" width="19.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="33.0" layoutX="18.0" rotate="25.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="1.5" width="19.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="43.0" rotate="-15.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="25.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="44.0" layoutX="19.0" rotate="15.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="24.0" />
                            </children>
                         </Group>
                      </graphic>
