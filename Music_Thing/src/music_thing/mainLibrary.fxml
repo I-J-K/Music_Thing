@@ -152,15 +152,16 @@
                            </children>
                         </Group>
                      </graphic></Button>
-                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" onMouseClicked="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="75.0" mnemonicParsing="false" onAction="#shuffle" onMouseClicked="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <HBox.margin>
-                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
+                        <Insets bottom="-20.0" left="-25.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                      <graphic>
                         <Group>
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="43.0" rotate="-15.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="25.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="44.0" layoutX="19.0" rotate="15.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="24.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="43.0" layoutX="3.0" rotate="-25.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="25.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="44.0" layoutX="19.0" layoutY="-5.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="24.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="44.0" layoutX="35.0" rotate="25.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="24.0" />
                            </children>
                         </Group>
                      </graphic>
