@@ -10,8 +10,10 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.TreeMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.scene.control.TableView;
 
 /**
@@ -22,11 +24,22 @@ public class MusicLibrary implements java.io.Serializable{
     private static int track=0;
     
     private static ObservableList<Track> library = FXCollections.observableArrayList();
-    
+    private static ObservableMap<String, Track> searcher = FXCollections.observableMap(new TreeMap<String,Track>());
     private static ArrayList<Track> libraryList;
 
     public static ObservableList<Track> getLibrary() {
         return library;
+    }
+    
+    public static void populateSearch(){
+        searcher.clear();
+        for(Track t : library){
+            searcher.put(t.getName(), t);
+        }
+    }
+    
+    public static ObservableMap<String,Track> getSearcher(){
+        return searcher;
     }
     
     public static int getTrackNumber(){
