@@ -194,7 +194,7 @@ public class FXMLDocumentController implements Initializable {
         if(MusicLibrary.size()>0){
             if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
                 if(!autoRepeatOn){
-                    //if(MusicLibrary.isQueueEmpty()){
+                    if(MusicLibrary.isQueueEmpty()){
                         if(!shuffleOn){
                             MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
                             songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
