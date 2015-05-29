@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import np.com.ngopal.control.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -19,11 +20,11 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
                <children>
-                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#prevSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#prevSong" onMouseClicked="#prevSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Group rotate="180.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5">
                            <children>
-                              <Pane prefHeight="127.0" prefWidth="107.0">
+                              <Pane onMouseClicked="#prevSong" prefHeight="127.0" prefWidth="107.0">
                                  <children>
                                     <Polygon layoutX="38.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
                                        <points>
@@ -54,7 +55,7 @@
                         <Insets bottom="-20.0" left="-5.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="play" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button fx:id="play" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#play" onMouseClicked="#play" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Group scaleX="0.7" scaleY="0.7" scaleZ="0.7">
                            <children>
@@ -85,7 +86,7 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#stopMusic" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#stopMusic" onMouseClicked="#stopMusic" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE" width="50.0" />
                      </graphic>
@@ -93,13 +94,13 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onMouseClicked="#nextSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#nextSong" onMouseClicked="#nextSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Group scaleX="0.5" scaleY="0.5" scaleZ="0.5">
                            <children>
                               <Pane prefHeight="127.0" prefWidth="107.0">
                                  <children>
-                                    <Polygon layoutX="38.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                    <Polygon layoutX="38.0" layoutY="70.0" onMouseClicked="#nextSong" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
                                        <points>
                                           <Double fx:value="-50.0" />
                                           <Double fx:value="40.0" />
@@ -128,14 +129,41 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
-                     <HBox.margin>
-                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
-                     </HBox.margin></Button>
-                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" onMouseClicked="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <HBox.margin>
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
+                     <graphic>
+                        <Group>
+                           <children>
+                              <Circle radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fill="#ebebeb" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="19.0" layoutX="9.0" layoutY="-8.0" rotate="41.6" stroke="#00000005" strokeType="INSIDE" width="16.0" />
+                              <Polygon layoutX="14.0" layoutY="-3.0" onMouseClicked="#autoRepeat" scaleX="0.2" scaleY="0.2" scaleZ="0.2" stroke="BLACK" strokeType="INSIDE">
+                                <points>
+                                  <Double fx:value="-50.0" />
+                                  <Double fx:value="40.0" />
+                                  <Double fx:value="50.0" />
+                                  <Double fx:value="40.0" />
+                                  <Double fx:value="0.0" />
+                                  <Double fx:value="-60.0" />
+                                </points>
+                              </Polygon>
+                           </children>
+                        </Group>
+                     </graphic></Button>
+                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" onMouseClicked="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                     <HBox.margin>
+                        <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <Group>
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="43.0" rotate="-15.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="25.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="44.0" layoutX="19.0" rotate="15.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="24.0" />
+                           </children>
+                        </Group>
+                     </graphic>
                   </Button>
                   <Label text="Volume">
                      <HBox.margin>
@@ -165,7 +193,8 @@
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
                <children>
-                  <ListView depthTest="ENABLE" editable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ListView layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AutoFillTextBox fx:id="searchField" layoutY="3.0" style="-fx-skin: &quot;np.com.ngopal.control.AutoFillTextBoxSkin&quot;;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children></AnchorPane>
             <AnchorPane>
                <children>
@@ -175,16 +204,13 @@
                   	</placeholder>
                      <columns>
                         <TableColumn fx:id="songCol" minWidth="75.0" prefWidth="-1.0" text="Song" />
-                        <TableColumn fx:id="timeCol" minWidth="75.0" prefWidth="-1.0" text="Time" />
+                        <TableColumn fx:id="timeCol" minWidth="60.0" prefWidth="-1.0" text="Time" />
                         <TableColumn fx:id="artistCol" minWidth="75.0" prefWidth="-1.0" text="Artist" />
                         <TableColumn fx:id="albumCol" minWidth="75.0" prefWidth="-1.0" text="Album" />
                         <TableColumn fx:id="genreCol" minWidth="75.0" prefWidth="-1.0" text="Genre" />
-                        <TableColumn fx:id="ratingCol" minWidth="100.0" prefWidth="100.0" resizable="false" text="Rating" />
-                        <TableColumn fx:id="playcountCol" minWidth="75.0" prefWidth="75.0" text="Plays" />
+                        <TableColumn fx:id="ratingCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Rating" />
+                        <TableColumn fx:id="playcountCol" minWidth="60.0" prefWidth="60.0" text="Plays" />
                      </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
                      <contextMenu>
                         <ContextMenu>
                           <items>
