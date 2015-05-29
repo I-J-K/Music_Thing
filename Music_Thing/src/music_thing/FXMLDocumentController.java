@@ -194,18 +194,17 @@ public class FXMLDocumentController implements Initializable {
         if(MusicLibrary.size()!=0){
             if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
                 if(!autoRepeatOn){
-        if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
-            if(!autoRepeatOn){
-                if(MusicLibrary.isQueueEmpty()){
-                    if(!shuffleOn){
-                        songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
-                        MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
-                        if(player!=null && player.getPlaying()==true)play(event);
-                    }else{
-                        MusicLibrary.setTrack((int)(Math.random()*MusicLibrary.size()));
-                        songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
-                        if(player!=null && player.getPlaying()==true)play(event);
-                    }
+                    if(MusicLibrary.isQueueEmpty()){
+                        if(!shuffleOn){
+                            songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
+                            MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+                            if(player!=null && player.getPlaying()==true)play(event);
+                        }else{
+                            MusicLibrary.setTrack((int)(Math.random()*MusicLibrary.size()));
+                            songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
+                            if(player!=null && player.getPlaying()==true)play(event);
+                        }
+                    }else{}
                 }else{
                     songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                     MusicLibrary.setTrack(MusicLibrary.getTrackNumber());
@@ -213,7 +212,6 @@ public class FXMLDocumentController implements Initializable {
                         stopMusic(event);
                         play(event);
                     }
-                    
                 }
             }else{
                 stopMusic(event);
