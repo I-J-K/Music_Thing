@@ -29,7 +29,7 @@ public class MusicLibrary implements java.io.Serializable{
     
     private static ArrayList<Track> queue;
     
-    private static boolean queueIsEmpty;
+    private static boolean queueIsEmpty = false;
     
     private static Track lastPlayed;
 
