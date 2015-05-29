@@ -95,7 +95,7 @@ public class MusicLibrary implements java.io.Serializable{
         }catch(Exception e){}
     }
     
-    public static void addToQueue(Track toAdd, Integer position){
+    public static void addToQueue(Integer position, Track toAdd){
         if(queueIsEmpty)
             queueIsEmpty = false;
         queue.add(position, toAdd);

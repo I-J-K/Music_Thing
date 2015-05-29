@@ -73,6 +73,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button autoRepeat;
     @FXML
+    private Button shuffleButton;
+    @FXML
     private TableView<Track> songList;
     @FXML
     private MenuItem fileImport;
@@ -114,8 +116,6 @@ public class FXMLDocumentController implements Initializable {
     private CheckMenuItem repeatMenu;
     @FXML
     private CheckMenuItem shuffleMenu;
-    @FXML
-    private Button shuffleButton;
     @FXML
     private AutoFillTextBox searchField;
     
@@ -204,7 +204,8 @@ public class FXMLDocumentController implements Initializable {
                             songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                             if(player!=null && player.getPlaying()==true)play(event);
                         }
-                    }else{}
+                    }else{
+                    }
                 }else{
                     songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                     MusicLibrary.setTrack(MusicLibrary.getTrackNumber());

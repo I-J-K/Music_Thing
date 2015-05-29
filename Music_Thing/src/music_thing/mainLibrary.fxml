@@ -24,7 +24,7 @@
                      <graphic>
                         <Group rotate="180.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5">
                            <children>
-                              <Pane prefHeight="127.0" prefWidth="107.0">
+                              <Pane onMouseClicked="#prevSong" prefHeight="127.0" prefWidth="107.0">
                                  <children>
                                     <Polygon layoutX="38.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
                                        <points>
@@ -100,7 +100,7 @@
                            <children>
                               <Pane prefHeight="127.0" prefWidth="107.0">
                                  <children>
-                                    <Polygon layoutX="38.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                    <Polygon layoutX="38.0" layoutY="70.0" onMouseClicked="#nextSong" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
                                        <points>
                                           <Double fx:value="-50.0" />
                                           <Double fx:value="40.0" />
@@ -129,7 +129,7 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" onMouseClicked="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <HBox.margin>
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
@@ -139,7 +139,7 @@
                               <Circle radius="21.0" stroke="BLACK" strokeType="INSIDE" />
                               <Circle fill="#ebebeb" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="19.0" layoutX="9.0" layoutY="-8.0" rotate="41.6" stroke="#00000005" strokeType="INSIDE" width="16.0" />
-                              <Polygon layoutX="14.0" layoutY="-3.0" scaleX="0.2" scaleY="0.2" scaleZ="0.2" stroke="BLACK" strokeType="INSIDE">
+                              <Polygon layoutX="14.0" layoutY="-3.0" onMouseClicked="#autoRepeat" scaleX="0.2" scaleY="0.2" scaleZ="0.2" stroke="BLACK" strokeType="INSIDE">
                                 <points>
                                   <Double fx:value="-50.0" />
                                   <Double fx:value="40.0" />
@@ -152,7 +152,7 @@
                            </children>
                         </Group>
                      </graphic></Button>
-                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" onMouseClicked="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <HBox.margin>
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
