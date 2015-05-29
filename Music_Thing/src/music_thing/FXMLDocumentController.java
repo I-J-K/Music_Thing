@@ -205,7 +205,7 @@ public class FXMLDocumentController implements Initializable {
                             if(player!=null && player.getPlaying()==true)play(event);
                         }
                     }else{
-                        
+                        songList.getSelectionModel().clearAndSelect(MusicLibrary.getTopOfQueue());
                     }
                 }else{
                     songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());

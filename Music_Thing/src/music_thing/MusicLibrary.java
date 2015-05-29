@@ -110,7 +110,7 @@ public class MusicLibrary implements java.io.Serializable{
         queue.remove(0);
     }
     
-    public static Track getTopOfQueue(){
-        return queue.get(0);
+    public static int getTopOfQueue(){
+        return library.indexOf(queue.get(0));
     }
 }
