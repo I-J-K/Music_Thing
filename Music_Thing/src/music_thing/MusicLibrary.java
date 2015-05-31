@@ -31,7 +31,10 @@ public class MusicLibrary implements java.io.Serializable{
     
     private static boolean queueIsEmpty = false;
     
-    private static Track lastPlayed;
+    private static int positionInQueue = -1;
+    
+    //This is for shuffle only.
+    private static int lastPlayed;
 
     public static ObservableList<Track> getLibrary() {
         return library;
@@ -105,12 +108,18 @@ public class MusicLibrary implements java.io.Serializable{
         return queueIsEmpty;
     }
     
-    public static void updateQueue(){
-        lastPlayed = queue.get(0);
-        queue.remove(0);
+    public static int getNextQueueItem(){
+        return library.indexOf(queue.get(positionInQueue + 1));
     }
     
-    public static int getTopOfQueue(){
-        return library.indexOf(queue.get(0));
+    public static int getPrevQueueItem(){
+        if(positionInQueue > 0){
+            return library.indexOf(queue.get(positionInQueue - 1));
+        }
+        return library.indexOf(queue.get(positionInQueue));
+    }
+   
+    public static void updateQueue(){
+        positionInQueue++;
     }
 }
