@@ -20,11 +20,11 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#prevSong" onMouseClicked="#prevSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#prevSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Group rotate="180.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5">
                            <children>
-                              <Pane onMouseClicked="#prevSong" prefHeight="127.0" prefWidth="107.0">
+                              <Pane prefHeight="127.0" prefWidth="107.0">
                                  <children>
                                     <Polygon layoutX="38.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
                                        <points>
@@ -55,7 +55,7 @@
                         <Insets bottom="-20.0" left="-5.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="play" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#play" onMouseClicked="#play" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button fx:id="play" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#play" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Group scaleX="0.7" scaleY="0.7" scaleZ="0.7">
                            <children>
@@ -86,7 +86,7 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#stopMusic" onMouseClicked="#stopMusic" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#stopMusic" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE" width="50.0" />
                      </graphic>
@@ -94,13 +94,13 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#nextSong" onMouseClicked="#nextSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#nextSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
                         <Group scaleX="0.5" scaleY="0.5" scaleZ="0.5">
                            <children>
                               <Pane prefHeight="127.0" prefWidth="107.0">
                                  <children>
-                                    <Polygon layoutX="38.0" layoutY="70.0" onMouseClicked="#nextSong" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
+                                    <Polygon layoutX="38.0" layoutY="70.0" rotate="90.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5" stroke="BLACK" strokeType="INSIDE">
                                        <points>
                                           <Double fx:value="-50.0" />
                                           <Double fx:value="40.0" />
@@ -129,7 +129,7 @@
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" onMouseClicked="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button fx:id="autoRepeat" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#autoRepeat" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <HBox.margin>
                         <Insets bottom="-20.0" left="-20.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
@@ -152,7 +152,7 @@
                            </children>
                         </Group>
                      </graphic></Button>
-                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="75.0" mnemonicParsing="false" onAction="#shuffle" onMouseClicked="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
+                  <Button fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <HBox.margin>
                         <Insets bottom="-20.0" left="-25.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
