@@ -38,6 +38,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
@@ -60,7 +61,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import np.com.ngopal.control.*;
+//import np.com.ngopal.control.*;
 
 /**
  *
@@ -117,7 +118,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private CheckMenuItem shuffleMenu;
     @FXML
-    private AutoFillTextBox searchField;
+    private TextField searchField;
+    @FXML
+    private MenuBar menuBar;
     
     private Timeline timer;
     private boolean wasPlaying;
@@ -191,13 +194,13 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void nextSong(Event event){
-        if(MusicLibrary.size()!=0){
+        if(MusicLibrary.size()>0){
             if(MusicLibrary.getTrackNumber()<MusicLibrary.size()-1){
                 if(!autoRepeatOn){
                     if(MusicLibrary.isQueueEmpty()){
                         if(!shuffleOn){
-                            songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()+1);
                             MusicLibrary.setTrack(MusicLibrary.getTrackNumber()+1);
+                            songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                             if(player!=null && player.getPlaying()==true)play(event);
                         }else{
                             MusicLibrary.setTrack((int)(Math.random()*MusicLibrary.size()));
@@ -205,7 +208,10 @@ public class FXMLDocumentController implements Initializable {
                             if(player!=null && player.getPlaying()==true)play(event);
                         }
                     }else{
-                        
+                        songList.getSelectionModel().clearAndSelect(MusicLibrary.getNextQueueItem());
+                        MusicLibrary.setTrack(MusicLibrary.getNextQueueItem());
+                        if(player!=null && player.getPlaying()==true)play(event);
+                        MusicLibrary.updateQueue();
                     }
                 }else{
                     songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
@@ -225,9 +231,23 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void prevSong(Event event){
         if(MusicLibrary.size()!=0){
-            if(MusicLibrary.getTrackNumber()>0){
-                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber()-1);
+            if(shuffleOn){
+                MusicLibrary.setTrack((int)(Math.random()*MusicLibrary.size()));
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
+                if(player!=null && player.getPlaying()==true)play(event);
+            }else if(autoRepeatOn){
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
+                MusicLibrary.setTrack(MusicLibrary.getTrackNumber());
+                if(player!=null && player.getPlaying()==true){
+                    stopMusic(event);
+                    play(event);
+                }
+            }else if(! MusicLibrary.isQueueEmpty()){
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getPrevQueueItem());
+            }else if(MusicLibrary.getTrackNumber()>0){
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber() - 1);
                 MusicLibrary.setTrack(MusicLibrary.getTrackNumber()-1);
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                 if(player!=null && player.getPlaying()==true)play(event);
             }else{
                 stopMusic(event);
@@ -570,11 +590,8 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MusicLibrary.load();
-        MusicLibrary.populateSearch();
         File music = new File("music");
         if(!music.exists())music.mkdir();
-        File artwork = new File("artwork");
-        if(!artwork.exists())artwork.mkdir();
         songCol.setCellValueFactory(
                 new PropertyValueFactory("name"));
         artistCol.setCellValueFactory(
@@ -639,19 +656,16 @@ public class FXMLDocumentController implements Initializable {
                     currentTimeLabel.setText(new TimeFormat(((Integer)newValue)).toString());
                 }
         });
-        MusicLibrary.getLibrary().addListener(new ListChangeListener(){
-            @Override
-            public void onChanged(ListChangeListener.Change c) {
-                MusicLibrary.populateSearch();
-            }
-        });
         timer = new Timeline(new KeyFrame(
                     Duration.millis(100),
                     ae -> tick()));
         timer.setCycleCount(Animation.INDEFINITE);
         timeBar.setMin(0);
-        songList.setItems(MusicLibrary.getLibrary());
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        searchField.setData(FXCollections.observableArrayList(MusicLibrary.getSearcher().keySet()));
+        MusicLibrary.setUpFilter(searchField);
+        MusicLibrary.getLibrary().comparatorProperty().bind(songList.comparatorProperty());
+        songList.setItems(MusicLibrary.getLibrary());
+        String os = System.getProperty ("os.name");
+        //if (os != null && os.startsWith ("Mac"))menuBar.useSystemMenuBarProperty ().set (true);
     }
 }

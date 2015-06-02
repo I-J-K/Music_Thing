@@ -214,6 +214,14 @@ public class Track implements java.io.Serializable{
         }
         return false;
     }
+    
+    public String toString(){
+        return getName();
+    }
+    
+    public int compareTo(Track o){
+        return toString().compareTo(o.toString());
+    }
 }
 
 

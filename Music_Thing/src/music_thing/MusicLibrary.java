@@ -11,10 +11,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.util.function.Predicate;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -23,30 +29,49 @@ import javafx.scene.control.TableView;
 public class MusicLibrary implements java.io.Serializable{
     private static int track=0;
     
-    private static ObservableList<Track> library = FXCollections.observableArrayList();
-    private static ObservableMap<String, Track> searcher = FXCollections.observableMap(new TreeMap<String,Track>());
+    private static ObservableList<Track> data = FXCollections.observableArrayList();
+    private static FilteredList<Track> filteredData = new FilteredList<>(data, p -> true);
+    private static SortedList<Track> library;
+    // 2. Set the filter Predicate whenever the filter changes.
+    public static void setUpFilter(TextField filterField){
+        //filterField.textProperty().addListener(ChangeListener);
+        filterField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            filteredData.setPredicate((Track track) -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (track.getName()!=null && track.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches name.
+                } else if (track.getArtist()!=null && track.getArtist().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches artist.
+                } else if (track.getAlbum()!=null && track.getAlbum().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches album.
+                } else if (track.getGenre()!=null && track.getGenre().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false; // Does not match.
+            });
+        });
+        library = new SortedList<>(filteredData);
+    }
+
     private static ArrayList<Track> libraryList;
     
     private static ArrayList<Track> queue;
     
-    private static boolean queueIsEmpty = false;
+    private static boolean queueIsEmpty = true;
     
-    private static Track lastPlayed;
+    private static int positionInQueue = -1;
+    
+    //This is for shuffle only.
+    private static int lastPlayed;
 
-    public static ObservableList<Track> getLibrary() {
+    public static SortedList<Track> getLibrary() {
         return library;
     }
-    
-    public static void populateSearch(){
-        searcher.clear();
-        for(Track t : library){
-            searcher.put(t.getName(), t);
-        }
-    }
-    
-    public static ObservableMap<String,Track> getSearcher(){
-        return searcher;
-    }
+
     
     public static int getTrackNumber(){
         return track;
@@ -75,7 +100,7 @@ public class MusicLibrary implements java.io.Serializable{
     
     public static void save(){
         try{
-            libraryList = new ArrayList(library);
+            libraryList = new ArrayList(data);
             FileOutputStream fileOut = new FileOutputStream("library.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(libraryList);
@@ -91,7 +116,9 @@ public class MusicLibrary implements java.io.Serializable{
             libraryList = (ArrayList<Track>) in.readObject();
             in.close();
             fileIn.close();
-            library = FXCollections.observableList(libraryList);
+            data = FXCollections.observableList(libraryList);
+            filteredData = new FilteredList<>(data, p -> true);
+            library = new SortedList<>(filteredData);
         }catch(Exception e){}
     }
     
@@ -105,12 +132,18 @@ public class MusicLibrary implements java.io.Serializable{
         return queueIsEmpty;
     }
     
-    public static void updateQueue(){
-        lastPlayed = queue.get(0);
-        queue.remove(0);
+    public static int getNextQueueItem(){
+        return library.indexOf(queue.get(positionInQueue + 1));
     }
     
-    public static Track getTopOfQueue(){
-        return queue.get(0);
+    public static int getPrevQueueItem(){
+        if(positionInQueue > 0){
+            return library.indexOf(queue.get(positionInQueue - 1));
+        }
+        return library.indexOf(queue.get(positionInQueue));
+    }
+   
+    public static void updateQueue(){
+        positionInQueue++;
     }
 }

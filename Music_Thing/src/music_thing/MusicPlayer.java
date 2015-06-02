@@ -14,7 +14,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  * 
  * Is the super class for ClipPlayer, MidiPlayer, and JavafxPlayer
  * 
- * We also need to implement a player for "ogg" files.
+ * 
  * 
  */
 public abstract class MusicPlayer {
