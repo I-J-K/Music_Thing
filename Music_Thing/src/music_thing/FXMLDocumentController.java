@@ -208,8 +208,8 @@ public class FXMLDocumentController implements Initializable {
                             if(player!=null && player.getPlaying()==true)play(event);
                         }
                     }else{
-                        songList.getSelectionModel().clearAndSelect(MusicLibrary.getTopOfQueue());
-                        MusicLibrary.setTrack(MusicLibrary.getTopOfQueue());
+                        songList.getSelectionModel().clearAndSelect(MusicLibrary.getNextQueueItem());
+                        MusicLibrary.setTrack(MusicLibrary.getNextQueueItem());
                         if(player!=null && player.getPlaying()==true)play(event);
                         MusicLibrary.updateQueue();
                     }
@@ -230,8 +230,22 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void prevSong(Event event){
-        if(MusicLibrary.size()>0){
-            if(MusicLibrary.getTrackNumber()>0){
+        if(MusicLibrary.size()!=0){
+            if(shuffleOn){
+                MusicLibrary.setTrack((int)(Math.random()*MusicLibrary.size()));
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
+                if(player!=null && player.getPlaying()==true)play(event);
+            }else if(autoRepeatOn){
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
+                MusicLibrary.setTrack(MusicLibrary.getTrackNumber());
+                if(player!=null && player.getPlaying()==true){
+                    stopMusic(event);
+                    play(event);
+                }
+            }else if(! MusicLibrary.isQueueEmpty()){
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getPrevQueueItem());
+            }else if(MusicLibrary.getTrackNumber()>0){
+                songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber() - 1);
                 MusicLibrary.setTrack(MusicLibrary.getTrackNumber()-1);
                 songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber());
                 if(player!=null && player.getPlaying()==true)play(event);
