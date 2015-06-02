@@ -133,6 +133,14 @@ public class FXMLDocumentController implements Initializable {
     private final MidiPlayer midiPlayer = new MidiPlayer();
     private final ClipPlayer clipPlayer = new ClipPlayer();
     
+    @FXML
+    public void showPreferences(ActionEvent event){
+        boolean okClicked = main.showPreferences();
+        if (okClicked) {
+          refresh();
+        }
+    }
+    
     public MusicPlayer getPlayer(){
         return player;
     }
