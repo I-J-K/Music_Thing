@@ -14,7 +14,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: rgb(220, 220, 220);" stylesheets="@default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
+<BorderPane minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" stylesheets="@default.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
    <bottom>
       <AnchorPane prefHeight="33.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -170,12 +170,12 @@
                         <Insets left="20.0" right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Slider fx:id="songVolumeBar" blockIncrement="0.01" max="1.0" onMouseDragged="#changeVolume" prefHeight="8.0" prefWidth="136.0" showTickMarks="true" value="1.0" />
+                  <Slider fx:id="songVolumeBar" blockIncrement="0.01" max="1.0" onMouseDragged="#changeVolume" prefHeight="8.0" prefWidth="136.0" value="1.0" />
                   <Label fx:id="currentTimeLabel" text="0:00">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" />
                      </HBox.margin></Label>
-                  <Slider fx:id="timeBar" blockIncrement="1.0" onMouseDragged="#onSliderDragged" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="16.0" prefWidth="269.0" showTickMarks="true">
+                  <Slider fx:id="timeBar" blockIncrement="1.0" onMouseDragged="#onSliderDragged" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="16.0" prefWidth="269.0">
                      <HBox.margin>
                         <Insets top="0.1" />
                      </HBox.margin></Slider>

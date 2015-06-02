@@ -1,19 +1,20 @@
-*{
+.root{
     -fx-font-family: "Arial";
     -fx-font-weight: 400;
     -fx-background: white;
     -fx-allignment: right;
-	/*-fx-border-color:  transparent;
-   */-fx-color: white;
-   -fx-background-color: transparent;
+    -fx-border-color:  transparent;
+    -fx-color: white;
+    -fx-background-color: transparent;
    
 }
-/*.split-pane:vertical > * > .split-pane-divider{
+.split-pane:vertical > * > .split-pane-divider{
 	-fx-border-color:  transparent;
 	-fx-background-color: transparent;
 	-fx-background-insets: 0;
-}*/
+}
 .anchor-pane{
 	-fx-background-color: gray;
 
 }
+
