@@ -5,6 +5,7 @@
  */
 package music_thing;
 
+import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,8 +27,8 @@ public class Main extends Application {
         mainWindow = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainLibrary.fxml"));
         Parent root = loader.load();
-        //Parent root = FXMLLoader.load(getClass().getResource("mainLibrary.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(this.getClass().getResource("default.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
         ((FXMLDocumentController)(loader.getController())).setMain(this);

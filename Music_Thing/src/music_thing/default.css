@@ -1,0 +1,18 @@
+.root{
+}
+
+.menu-bar, .menu, .menu-item{
+    -fx-background-color: grey;
+}
+
+.text-field{
+    -fx-text-fill:black;
+}
+
+*{
+    -fx-text-fill:maroon;
+}
+
+.button{
+    -fx-background-color:lightblue;
+}

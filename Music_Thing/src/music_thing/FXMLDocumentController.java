@@ -578,8 +578,6 @@ public class FXMLDocumentController implements Initializable {
         MusicLibrary.load();
         File music = new File("music");
         if(!music.exists())music.mkdir();
-        File artwork = new File("artwork");
-        if(!artwork.exists())artwork.mkdir();
         songCol.setCellValueFactory(
                 new PropertyValueFactory("name"));
         artistCol.setCellValueFactory(
@@ -654,6 +652,6 @@ public class FXMLDocumentController implements Initializable {
         MusicLibrary.getLibrary().comparatorProperty().bind(songList.comparatorProperty());
         songList.setItems(MusicLibrary.getLibrary());
         String os = System.getProperty ("os.name");
-        if (os != null && os.startsWith ("Mac"))menuBar.useSystemMenuBarProperty ().set (true);
+        //if (os != null && os.startsWith ("Mac"))menuBar.useSystemMenuBarProperty ().set (true);
     }
 }
