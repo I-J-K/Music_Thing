@@ -19,6 +19,7 @@ package music_thing;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
@@ -39,6 +40,20 @@ public class PrefController implements Initializable {
         return okClicked;
     }
     
+    @FXML
+    private void handleOk() {
+        
+        okClicked = true;
+        dialogStage.close();
+    }
+
+    /**
+     * Called when the user clicks cancel.
+     */
+    @FXML
+    private void handleCancel() {
+        dialogStage.close();
+    }
     /**
      * Initializes the controller class.
      */

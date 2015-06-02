@@ -13,8 +13,12 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import music_thing.*?>
+<?import java.net.*?>
 
 <BorderPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
+    <stylesheets>
+        <URL value="@default.css"/>
+    </stylesheets>
    <bottom>
       <AnchorPane prefHeight="33.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -240,7 +244,7 @@
          <menus>
             <Menu mnemonicParsing="false" text="Music Library">
               <items>
-                <MenuItem mnemonicParsing="false" text="Preferences" />
+                <MenuItem mnemonicParsing="false" onAction="#showPreferences" text="Preferences" />
                   <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Q" control="UP" meta="DOWN" shift="UP" shortcut="UP" />

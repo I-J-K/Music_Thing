@@ -10,7 +10,7 @@
 }
 
 *{
-    -fx-text-fill:maroon;
+    //-fx-text-fill:maroon;
 }
 
 .button{

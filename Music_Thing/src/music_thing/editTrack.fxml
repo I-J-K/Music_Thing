@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import java.net.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import music_thing.Rating?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.EditTrackController">
+    <stylesheets>
+        <URL value="@default.css"/>
+    </stylesheets>
    <children>
       <Button defaultButton="true" layoutX="331.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleOk" text="Ok" />
       <Button cancelButton="true" layoutX="263.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
