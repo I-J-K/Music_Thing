@@ -32,8 +32,8 @@ public class Main extends Application {
         stage.show();
         ((FXMLDocumentController)(loader.getController())).setMain(this);
         mainController=loader.getController();
-        stage.setMinWidth(600);
-        stage.setMinHeight(400);
+        stage.setMinWidth(900);
+        stage.setMinHeight(650);
         
     }
 

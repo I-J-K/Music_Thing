@@ -38,6 +38,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
@@ -60,7 +61,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import np.com.ngopal.control.*;
+//import np.com.ngopal.control.*;
 
 /**
  *
@@ -117,7 +118,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private CheckMenuItem shuffleMenu;
     @FXML
-    private AutoFillTextBox searchField;
+    private TextField searchField;
+    @FXML
+    private MenuBar menuBar;
     
     private Timeline timer;
     private boolean wasPlaying;
@@ -573,7 +576,6 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MusicLibrary.load();
-        MusicLibrary.populateSearch();
         File music = new File("music");
         if(!music.exists())music.mkdir();
         File artwork = new File("artwork");
@@ -642,19 +644,16 @@ public class FXMLDocumentController implements Initializable {
                     currentTimeLabel.setText(new TimeFormat(((Integer)newValue)).toString());
                 }
         });
-        MusicLibrary.getLibrary().addListener(new ListChangeListener(){
-            @Override
-            public void onChanged(ListChangeListener.Change c) {
-                MusicLibrary.populateSearch();
-            }
-        });
         timer = new Timeline(new KeyFrame(
                     Duration.millis(100),
                     ae -> tick()));
         timer.setCycleCount(Animation.INDEFINITE);
         timeBar.setMin(0);
-        songList.setItems(MusicLibrary.getLibrary());
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        searchField.setData(FXCollections.observableArrayList(MusicLibrary.getSearcher().keySet()));
+        MusicLibrary.setUpFilter(searchField);
+        MusicLibrary.getLibrary().comparatorProperty().bind(songList.comparatorProperty());
+        songList.setItems(MusicLibrary.getLibrary());
+        String os = System.getProperty ("os.name");
+        if (os != null && os.startsWith ("Mac"))menuBar.useSystemMenuBarProperty ().set (true);
     }
 }
