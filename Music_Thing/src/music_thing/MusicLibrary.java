@@ -122,10 +122,10 @@ public class MusicLibrary implements java.io.Serializable{
         }catch(Exception e){}
     }
     
-    public static void addToQueue(Integer position, Track toAdd){
+    public static void addToQueue(Track toAdd){
         if(queueIsEmpty)
             queueIsEmpty = false;
-        queue.add(position, toAdd);
+        queue.add(toAdd);
     }
     
     public static boolean isQueueEmpty(){
@@ -133,6 +133,9 @@ public class MusicLibrary implements java.io.Serializable{
     }
     
     public static int getNextQueueItem(){
+        if (positionInQueue >= queue.size()){
+            return library.indexOf(queue.get(positionInQueue));
+        }
         return library.indexOf(queue.get(positionInQueue + 1));
     }
     

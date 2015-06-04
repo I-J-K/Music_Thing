@@ -212,6 +212,7 @@
                      <contextMenu>
                         <ContextMenu>
                           <items>
+                              <MenuItem mnemonicParsing="false" text="Add to Queue" />
                             <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
                               <MenuItem fx:id="playContextMenu" mnemonicParsing="false" onAction="#play" text="Play/Pause" />
                               <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />
