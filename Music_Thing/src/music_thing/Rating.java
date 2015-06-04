@@ -27,6 +27,10 @@ import javafx.scene.text.Text;
 public class Rating extends HBox{
     private final ArrayList<Label> stars;
     private IntegerProperty rating;
+    //public Color unColor = Color.GRAY;
+    //public Color selColor = Color.BLACK;
+    public Color unColor = Color.rgb(255, 255, 255, .5);
+    public Color selColor = Color.WHITE;
     
     public Rating() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("rating.fxml"));
@@ -42,7 +46,7 @@ public class Rating extends HBox{
         for(int i = 0; i<5; i++){
             Label t = new Label("⋆");
             t.setFont(Font.font(31));
-            t.setTextFill(Color.GRAY);
+            t.setTextFill(unColor);
             t.setOnMouseClicked(new EventHandler(){
                 @Override
                 public void handle(Event event) {
@@ -66,7 +70,7 @@ public class Rating extends HBox{
         }else if(stars.size()<max){
             while(stars.size()<max){
                 Label t = new Label("⋆");
-                t.setTextFill(Color.GRAY);
+                t.setTextFill(unColor);
                 stars.add(t);
                 getChildren().add(t); 
             }
@@ -76,10 +80,10 @@ public class Rating extends HBox{
     public void setRating(int rating){
         if(rating>=0 && rating<=stars.size()){
             for(int i=0; i<rating; i++){
-                stars.get(i).setTextFill(Color.BLACK);
+                stars.get(i).setTextFill(selColor);
             }
             for(int i=rating; i<stars.size(); i++){
-                stars.get(i).setTextFill(Color.GRAY);
+                stars.get(i).setTextFill(unColor);
             }
         }
         this.rating.set(rating);

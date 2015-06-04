@@ -196,8 +196,9 @@ public class FXMLDocumentController implements Initializable {
         pauseSymbol.setVisible(false);
         playSymbol.setVisible(true);
         menuPlay.setText("Play");
-        player.setCurrentTime((int)(player.getSongTime()));
-        currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
+        if(player!=null)player.setCurrentTime((int)(player.getSongTime()));
+        if(player!=null)currentTimeLabel.setText(new TimeFormat(((Integer)player.getCurrentTime())).toString());
+        songList.requestFocus();
     }
     
     @FXML
@@ -261,7 +262,6 @@ public class FXMLDocumentController implements Initializable {
                 stopMusic(event);
             }
             songList.requestFocus();
-            //songList.scrollTo(player.getCurrentTrack());
         }
     }
     

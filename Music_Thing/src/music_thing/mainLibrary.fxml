@@ -17,12 +17,12 @@
 
 <BorderPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_thing.FXMLDocumentController">
     <stylesheets>
-        <URL value="@default.css"/>
+        <URL value="@darkTheme.css" />
     </stylesheets>
    <bottom>
       <AnchorPane prefHeight="33.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="bottom" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
                <children>
                   <Button maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#prevSong" prefHeight="60.0" prefWidth="60.0" scaleX="0.3" scaleY="0.3" scaleZ="0.3">
                      <graphic>
@@ -141,8 +141,8 @@
                         <Group>
                            <children>
                               <Circle radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-                              <Circle fill="#ebebeb" radius="14.0" stroke="BLACK" strokeType="INSIDE" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="19.0" layoutX="9.0" layoutY="-8.0" rotate="41.6" stroke="#00000005" strokeType="INSIDE" width="16.0" />
+                              <Circle fill="#ebebeb" radius="14.0" stroke="BLACK" strokeType="INSIDE" styleClass="hide" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="19.0" layoutX="9.0" layoutY="-8.0" rotate="41.6" stroke="#00000005" strokeType="INSIDE" styleClass="hide" width="16.0" />
                               <Polygon layoutX="14.0" layoutY="-3.0" onMouseClicked="#autoRepeat" scaleX="0.2" scaleY="0.2" scaleZ="0.2" stroke="BLACK" strokeType="INSIDE">
                                 <points>
                                   <Double fx:value="-50.0" />
@@ -161,7 +161,7 @@
                         <Insets bottom="-20.0" left="-25.0" right="-5.0" top="-20.0" />
                      </HBox.margin>
                      <graphic>
-                        <Group>
+                        <Group scaleX="0.9" scaleY="0.9" scaleZ="0.9">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" height="43.0" layoutX="3.0" rotate="-25.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="25.0" />
                               <Rectangle arcHeight="5.0" arcWidth="5.0" height="44.0" layoutX="19.0" layoutY="-5.0" stroke="#ebebeb" strokeType="INSIDE" strokeWidth="2.0" width="24.0" />
@@ -191,56 +191,8 @@
          </children>
       </AnchorPane>
    </bottom>
-   <center>
-      <SplitPane dividerPositions="0.25" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <items>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
-               <children>
-                  <ListView layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children></AnchorPane>
-            <AnchorPane>
-               <children>
-                  <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" onMousePressed="#clickedTable" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  	<placeholder>
-                  		<Label text="No Music" />
-                  	</placeholder>
-                     <columns>
-                        <TableColumn fx:id="songCol" minWidth="75.0" prefWidth="-1.0" text="Song" />
-                        <TableColumn fx:id="timeCol" minWidth="60.0" prefWidth="-1.0" text="Time" />
-                        <TableColumn fx:id="artistCol" minWidth="75.0" prefWidth="-1.0" text="Artist" />
-                        <TableColumn fx:id="albumCol" minWidth="75.0" prefWidth="-1.0" text="Album" />
-                        <TableColumn fx:id="genreCol" minWidth="75.0" prefWidth="-1.0" text="Genre" />
-                        <TableColumn fx:id="ratingCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Rating" />
-                        <TableColumn fx:id="playcountCol" minWidth="60.0" prefWidth="60.0" text="Plays" />
-                     </columns>
-                     <contextMenu>
-                        <ContextMenu>
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
-                              <MenuItem fx:id="playContextMenu" mnemonicParsing="false" onAction="#play" text="Play/Pause" />
-                              <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />
-                              <Menu mnemonicParsing="false" text="Rating">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#rate0" text="None" />
-                                    <MenuItem mnemonicParsing="false" onAction="#rate1" text="⋆" />
-                                    <MenuItem mnemonicParsing="false" onAction="#rate2" text="⋆⋆" />
-                                    <MenuItem mnemonicParsing="false" onAction="#rate3" text="⋆⋆⋆" />
-                                    <MenuItem mnemonicParsing="false" onAction="#rate4" text="⋆⋆⋆⋆" />
-                                    <MenuItem mnemonicParsing="false" onAction="#rate5" text="⋆⋆⋆⋆⋆" />
-                                </items>
-                              </Menu>
-                              <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete" />
-                          </items>
-                        </ContextMenu>
-                     </contextMenu>
-                  </TableView>
-               </children>
-            </AnchorPane>
-         </items>
-      </SplitPane>
-   </center>
    <top>
-      <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+      <MenuBar fx:id="menuBar" styleClass="mainMenu" BorderPane.alignment="CENTER">
          <menus>
             <Menu mnemonicParsing="false" text="Music Library">
               <items>
@@ -286,4 +238,44 @@
          </menus>
       </MenuBar>
    </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" onMousePressed="#clickedTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columns>
+                  <TableColumn fx:id="songCol" minWidth="150.0" prefWidth="-1.0" text="Song" />
+                  <TableColumn fx:id="timeCol" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Time" />
+                  <TableColumn fx:id="artistCol" minWidth="100.0" prefWidth="-1.0" text="Artist" />
+                  <TableColumn fx:id="albumCol" minWidth="100.0" prefWidth="-1.0" text="Album" />
+                  <TableColumn fx:id="genreCol" minWidth="100.0" prefWidth="-1.0" text="Genre" />
+                  <TableColumn fx:id="ratingCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" styleClass="rating" text="Rating" />
+                  <TableColumn fx:id="playcountCol" minWidth="60.0" prefWidth="60.0" text="Plays" />
+               </columns>
+               <contextMenu>
+                  <ContextMenu>
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
+                        <MenuItem fx:id="playContextMenu" mnemonicParsing="false" onAction="#play" text="Play/Pause" />
+                        <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />
+                        <Menu mnemonicParsing="false" text="Rating">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#rate0" text="None" />
+                              <MenuItem mnemonicParsing="false" onAction="#rate1" text="⋆" />
+                              <MenuItem mnemonicParsing="false" onAction="#rate2" text="⋆⋆" />
+                              <MenuItem mnemonicParsing="false" onAction="#rate3" text="⋆⋆⋆" />
+                              <MenuItem mnemonicParsing="false" onAction="#rate4" text="⋆⋆⋆⋆" />
+                              <MenuItem mnemonicParsing="false" onAction="#rate5" text="⋆⋆⋆⋆⋆" />
+                           </items>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete" />
+                     </items>
+                  </ContextMenu>
+               </contextMenu>
+               <placeholder>
+                  <Label text="No Music" />
+               </placeholder>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>
