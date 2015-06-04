@@ -1,0 +1,183 @@
+.root{
+    -textColor: white;
+    -selectionColor: darkgray;
+    -backgroundColor: black;
+    -secondBackgroundColor: #222222;
+    
+    -fx-background-color: -backgroundColor;
+    -fx-focus-color: none;
+    -fx-faint-focus-color: none;
+    -fx-selection-bar: -selectionColor;
+    -fx-selection-bar-non-focused: -selectionColor;
+    -fx-table-cell-border-color: -selectionColor;
+    
+    -fx-mark-color:-textColor;
+    
+}
+
+.check-box, .check-menu-item{
+    -fx-text-fill: -textColor;
+    -fx-mark-color: -textColor;
+}
+
+GridPane .label, .heading .label{
+    -fx-text-fill: -textColor;
+}
+
+.bottom{
+    -fx-background-color: -backgroundColor;
+}
+
+.bottom .label{
+    -fx-text-fill: -textColor;
+}
+
+.menu-bar, .menu, .menu-item{
+    -fx-background-color: -backgroundColor;
+    -fx-text-fill:-textColor;
+    -fx-color:-textColor;
+}
+
+.menu:hover, .menu-item:hover{
+    -fx-background-color: -selectionColor;
+}
+
+.menu:hover > .menu-item:hover{
+    -fx-background-color: -selectionColor;
+}
+
+.menu-bar{
+    -fx-use-system-menu-bar: true;
+}
+
+.table-view .table-column{
+    -fx-text-fill: -textColor;
+}
+
+.placeholder .label{
+    -fx-text-fill: -textColor;
+}
+
+.nested-column-header .label{
+    -fx-text-fill: -textColor;
+}
+
+.menu-bar .label{
+    -fx-text-fill:-textColor;
+}
+
+.text-field{
+    -fx-text-fill:-textColor;
+    -fx-background-color:rgba(255,255,255,.2);
+    -fx-background-radius:100px;
+    -fx-border-radius:100px;
+    -fx-border-style:solid;
+    -fx-border-color:transparent;
+    -fx-border-width:1px;
+}
+
+.text-field:hover{
+    -fx-background-color:rgba(255,255,255,.4);
+}
+
+.table-view{
+    -fx-background-color:-backgroundColor;
+    -fx-background-insets: 0, 0;
+    -fx-padding: 0;
+}
+.table-column:not(#ratingCol){
+    -fx-text-fill:-textColor;
+}
+
+.table-view /*> column-header-background > nested-column-header >*/ .arrow,
+.tree-table-view /*> column-header-background > nested-column-header >*/ .arrow ,
+.check-menu-item:checked > .left-container > .check {
+    -fx-background-color:-textColor;
+}
+
+.table-row-cell:selected {
+   -fx-background-color: -selectionColor;
+   -fx-border:none;
+}
+
+.table-row-cell{
+    -fx-background-color: -backgroundColor;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: -secondBackgroundColor;
+}
+
+.table-row-cell:odd:selected{
+    -fx-background-color: -selectionColor;
+}
+.context-menu {
+    -fx-background-color: -backgroundColor;
+    -fx-border-color:-textColor;
+    -fx-border-style:solid;
+    -fx-border-width:1px;
+}
+
+.context-menu .label{
+    -fx-text-fill: -textColor;
+}
+
+
+*{
+    -fx-font-family: "Arial";
+    -fx-background-color: transparent;
+    -fx-border:none;
+}
+
+.button{
+   -fx-background-color:-textColor; 
+}
+    
+.split-pane:horizontal .split-pane-divider{
+    -fx-border-color:  -backgroundColor;
+    -fx-background-color: -backgroundColor;
+    -fx-background-insets: 0;
+}
+
+.split-pane:horizontal{
+    -fx-padding:0px 0px -1px 0px;
+}
+
+.slider .track{
+    -fx-background-color: rgba(255,255,255,.7);
+    -fx-scale-y: .2;
+}
+
+.slider .thumb{
+    -fx-background-color: -textColor;
+}
+
+.button{
+    -fx-background-color: rgba(255,255,255,.6);
+}
+
+.button:hover{
+    -fx-background-color: rgba(255,255,255,.8);
+}
+
+.button:pressed{
+    -fx-background-color: rgba(255,255,255,.4);
+}
+
+.button .hide{
+    -fx-fill:rgba(255,255,255,.6);
+    -fx-text-fill:rgba(255,255,255,.6);
+    -fx-background-color:rgba(255,255,255,.6);
+}
+
+.button:hover .hide{
+    -fx-fill:rgba(255,255,255,.8);
+    -fx-text-fill:rgba(255,255,255,.8);
+    -fx-background-color:rgba(255,255,255,.8);
+}
+
+.button:pressed .hide{
+    -fx-fill:rgba(255,255,255,.6);
+    -fx-text-fill:rgba(255,255,255,.6);
+    -fx-background-color:rgba(255,255,255,.6);
+}

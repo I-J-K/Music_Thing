@@ -28,7 +28,6 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainLibrary.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(this.getClass().getResource("default.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
         ((FXMLDocumentController)(loader.getController())).setMain(this);
@@ -95,5 +94,29 @@ public class Main extends Application {
         // Exception gets thrown if the fxml file could not be loaded
         return false;
       }
+    }
+    
+    public boolean showPreferences(){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("preferences.fxml"));
+            Parent page = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Preferences");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(mainWindow);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.setResizable(false);
+            PrefController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+
+        }catch (Exception e) {
+            // Exception gets thrown if the fxml file could not be loaded
+            return false;
+        }
     }
 }

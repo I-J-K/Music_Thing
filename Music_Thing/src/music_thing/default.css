@@ -7,12 +7,30 @@
 
 .text-field{
     -fx-text-fill:black;
+    
 }
 
 *{
-    -fx-text-fill:maroon;
+    //-fx-text-fill:maroon;
+    -fx-font-family: "Arial";
+    -fx-background: white;
+    -fx-allignment: right;
+    -fx-border-color:  transparent;
+    -fx-color: white;
+    -fx-background-color: transparent;
 }
 
 .button{
-    -fx-background-color:lightblue;
+    
 }
+    
+.split-pane:vertical > * > .split-pane-divider{
+	-fx-border-color:  transparent;
+	-fx-background-color: transparent;
+	-fx-background-insets: 0;
+}
+.anchor-pane{
+	-fx-background-color: gray;
+
+}
+
