@@ -128,6 +128,12 @@ public class MusicLibrary implements java.io.Serializable{
         queue.add(toAdd);
     }
     
+    public static void addToTopOfQueue(Track toAdd){
+        if(queueIsEmpty)
+            queueIsEmpty = false;
+        queue.add(0, toAdd);
+    }
+    
     public static boolean isQueueEmpty(){
         return queueIsEmpty;
     }

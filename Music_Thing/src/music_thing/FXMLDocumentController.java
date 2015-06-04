@@ -409,6 +409,16 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
+    private void addToQueue(){
+        MusicLibrary.addToQueue(MusicLibrary.getSelectedTrack(songList));
+    }
+    
+    @FXML
+    private void addToTopOfQueue(){
+        MusicLibrary.addToTopOfQueue(MusicLibrary.getSelectedTrack(songList));
+    }
+    
+    @FXML
     private void rate0(ActionEvent event){
         MusicLibrary.getSelectedTrack(songList).setRating(0.0);
         refresh();
