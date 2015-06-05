@@ -106,6 +106,7 @@ public class MusicLibrary implements java.io.Serializable{
             out.writeObject(libraryList);
             out.close();
             fileOut.close();
+            PrefController.save();
         }catch(Exception e){}
     }
     
@@ -119,6 +120,7 @@ public class MusicLibrary implements java.io.Serializable{
             data = FXCollections.observableList(libraryList);
             filteredData = new FilteredList<>(data, p -> true);
             library = new SortedList<>(filteredData);
+            PrefController.load();
         }catch(Exception e){}
     }
     

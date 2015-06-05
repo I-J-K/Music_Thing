@@ -614,48 +614,42 @@ public class FXMLDocumentController implements Initializable {
                 new PropertyValueFactory("playCount"));
         timeCol.setCellValueFactory(
                 new PropertyValueFactory("length"));
-        ratingCol.setCellFactory(new Callback<TableColumn<Track,Double>,TableCell<Track,Double>>() {
-            @Override
-            public TableCell<Track, Double> call(TableColumn<Track,Double> param){
-                TableCell<Track, Double> cell = new TableCell<Track, Double>(){
-                    @Override
-                    public void updateItem(Double d, boolean empty){
-                        if(d != null){
-                            Rating rating = new Rating();
-                            rating.setRating(d.intValue());
-                            rating.getRatingProperty().addListener(new ChangeListener(){
-                                @Override
-                                public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                                    MusicLibrary.getLibrary().get(getIndex()).setRating(((Integer)newValue).doubleValue());
-                                }
-                            });
-                            setGraphic(rating);
-                            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                        }else{
-                            setGraphic(null);
-                        }
+        ratingCol.setCellFactory((TableColumn<Track,Double> param) -> {
+            TableCell<Track, Double> cell = new TableCell<Track, Double>(){
+                @Override
+                public void updateItem(Double d, boolean empty){
+                    if(d != null){
+                        Rating rating = new Rating();
+                        rating.setRating(d.intValue());
+                        rating.getRatingProperty().addListener(new ChangeListener(){
+                            @Override
+                            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                                MusicLibrary.getLibrary().get(getIndex()).setRating(((Integer)newValue).doubleValue());
+                            }
+                        });
+                        setGraphic(rating);
+                        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                    }else{
+                        setGraphic(null);
                     }
-                };
-
-                return cell;
-            }
+                }
+            };
+            
+            return cell;
         });
-        timeCol.setCellFactory(new Callback<TableColumn<Track,Integer>,TableCell<Track,Integer>>() {
-            @Override
-            public TableCell<Track, Integer> call(TableColumn<Track,Integer> param){
-                TableCell<Track, Integer> cell = new TableCell<Track, Integer>(){
-                    @Override
-                    public void updateItem(Integer d, boolean empty){
-                        if(d != null){
-                            setText(new TimeFormat(d).toString());
-                        }else{
-                            setText(null);
-                        }
+        timeCol.setCellFactory((TableColumn<Track,Integer> param) -> {
+            TableCell<Track, Integer> cell = new TableCell<Track, Integer>(){
+                @Override
+                public void updateItem(Integer d, boolean empty){
+                    if(d != null){
+                        setText(new TimeFormat(d).toString());
+                    }else{
+                        setText(null);
                     }
-                };
-
-                return cell;
-            }
+                }
+            };
+            
+            return cell;
         });
         MusicPlayer.getTimeProperty().addListener(new ChangeListener(){
                 @Override
@@ -673,7 +667,5 @@ public class FXMLDocumentController implements Initializable {
         MusicLibrary.setUpFilter(searchField);
         MusicLibrary.getLibrary().comparatorProperty().bind(songList.comparatorProperty());
         songList.setItems(MusicLibrary.getLibrary());
-        String os = System.getProperty ("os.name");
-        //if (os != null && os.startsWith ("Mac"))menuBar.useSystemMenuBarProperty ().set (true);
     }
 }

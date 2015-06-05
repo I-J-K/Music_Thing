@@ -27,10 +27,8 @@ import javafx.scene.text.Text;
 public class Rating extends HBox{
     private final ArrayList<Label> stars;
     private IntegerProperty rating;
-    //public Color unColor = Color.GRAY;
-    //public Color selColor = Color.BLACK;
-    public Color unColor = Color.rgb(255, 255, 255, .5);
-    public Color selColor = Color.WHITE;
+    public static Color unColor = Color.rgb(255, 255, 255, .5);
+    public static Color selColor = Color.WHITE;
     
     public Rating() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("rating.fxml"));
@@ -96,5 +94,20 @@ public class Rating extends HBox{
     public IntegerProperty getRatingProperty(){
         return rating;
     }
-    
+
+    public static Color getUnColor() {
+        return unColor;
+    }
+
+    public static void setUnColor(Color unColor) {
+        Rating.unColor = unColor;
+    }
+
+    public static Color getSelColor() {
+        return selColor;
+    }
+
+    public static void setSelColor(Color selColor) {
+        Rating.selColor = selColor;
+    }
 }

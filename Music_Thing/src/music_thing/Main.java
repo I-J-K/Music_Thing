@@ -6,14 +6,13 @@
 package music_thing;
 
 import java.io.File;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import np.com.ngopal.control.*;
-
 /**
  *
  * @author csstudent
@@ -21,12 +20,14 @@ import np.com.ngopal.control.*;
 public class Main extends Application {
     private static Stage mainWindow;
     private static FXMLDocumentController mainController;
-    
+    private static ArrayList<Parent> rootBase = new ArrayList<Parent>();
     @Override
     public void start(Stage stage) throws Exception {
         mainWindow = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("mainLibrary.fxml"));
         Parent root = loader.load();
+        rootBase.add(root);
+        PrefController.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -50,7 +51,10 @@ public class Main extends Application {
     public static FXMLDocumentController getController(){
         return mainController;
     }
-
+    
+    public static ArrayList<Parent> getRoots(){
+        return rootBase;
+    }
 
     /**
      * @param args the command line arguments
@@ -72,6 +76,7 @@ public class Main extends Application {
         // Load the fxml file and create a new stage for the popup
         FXMLLoader loader = new FXMLLoader(getClass().getResource("editTrack.fxml"));
         Parent page = loader.load();
+        rootBase.add(page);
         Stage dialogStage = new Stage();
         dialogStage.setTitle("Edit Track");
         dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -84,7 +89,7 @@ public class Main extends Application {
         EditTrackController controller = loader.getController();
         controller.setDialogStage(dialogStage);
         controller.setTrack(track);
-
+        PrefController.load();
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
 
@@ -100,6 +105,7 @@ public class Main extends Application {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("preferences.fxml"));
             Parent page = loader.load();
+            rootBase.add(page);
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Preferences");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -109,6 +115,7 @@ public class Main extends Application {
             dialogStage.setResizable(false);
             PrefController controller = loader.getController();
             controller.setDialogStage(dialogStage);
+            PrefController.load();
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
 

@@ -15,34 +15,27 @@
     
 }
 
-.check-box, .check-menu-item{
-    -fx-text-fill: -textColor;
-    -fx-mark-color: -textColor;
-}
-
-GridPane .label, .heading .label{
-    -fx-text-fill: -textColor;
-}
-
 .bottom{
     -fx-background-color: -backgroundColor;
+    -fx-border-width: 1px 0px 0px 0px;
+    -fx-border-color: -textColor;
+    -fx-border-style: solid;
 }
 
-.bottom .label{
-    -fx-text-fill: -textColor;
+.column-header-background{
+    -fx-border-color:-textColor;
+    -fx-border-style:solid;
+    -fx-border-width:0px 0px 1px 0px;
 }
 
 .menu-bar, .menu, .menu-item{
     -fx-background-color: -backgroundColor;
     -fx-text-fill:-textColor;
-    -fx-color:-textColor;
+    -fx-font-family: "Arial";
 }
 
-.menu:hover, .menu-item:hover{
-    -fx-background-color: -selectionColor;
-}
-
-.menu:hover > .menu-item:hover{
+.menu:hover, .menu-item:hover,
+.menu > .menu-item:hover{
     -fx-background-color: -selectionColor;
 }
 
@@ -50,24 +43,22 @@ GridPane .label, .heading .label{
     -fx-use-system-menu-bar: true;
 }
 
-.table-view .table-column{
-    -fx-text-fill: -textColor;
-}
-
-.placeholder .label{
-    -fx-text-fill: -textColor;
-}
-
-.nested-column-header .label{
-    -fx-text-fill: -textColor;
-}
-
+.table-view .table-column,
+.text-field,
+.color-picker .hyperlink,
+.color-picker .label,
+.context-menu .label,
+GridPane > .label,
+.heading,
+.bottom .label,
+.placeholder .label,
+.nested-column-header .label,
 .menu-bar .label{
     -fx-text-fill:-textColor;
+    -fx-font-family: "Arial";
 }
 
 .text-field{
-    -fx-text-fill:-textColor;
     -fx-background-color:rgba(255,255,255,.2);
     -fx-background-radius:100px;
     -fx-border-radius:100px;
@@ -84,10 +75,9 @@ GridPane .label, .heading .label{
     -fx-background-color:-backgroundColor;
     -fx-background-insets: 0, 0;
     -fx-padding: 0;
+    -fx-table-cell-border-color: transparent;
 }
-.table-column:not(#ratingCol){
-    -fx-text-fill:-textColor;
-}
+
 
 .table-view /*> column-header-background > nested-column-header >*/ .arrow,
 .tree-table-view /*> column-header-background > nested-column-header >*/ .arrow ,
@@ -95,7 +85,8 @@ GridPane .label, .heading .label{
     -fx-background-color:-textColor;
 }
 
-.table-row-cell:selected {
+.table-row-cell:selected,
+.table-row-cell:odd:selected{
    -fx-background-color: -selectionColor;
    -fx-border:none;
 }
@@ -108,9 +99,6 @@ GridPane .label, .heading .label{
     -fx-background-color: -secondBackgroundColor;
 }
 
-.table-row-cell:odd:selected{
-    -fx-background-color: -selectionColor;
-}
 .context-menu {
     -fx-background-color: -backgroundColor;
     -fx-border-color:-textColor;
@@ -118,13 +106,7 @@ GridPane .label, .heading .label{
     -fx-border-width:1px;
 }
 
-.context-menu .label{
-    -fx-text-fill: -textColor;
-}
-
-
 *{
-    -fx-font-family: "Arial";
     -fx-background-color: transparent;
     -fx-border:none;
 }
@@ -132,16 +114,7 @@ GridPane .label, .heading .label{
 .button{
    -fx-background-color:-textColor; 
 }
-    
-.split-pane:horizontal .split-pane-divider{
-    -fx-border-color:  -backgroundColor;
-    -fx-background-color: -backgroundColor;
-    -fx-background-insets: 0;
-}
 
-.split-pane:horizontal{
-    -fx-padding:0px 0px -1px 0px;
-}
 
 .slider .track{
     -fx-background-color: rgba(255,255,255,.7);
@@ -180,4 +153,27 @@ GridPane .label, .heading .label{
     -fx-fill:rgba(255,255,255,.6);
     -fx-text-fill:rgba(255,255,255,.6);
     -fx-background-color:rgba(255,255,255,.6);
+}
+
+Circle, Polygon{
+    -fx-fill:-textColor;
+}
+
+.color-picker{
+    -fx-background-color: -backgroundColor;
+    
+}
+
+.color-picker .hyperlink:hover{
+    -fx-text-fill: -selectionColor;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow{
+    -fx-background-color: -textColor;
+}
+.scroll-bar:vertical .thumb{
+    -fx-background-color: -textColor;
+    -fx-scale-x: .5;
+    -fx-background-radius: 10px;
 }
