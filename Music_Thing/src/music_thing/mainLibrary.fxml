@@ -191,6 +191,56 @@
          </children>
       </AnchorPane>
    </bottom>
+   <center>
+      <SplitPane dividerPositions="0.25" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <ListView layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TextField fx:id="searchField" layoutY="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children></AnchorPane>
+            <AnchorPane>
+               <children>
+                  <TableView fx:id="songList" onDragDropped="#importFromDrag" onDragOver="#fileDragged" onMousePressed="#clickedTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  	<placeholder>
+                  		<Label text="No Music" />
+                  	</placeholder>
+                     <columns>
+                        <TableColumn fx:id="songCol" minWidth="75.0" prefWidth="-1.0" text="Song" />
+                        <TableColumn fx:id="timeCol" minWidth="60.0" prefWidth="-1.0" text="Time" />
+                        <TableColumn fx:id="artistCol" minWidth="75.0" prefWidth="-1.0" text="Artist" />
+                        <TableColumn fx:id="albumCol" minWidth="75.0" prefWidth="-1.0" text="Album" />
+                        <TableColumn fx:id="genreCol" minWidth="75.0" prefWidth="-1.0" text="Genre" />
+                        <TableColumn fx:id="ratingCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Rating" />
+                        <TableColumn fx:id="playcountCol" minWidth="60.0" prefWidth="60.0" text="Plays" />
+                     </columns>
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Add to Queue" />
+                            <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
+                              <MenuItem fx:id="playContextMenu" mnemonicParsing="false" onAction="#play" text="Play/Pause" />
+                              <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />
+                              <Menu mnemonicParsing="false" text="Rating">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#rate0" text="None" />
+                                    <MenuItem mnemonicParsing="false" onAction="#rate1" text="⋆" />
+                                    <MenuItem mnemonicParsing="false" onAction="#rate2" text="⋆⋆" />
+                                    <MenuItem mnemonicParsing="false" onAction="#rate3" text="⋆⋆⋆" />
+                                    <MenuItem mnemonicParsing="false" onAction="#rate4" text="⋆⋆⋆⋆" />
+                                    <MenuItem mnemonicParsing="false" onAction="#rate5" text="⋆⋆⋆⋆⋆" />
+                                </items>
+                              </Menu>
+                              <MenuItem mnemonicParsing="false" onAction="#deleteFile" text="Delete" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </center>
    <top>
       <MenuBar fx:id="menuBar" styleClass="mainMenu" BorderPane.alignment="CENTER">
          <menus>
@@ -254,6 +304,8 @@
                <contextMenu>
                   <ContextMenu>
                      <items>
+                        <MenuItem mnemonicParsing="false" onAction="#addToQueue" text="Add to Queue" />
+                        <MenuItem mnemonicParsing="false" onAction="#addToTopOfQueue" text="Add to top of Queue" />
                         <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
                         <MenuItem fx:id="playContextMenu" mnemonicParsing="false" onAction="#play" text="Play/Pause" />
                         <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />
