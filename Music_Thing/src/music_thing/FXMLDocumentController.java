@@ -501,7 +501,7 @@ public class FXMLDocumentController implements Initializable {
                     if(!MusicLibrary.getLibrary().contains(newTrack))MusicLibrary.addSong(newTrack);
                     imported = true;
                 }
-            }catch (Exception e){}
+            }catch (Exception e){e.printStackTrace();}
             
         }else if(file.isDirectory()){
             for(File thing : file.listFiles()){
@@ -575,7 +575,6 @@ public class FXMLDocumentController implements Initializable {
             autoRepeat.setEffect(null);
         }
         repeatMenu.setSelected(autoRepeatOn);
-        songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
         songList.requestFocus();
     }
     
@@ -591,7 +590,6 @@ public class FXMLDocumentController implements Initializable {
             shuffleButton.setEffect(null);
         }
         shuffleMenu.setSelected(shuffleOn);
-        songList.getSelectionModel().select(MusicLibrary.getTrackNumber());
         songList.requestFocus();
     }
     
@@ -674,7 +672,8 @@ public class FXMLDocumentController implements Initializable {
         timer.setCycleCount(Animation.INDEFINITE);
         timeBar.setMin(0);
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        MusicLibrary.setUpFilter(searchField);
+        MusicLibrary.setFilterField(searchField);
+        MusicLibrary.setUpFilter();
         MusicLibrary.getLibrary().comparatorProperty().bind(songList.comparatorProperty());
         songList.setItems(MusicLibrary.getLibrary());
     }

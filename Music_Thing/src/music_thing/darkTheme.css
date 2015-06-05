@@ -3,6 +3,11 @@
     -selectionColor: darkgray;
     -backgroundColor: black;
     -secondBackgroundColor: #222222;
+    -buttonColor: rgba(255,255,255,.6);
+    -buttonColorHover: rgba(255,255,255,.8);
+    -buttonColorPressed: rgba(255,255,255,.4);
+    -textBoxColor1: rgba(255,255,255,.2);
+    -textBoxColor2: rgba(255,255,255,.4);
     
     -fx-background-color: -backgroundColor;
     -fx-focus-color: none;
@@ -28,6 +33,10 @@
     -fx-border-width:0px 0px 1px 0px;
 }
 
+.column-header-background .filler, .column-header-background .nested-column-header .table-column{
+    -fx-background-color:-backgroundColor;
+}
+
 .menu-bar, .menu, .menu-item{
     -fx-background-color: -backgroundColor;
     -fx-text-fill:-textColor;
@@ -43,9 +52,9 @@
     -fx-use-system-menu-bar: true;
 }
 
+.choice-box .label,
 .table-view .table-column,
 .text-field,
-.color-picker .hyperlink,
 .color-picker .label,
 .context-menu .label,
 GridPane > .label,
@@ -59,7 +68,7 @@ GridPane > .label,
 }
 
 .text-field{
-    -fx-background-color:rgba(255,255,255,.2);
+    -fx-background-color:-textBoxColor1;
     -fx-background-radius:100px;
     -fx-border-radius:100px;
     -fx-border-style:solid;
@@ -68,7 +77,7 @@ GridPane > .label,
 }
 
 .text-field:hover{
-    -fx-background-color:rgba(255,255,255,.4);
+    -fx-background-color:-textBoxColor2;
 }
 
 .table-view{
@@ -107,7 +116,7 @@ GridPane > .label,
 }
 
 *{
-    -fx-background-color: transparent;
+    //-fx-background-color: transparent;
     -fx-border:none;
 }
 
@@ -117,7 +126,7 @@ GridPane > .label,
 
 
 .slider .track{
-    -fx-background-color: rgba(255,255,255,.7);
+    -fx-background-color: -buttonColor;
     -fx-scale-y: .2;
 }
 
@@ -126,46 +135,46 @@ GridPane > .label,
 }
 
 .button{
-    -fx-background-color: rgba(255,255,255,.6);
+    -fx-background-color: -buttonColor;
 }
 
 .button:hover{
-    -fx-background-color: rgba(255,255,255,.8);
+    -fx-background-color: -buttonColorHover;
 }
 
 .button:pressed{
-    -fx-background-color: rgba(255,255,255,.4);
+    -fx-background-color: -buttonColorPressed;
 }
 
 .button .hide{
-    -fx-fill:rgba(255,255,255,.6);
-    -fx-text-fill:rgba(255,255,255,.6);
-    -fx-background-color:rgba(255,255,255,.6);
+    -fx-fill:-buttonColor;
+    -fx-text-fill:-buttonColor;
+    -fx-background-color:-buttonColor;
 }
 
 .button:hover .hide{
-    -fx-fill:rgba(255,255,255,.8);
-    -fx-text-fill:rgba(255,255,255,.8);
-    -fx-background-color:rgba(255,255,255,.8);
+    -fx-fill:-buttonColorHover;
+    -fx-text-fill:-buttonColorHover;
+    -fx-background-color:-buttonColorHover;
 }
 
 .button:pressed .hide{
-    -fx-fill:rgba(255,255,255,.6);
-    -fx-text-fill:rgba(255,255,255,.6);
-    -fx-background-color:rgba(255,255,255,.6);
+    -fx-fill:-buttonColorPressed;
+    -fx-text-fill:-buttonColorPressed;
+    -fx-background-color:-buttonColorPressed;
 }
 
-Circle, Polygon{
+.button Rectangle, Circle, Polygon{
     -fx-fill:-textColor;
 }
 
 .color-picker{
     -fx-background-color: -backgroundColor;
-    
 }
 
-.color-picker .hyperlink:hover{
+.color-picker .hyperlink{
     -fx-text-fill: -selectionColor;
+    -fx-font-family: "Arial";
 }
 
 .scroll-bar:vertical .increment-arrow,
@@ -175,5 +184,13 @@ Circle, Polygon{
 .scroll-bar:vertical .thumb{
     -fx-background-color: -textColor;
     -fx-scale-x: .5;
-    -fx-background-radius: 10px;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar:vertical .track-background{
+    -fx-background-color: -backgroundColor;
+}
+
+.choice-box{
+    -fx-background-color: -selectionColor;
 }

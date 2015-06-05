@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.TreeMap;
 import java.util.function.Predicate;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,9 +31,11 @@ public class MusicLibrary implements java.io.Serializable{
     private static ObservableList<Track> data = FXCollections.observableArrayList();
     private static FilteredList<Track> filteredData = new FilteredList<>(data, p -> true);
     private static SortedList<Track> library;
-    // 2. Set the filter Predicate whenever the filter changes.
-    public static void setUpFilter(TextField filterField){
-        //filterField.textProperty().addListener(ChangeListener);
+    private static TextField filterField;
+    public static void setFilterField(TextField t){
+        filterField = t;
+    }
+    public static void setUpFilter(){
         filterField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             filteredData.setPredicate((Track track) -> {
                 if (newValue == null || newValue.isEmpty()) {
@@ -87,11 +88,17 @@ public class MusicLibrary implements java.io.Serializable{
     }
     
     public static void addSong(Track track){
-        library.add(track);
+        //library.add(track);
+        data.add(track);
+        filteredData = new FilteredList<>(data, p -> true);
+        setUpFilter();
     }
     
     public static void removeTrack(Track track){
-        library.remove(track);
+        //library.remove(track);
+        data.remove(track);
+        filteredData = new FilteredList<>(data, p -> true);
+        setUpFilter();
     }
     
     public static int size(){
