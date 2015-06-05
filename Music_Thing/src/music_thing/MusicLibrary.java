@@ -60,7 +60,7 @@ public class MusicLibrary implements java.io.Serializable{
 
     private static ArrayList<Track> libraryList;
     
-    private static ArrayList<Track> queue;
+    private static ArrayList<Track> queue = new ArrayList<Track>();
     
     private static boolean queueIsEmpty = true;
     
@@ -163,5 +163,11 @@ public class MusicLibrary implements java.io.Serializable{
    
     public static void updateQueue(){
         positionInQueue++;
+    }
+    
+    public static boolean atEndOfQueue(){
+        if(positionInQueue == queue.size())return true;
+        
+        return false;
     }
 }
