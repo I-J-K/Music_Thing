@@ -255,7 +255,8 @@
                   <ContextMenu>
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#addToQueue" text="Add to Queue" />
-                        <MenuItem mnemonicParsing="false" onAction="#addToTopOfQueue" text="Add to top of Queue" />
+                        <MenuItem mnemonicParsing="false" onAction="#addToTopOfQueue" text="Play Next" />
+                        <MenuItem mnemonicParsing="false" onAction="#clearQueue" text="Clear Queue" />
                         <MenuItem mnemonicParsing="false" onAction="#handleEditTrack" text="Edit Track" />
                         <MenuItem fx:id="playContextMenu" mnemonicParsing="false" onAction="#play" text="Play/Pause" />
                         <MenuItem mnemonicParsing="false" onAction="#stopMusic" text="Stop" />

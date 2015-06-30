@@ -251,8 +251,6 @@ public class FXMLDocumentController implements Initializable {
                     stopMusic(event);
                     play(event);
                 }
-            }else if(! MusicLibrary.isQueueEmpty()){
-                songList.getSelectionModel().clearAndSelect(MusicLibrary.getPrevQueueItem());
             }else if(MusicLibrary.getTrackNumber()>0){
                 songList.getSelectionModel().clearAndSelect(MusicLibrary.getTrackNumber() - 1);
                 MusicLibrary.setTrack(MusicLibrary.getTrackNumber()-1);
@@ -576,6 +574,11 @@ public class FXMLDocumentController implements Initializable {
         }
         repeatMenu.setSelected(autoRepeatOn);
         songList.requestFocus();
+    }
+    
+    @FXML
+    private void clearQueue(ActionEvent event){
+        MusicLibrary.clearQueue();
     }
     
     @FXML

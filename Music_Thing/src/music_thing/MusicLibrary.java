@@ -73,6 +73,11 @@ public class MusicLibrary implements java.io.Serializable{
         return library;
     }
 
+    public static void clearQueue() {
+        queue.clear();
+        positionInQueue = -1;
+        queueIsEmpty = true;
+    }
     
     public static int getTrackNumber(){
         return track;
@@ -140,7 +145,7 @@ public class MusicLibrary implements java.io.Serializable{
     public static void addToTopOfQueue(Track toAdd){
         if(queueIsEmpty)
             queueIsEmpty = false;
-        queue.add(0, toAdd);
+        queue.add(positionInQueue+1, toAdd);
     }
     
     public static boolean isQueueEmpty(){
@@ -148,7 +153,7 @@ public class MusicLibrary implements java.io.Serializable{
     }
     
     public static int getNextQueueItem(){
-        if (positionInQueue >= queue.size()){
+        if (positionInQueue >= queue.size()-1){
             return library.indexOf(queue.get(positionInQueue));
         }
         return library.indexOf(queue.get(positionInQueue + 1));
@@ -166,8 +171,7 @@ public class MusicLibrary implements java.io.Serializable{
     }
     
     public static boolean atEndOfQueue(){
-        if(positionInQueue == queue.size())return true;
-        
+        if(positionInQueue == queue.size()-1)return true;
         return false;
     }
 }
