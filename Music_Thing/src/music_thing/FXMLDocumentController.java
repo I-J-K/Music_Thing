@@ -676,5 +676,6 @@ public class FXMLDocumentController implements Initializable {
         MusicLibrary.setUpFilter();
         MusicLibrary.getLibrary().comparatorProperty().bind(songList.comparatorProperty());
         songList.setItems(MusicLibrary.getLibrary());
+        menuBar.setUseSystemMenuBar(true);
     }
 }
